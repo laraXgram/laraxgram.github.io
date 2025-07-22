@@ -777,7 +777,7 @@ use LaraGram\Support\Facades\RateLimiter;
 protected function boot(): void
 {
     RateLimiter::for('bot', function (Request $request) {
-        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        return Limit::perMinute(60)->by($request->user()?->id ?: user()->id);
     });
 }
 ```

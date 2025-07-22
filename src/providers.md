@@ -163,7 +163,7 @@ When you invoke the `make:provider` Commander command, LaraGram will automatical
 
 return [
     App\Providers\AppServiceProvider::class,
-    App\Providers\ComposerServiceProvider::class, // [tl! add]
+    App\Providers\ComposerServiceProvider::class, // [!code ++]
 ];
 ```
 

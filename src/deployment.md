@@ -12,7 +12,7 @@ The LaraGram framework has a few system requirements. You should ensure that you
 
 <div class="content-list" markdown="1">
 
-- PHP >= 8.2
+- PHP >=` 8.2`
 - Ctype PHP Extension
 - cURL PHP Extension
 - Fileinfo PHP Extension
@@ -41,34 +41,36 @@ server {
     listen 80;
     listen [::]:80;
     server_name example.com;
+    
     root /srv/example.com/public;
-
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-Content-Type-Options "nosniff";
-
     index index.php;
-
     charset utf-8;
+    
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-Frame-Options "DENY";
+    add_header X-Robots-Tag "noindex, nofollow";
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files $uri /index.php$is_args$args;
     }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
-    error_page 404 /index.php;
-
+    
     location ~ ^/index\.php(/|$) {
         fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
         fastcgi_hide_header X-Powered-By;
     }
-
+    
+    location ~ \.php$ {
+        return 404;
+    }
+    
     location ~ /\.(?!well-known).* {
         deny all;
     }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { return 403; }
 }
 ```
 

@@ -168,8 +168,8 @@ Injecting a publisher implementation into the method allows us to easily test th
 
 namespace App\Models;
 
-use App\Contracts\Publisher; // [tl! remove]
-use Facades\App\Contracts\Publisher; // [tl! add]
+use App\Contracts\Publisher; // [!code --]
+use Facades\App\Contracts\Publisher; // [!code ++]
 use LaraGram\Database\Eloquent\Model;
 
 class Podcast extends Model
@@ -177,13 +177,13 @@ class Podcast extends Model
     /**
      * Publish the podcast.
      */
-    public function publish(Publisher $publisher): void // [tl! remove]
-    public function publish(): void // [tl! add]
+    public function publish(Publisher $publisher): void // [!code --]
+    public function publish(): void // [!code ++]
     {
         $this->update(['publishing' => now()]);
 
-        $publisher->publish($this); // [tl! remove]
-        Publisher::publish($this); // [tl! add]
+        $publisher->publish($this); // [!code --]
+        Publisher::publish($this); // [!code ++]
     }
 }
 ```

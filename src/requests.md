@@ -166,6 +166,7 @@ Through the Request class, you have access to all Telegram methods according to 
 $request->sendMessage();
 $request->sendAnimation();
 $request->deleteMessage();
+// ...
 ```
 
 <a name="request-mode"></a>
@@ -192,7 +193,7 @@ $request->mode(64)->sendMessage();
 
 | Enum Value               | Int  |
 |--------------------------|------|
-| `Mode::CURL`             | `32` |
+| `Mode::CURL` (default)   | `32` |
 | `Mode::NO_RESPONSE_CURL` | `64` |
 
 <a name="multi-connections"></a>

@@ -11,6 +11,7 @@ export default defineConfig({
         siteTitle: 'LaraGram',
         logo: '/assets/LaraGram.svg',
         outline: 'deep',
+
         head: [
             ['link', {rel: 'icon', href: '/assets/favicon.ico'}]
         ],

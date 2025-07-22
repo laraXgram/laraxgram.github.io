@@ -37,18 +37,21 @@ Before creating your first LaraGram application, make sure that your local machi
 
 If you don't have PHP and Composer installed on your local machine, the following commands will install PHP, Composer, and the LaraGram installer on macOS, Windows, or Linux:
 
-```shell tab=macOS
+::: code-group
+
+```shell [macOS]
 /bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
 ```
 
-```shell tab=Windows PowerShell
+```shell [Windows PowerShell]
 # Run as administrator...
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))
 ```
 
-```shell tab=Linux
+```shell [Linux]
 /bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.4)"
 ```
+:::
 
 After running one of the commands above, you should restart your terminal session. To update PHP, Composer, and the LaraGram installer after installing them via `php.new`, you can re-run the command in your terminal.
 

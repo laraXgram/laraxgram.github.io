@@ -122,7 +122,7 @@ As mentioned previously, the `stack` driver allows you to combine multiple chann
 'channels' => [
     'stack' => [
         'driver' => 'stack',
-        'channels' => ['syslog', 'slack'], // [tl! add]
+        'channels' => ['syslog', 'slack'], // [!code ++]
         'ignore_exceptions' => false,
     ],
 

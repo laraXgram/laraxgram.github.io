@@ -228,9 +228,14 @@ LaraGram includes predefined `bot` middleware groups that contain common middlew
 
 <div class="overflow-auto">
 
-| The `bot` Middleware Group                         |
-|----------------------------------------------------|
-| `LaraGram\Listening\Middleware\SubstituteBindings` |
+| The `bot` Middleware Group                                |
+|-----------------------------------------------------------|
+| `LaraGram\Listening\Middleware\Reply`                     |
+| `LaraGram\Listening\Middleware\Scope`                     |
+| `LaraGram\Listening\Middleware\Step`                      |
+| `LaraGram\Listening\Middleware\SubstituteBindings`        |
+| `LaraGram\Listening\Middleware\ThrottleRequests`          |
+| `LaraGram\Listening\Middleware\ThrottleRequestsWithRedis` |
 
 </div>
 
