@@ -1,0 +1,1 @@
+import{_ as e,c as i,o as s,ag as n}from"./chunks/framework.BHpayLOB.js";const c=JSON.parse('{"title":"MongoDB","description":"","frontmatter":{},"headers":[],"relativePath":"mongodb.md","filePath":"mongodb.md"}'),t={name:"mongodb.md"};function o(r,a,l,h,d,p){return s(),i("div",null,a[0]||(a[0]=[n("",37)]))}const k=e(t,[["render",o]]);export{c as __pageData,k as default};

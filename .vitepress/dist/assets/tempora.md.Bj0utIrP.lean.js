@@ -1,0 +1,1 @@
+import{_ as e,c as r,o as t,ag as o}from"./chunks/framework.BHpayLOB.js";const _=JSON.parse('{"title":"Tempora","description":"","frontmatter":{},"headers":[],"relativePath":"tempora.md","filePath":"tempora.md"}'),n={name:"tempora.md"};function i(c,a,l,m,s,p){return t(),r("div",null,a[0]||(a[0]=[o("",5)]))}const f=e(n,[["render",i]]);export{_ as __pageData,f as default};

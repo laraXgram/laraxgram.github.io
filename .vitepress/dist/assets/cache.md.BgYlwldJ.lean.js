@@ -1,0 +1,1 @@
+import{_ as i,c as a,o as e,ag as t}from"./chunks/framework.BHpayLOB.js";const c=JSON.parse('{"title":"Cache","description":"","frontmatter":{},"headers":[],"relativePath":"cache.md","filePath":"cache.md"}'),h={name:"cache.md"};function n(l,s,p,k,r,d){return e(),a("div",null,s[0]||(s[0]=[t("",159)]))}const g=i(h,[["render",n]]);export{c as __pageData,g as default};

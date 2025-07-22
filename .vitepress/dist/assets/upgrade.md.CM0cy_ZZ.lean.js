@@ -1,0 +1,1 @@
+import{_ as a,c as r,o as t,ag as d}from"./chunks/framework.BHpayLOB.js";const g=JSON.parse('{"title":"Upgrade Guide","description":"","frontmatter":{},"headers":[],"relativePath":"upgrade.md","filePath":"upgrade.md"}'),i={name:"upgrade.md"};function o(s,e,n,u,p,c){return t(),r("div",null,e[0]||(e[0]=[d("",3)]))}const _=a(i,[["render",o]]);export{g as __pageData,_ as default};
