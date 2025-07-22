@@ -5,12 +5,12 @@
 
 Migrations are like version control for your database, allowing your team to define and share the application's database schema definition. If you have ever had to tell a teammate to manually add a column to their local database schema after pulling in your changes from source control, you've faced the problem that database migrations solve.
 
-The LaraGram `Schema` [facade](/src/facades.mds.md) provides database agnostic support for creating and manipulating tables across all of LaraGram's supported database systems. Typically, migrations will use this facade to create and modify database tables and columns.
+The LaraGram `Schema` [facade](/facades.md) provides database agnostic support for creating and manipulating tables across all of LaraGram's supported database systems. Typically, migrations will use this facade to create and modify database tables and columns.
 
 <a name="generating-migrations"></a>
 ## Generating Migrations
 
-You may use the `make:migration` [Commander command](/src/commander.md) to generate a database migration. The new migration will be placed in your `database/migrations` directory. Each migration filename contains a timestamp that allows LaraGram to determine the order of the migrations:
+You may use the `make:migration` [Commander command](/commander.md) to generate a database migration. The new migration will be placed in your `database/migrations` directory. Each migration filename contains a timestamp that allows LaraGram to determine the order of the migrations:
 
 ```shell
 php laragram make:migration create_flights_table
@@ -21,7 +21,7 @@ LaraGram will use the name of the migration to attempt to guess the name of the 
 If you would like to specify a custom path for the generated migration, you may use the `--path` option when executing the `make:migration` command. The given path should be relative to your application's base path.
 
 > [!NOTE]
-> Migration stubs may be customized using [stub publishing](/src/commander.md#stub-customization).
+> Migration stubs may be customized using [stub publishing](/commander.md#stub-customization).
 
 <a name="squashing-migrations"></a>
 ### Squashing Migrations
@@ -233,7 +233,7 @@ php laragram migrate:fresh
 php laragram migrate:fresh --seed
 ```
 
-By default, the `migrate:fresh` command only drops tables from the default database connection. However, you may use the `--database` option to specify the database connection that should be migrated. The database connection name should correspond to a connection defined in your application's `database` [configuration file](/src/configuration.mdn.md):
+By default, the `migrate:fresh` command only drops tables from the default database connection. However, you may use the `--database` option to specify the database connection that should be migrated. The database connection name should correspond to a connection defined in your application's `database` [configuration file](/configuration.md):
 
 ```shell
 php laragram migrate:fresh --database=admin
@@ -853,7 +853,7 @@ $table->mediumText('data')->charset('binary'); // MEDIUMBLOB
 
 The `morphs` method is a convenience method that adds a `{column}_id` equivalent column and a `{column}_type` `VARCHAR` equivalent column. The column type for the `{column}_id` will be `UNSIGNED BIGINT`, `CHAR(36)`, or `CHAR(26)` depending on the model key type.
 
-This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/src/eloquent-relationships.mds.md). In the following example, `taggable_id` and `taggable_type` columns would be created:
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/eloquent-relationships.md). In the following example, `taggable_id` and `taggable_type` columns would be created:
 
 ```php
 $table->morphs('taggable');
@@ -889,7 +889,7 @@ $table->nullableUuidMorphs('taggable');
 <a name="column-method-rememberToken"></a>
 #### `rememberToken()` {.collection-method}
 
-The `rememberToken` method creates a nullable, `VARCHAR(100)` equivalent column that is intended to store the current "remember me" [authentication token](/src/authentication.mdn.md#remembering-users):
+The `rememberToken` method creates a nullable, `VARCHAR(100)` equivalent column that is intended to store the current "remember me" [authentication token](/authentication.md#remembering-users):
 
 ```php
 $table->rememberToken();
@@ -1101,7 +1101,7 @@ $table->unsignedTinyInteger('votes');
 
 The `ulidMorphs` method is a convenience method that adds a `{column}_id` `CHAR(26)` equivalent column and a `{column}_type` `VARCHAR` equivalent column.
 
-This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/src/eloquent-relationships.mds.md) that use ULID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/eloquent-relationships.md) that use ULID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
 
 ```php
 $table->ulidMorphs('taggable');
@@ -1112,7 +1112,7 @@ $table->ulidMorphs('taggable');
 
 The `uuidMorphs` method is a convenience method that adds a `{column}_id` `CHAR(36)` equivalent column and a `{column}_type` `VARCHAR` equivalent column.
 
-This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/src/eloquent-relationships.mds.md) that use UUID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/eloquent-relationships.md) that use UUID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
 
 ```php
 $table->uuidMorphs('taggable');
@@ -1503,12 +1503,12 @@ Schema::withoutForeignKeyConstraints(function () {
 ```
 
 > [!WARNING]
-> SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/src/database.mde.md#configuration) in your database configuration before attempting to create them in your migrations.
+> SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/database.md#configuration) in your database configuration before attempting to create them in your migrations.
 
 <a name="events"></a>
 ## Events
 
-For convenience, each migration operation will dispatch an [event](/src/events.mds.md). All of the following events extend the base `LaraGram\Database\Events\MigrationEvent` class:
+For convenience, each migration operation will dispatch an [event](/events.md). All of the following events extend the base `LaraGram\Database\Events\MigrationEvent` class:
 
 <div class="overflow-auto">
 

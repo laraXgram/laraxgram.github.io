@@ -5,14 +5,14 @@
 
 LaraGram's authentication facilities are made up of "providers".
 
-Providers define how users are retrieved from your persistent storage. LaraGram ships with support for retrieving users using [Eloquent](/src/eloquent.mdt.md) and the database query builder. However, you are free to define additional providers as needed for your application.
+Providers define how users are retrieved from your persistent storage. LaraGram ships with support for retrieving users using [Eloquent](/eloquent.md) and the database query builder. However, you are free to define additional providers as needed for your application.
 
 Your application's authentication configuration file is located at `config/auth.php`. This file contains several well-documented options for tweaking the behavior of LaraGram's authentication services.
 
 <a name="introduction-database-considerations"></a>
 ### Database Considerations
 
-By default, LaraGram includes an `App\Models\User` [Eloquent model](/src/eloquent.mdt.md) in your `app/Models` directory. This model may be used with the default Eloquent authentication driver.
+By default, LaraGram includes an `App\Models\User` [Eloquent model](/eloquent.md) in your `app/Models` directory. This model may be used with the default Eloquent authentication driver.
 
 If your application is not using Eloquent, you may use the `database` authentication provider which uses the LaraGram query builder. If your application is using MongoDB, check out MongoDB's official [LaraGram user authentication documentation](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/user-authentication/).
 

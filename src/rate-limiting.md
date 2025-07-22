@@ -6,7 +6,7 @@
 LaraGram includes a simple to use rate limiting abstraction which, in conjunction with your application's [cache](cache.md), provides an easy way to limit any action during a specified window of time.
 
 > [!NOTE]
-> If you are interested in rate limiting incoming HTTP requests, please consult the [rate limiter middleware documentation](/src/listening.mdg.md#rate-limiting).
+> If you are interested in rate limiting incoming HTTP requests, please consult the [rate limiter middleware documentation](/listening.md#rate-limiting).
 
 <a name="cache-configuration"></a>
 ### Cache Configuration

@@ -166,7 +166,7 @@ Log::emergency('The system is down!');
 <a name="writing-log-messages"></a>
 ## Writing Log Messages
 
-You may write information to the logs using the `Log` [facade](/src/facades.mds.md). As previously mentioned, the logger provides the eight logging levels defined in the [RFC 5424 specification](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**:
+You may write information to the logs using the `Log` [facade](/facades.md). As previously mentioned, the logger provides the eight logging levels defined in the [RFC 5424 specification](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**:
 
 ```php
 use LaraGram\Support\Facades\Log;
@@ -290,7 +290,7 @@ class AssignRequestId
 ```
 
 > [!NOTE]
-> If you need to share log context while processing queued jobs, you may utilize [job middleware](/src/queues.mds.md#job-middleware).
+> If you need to share log context while processing queued jobs, you may utilize [job middleware](/queues.md#job-middleware).
 
 <a name="writing-to-specific-channels"></a>
 ### Writing to Specific Channels
@@ -383,7 +383,7 @@ class CustomizeFormatter
 ```
 
 > [!NOTE]
-> All of your "tap" classes are resolved by the [service container](/src/container.mdr.md), so any constructor dependencies they require will automatically be injected.
+> All of your "tap" classes are resolved by the [service container](/container.md), so any constructor dependencies they require will automatically be injected.
 
 <a name="creating-laragram-handler-channels"></a>
 ### Creating LaraGram Handler Channels

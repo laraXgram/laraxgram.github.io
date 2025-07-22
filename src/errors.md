@@ -20,7 +20,7 @@ During local development, you should set the `APP_DEBUG` environment variable to
 <a name="reporting-exceptions"></a>
 ### Reporting Exceptions
 
-In LaraGram, exception reporting is used to log exceptions. By default, exceptions will be logged based on your [logging](/src/logging.mdg.md) configuration. However, you are free to log exceptions however you wish.
+In LaraGram, exception reporting is used to log exceptions. By default, exceptions will be logged based on your [logging](/logging.md) configuration. However, you are free to log exceptions however you wish.
 
 If you need to report different types of exceptions in different ways, you may use the `report` exception method in your application's `bootstrap/app.php` to register a closure that should be executed when an exception of a given type needs to be reported. LaraGram will determine what type of exception the closure reports by examining the type-hint of the closure:
 
@@ -51,7 +51,7 @@ use App\Exceptions\InvalidOrderException;
 ```
 
 > [!NOTE]
-> To customize the exception reporting for a given exception, you may also utilize [reportable exceptions](/src/errors.mds.md#renderable-exceptions).
+> To customize the exception reporting for a given exception, you may also utilize [reportable exceptions](/errors.md#renderable-exceptions).
 
 <a name="global-log-context"></a>
 #### Global Log Context
@@ -145,7 +145,7 @@ report($caught); // ignored
 <a name="exception-log-levels"></a>
 ### Exception Log Levels
 
-When messages are written to your application's [logs](/src/logging.mdg.md), the messages are written at a specified [log level](/src/logging.mdg.md#log-levels), which indicates the severity or importance of the message being logged.
+When messages are written to your application's [logs](/logging.md), the messages are written at a specified [log level](/logging.md#log-levels), which indicates the severity or importance of the message being logged.
 
 As noted above, even when you register a custom exception reporting callback using the `report` method, LaraGram will still log the exception using the default logging configuration for the application; however, since the log level can sometimes influence the channels on which a message is logged, you may wish to configure the log level that certain exceptions are logged at.
 
@@ -245,7 +245,7 @@ public function report(): bool
 ```
 
 > [!NOTE]
-> You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by LaraGram's [service container](/src/container.mdr.md).
+> You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by LaraGram's [service container](/container.md).
 
 <a name="throttling-reported-exceptions"></a>
 ### Throttling Reported Exceptions

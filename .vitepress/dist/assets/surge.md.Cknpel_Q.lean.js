@@ -1,1 +1,0 @@
-import{_ as i,c as a,o as e,ag as n}from"./chunks/framework.BHpayLOB.js";const g=JSON.parse('{"title":"LaraGram Surge","description":"","frontmatter":{},"headers":[],"relativePath":"surge.md","filePath":"surge.md"}'),t={name:"surge.md"};function h(l,s,p,k,r,o){return e(),a("div",null,s[0]||(s[0]=[n("",140)]))}const c=i(t,[["render",h]]);export{g as __pageData,c as default};

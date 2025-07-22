@@ -17,7 +17,7 @@ Bot::onText('hello', function (Request $request) {
 <a name="the-default-listen-files"></a>
 ### The Default Listen Files
 
-All LaraGram listens are defined in your listen files, which are located in the `listens` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `listens/bot.php` file defines listens that are for your web interface. These listens are assigned the `bot` [middleware group](/src/middleware.mde.md#laragrams-default-middleware-groups), which provides features like scope limiter.
+All LaraGram listens are defined in your listen files, which are located in the `listens` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `listens/bot.php` file defines listens that are for your web interface. These listens are assigned the `bot` [middleware group](/middleware.md#laragrams-default-middleware-groups), which provides features like scope limiter.
 
 For most applications, you will begin by defining listens in your `listens/bot.php` file. The listens defined in `listens/bot.php` may be accessed by entering the defined listen's update in your bot. For example, you may access the following listen by sending a `hello`:
 
@@ -115,7 +115,7 @@ Bot::match(['TEXT', 'COMMAND'], 'start', function () {
 <a name="dependency-injection"></a>
 #### Dependency Injection
 
-You may type-hint any dependencies required by your listen in your listen's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the LaraGram [service container](/src/container.mdr.md). For example, you may type-hint the `LaraGram\Request\Request` class to have the current Bot request automatically injected into your listen callback:
+You may type-hint any dependencies required by your listen in your listen's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the LaraGram [service container](/container.md). For example, you may type-hint the `LaraGram\Request\Request` class to have the current Bot request automatically injected into your listen callback:
 
 ```php
 use LaraGram\Request\Request;
@@ -141,7 +141,7 @@ Bot::redirect('hello', 'main');
 <a name="template-listens"></a>
 ### Template Listens
 
-If your listen only needs to return a [template](/src/templates.md), you may use the `Bot::template` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full listen or controller. The `template` method accepts a pattern as its first argument and a template name as its second argument and a update verbs as its third argument. In addition, you may provide an array of data to pass to the template as an optional fourth argument:
+If your listen only needs to return a [template](/templates.md), you may use the `Bot::template` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full listen or controller. The `template` method accepts a pattern as its first argument and a template name as its second argument and a update verbs as its third argument. In addition, you may provide an array of data to pass to the template as an optional fourth argument:
 
 ```php
 Bot::template('hello', 'welcome');
@@ -440,7 +440,7 @@ Nested groups attempt to intelligently "merge" attributes with their parent grou
 <a name="listen-group-middleware"></a>
 ### Middleware
 
-To assign [middleware](/src/middleware.mde.md) to all listens within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
+To assign [middleware](/middleware.md) to all listens within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
 
 ```php
 Bot::middleware(['first', 'second'])->group(function () {
@@ -457,7 +457,7 @@ Bot::middleware(['first', 'second'])->group(function () {
 <a name="listen-group-controllers"></a>
 ### Controllers
 
-If a group of listens all utilize the same [controller](/src/controllers.mds.md), you may use the `controller` method to define the common controller for all of the listens within the group. Then, when defining the listens, you only need to provide the controller method that they invoke:
+If a group of listens all utilize the same [controller](/controllers.md), you may use the `controller` method to define the common controller for all of the listens within the group. Then, when defining the listens, you only need to provide the controller method that they invoke:
 
 ```php
 use App\Controllers\OrderController;
@@ -534,7 +534,7 @@ public function show(User $user)
 <a name="implicit-soft-deleted-models"></a>
 #### Soft Deleted Models
 
-Typically, implicit model binding will not retrieve models that have been [soft deleted](/src/eloquent.mdt.md#soft-deleting). However, you may instruct the implicit binding to retrieve these models by chaining the `withTrashed` method onto your listen's definition:
+Typically, implicit model binding will not retrieve models that have been [soft deleted](/eloquent.md#soft-deleting). However, you may instruct the implicit binding to retrieve these models by chaining the `withTrashed` method onto your listen's definition:
 
 ```php
 use App\Models\User;
@@ -871,7 +871,7 @@ RateLimiter::for('uploads', function (Request $request) {
 <a name="attaching-rate-limiters-to-listens"></a>
 ### Attaching Rate Limiters to Listens
 
-Rate limiters may be attached to listens or listen groups using the `throttle` [middleware](/src/middleware.mde.md). The throttle middleware accepts the name of the rate limiter you wish to assign to the listen:
+Rate limiters may be attached to listens or listen groups using the `throttle` [middleware](/middleware.md). The throttle middleware accepts the name of the rate limiter you wish to assign to the listen:
 
 ```php
 Bot::middleware(['throttle:uploads'])->group(function () {

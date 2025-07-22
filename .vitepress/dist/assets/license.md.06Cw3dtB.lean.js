@@ -1,1 +1,0 @@
-import{_ as t,c as o,o as i,ag as T}from"./chunks/framework.BHpayLOB.js";const N=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"license.md","filePath":"license.md"}'),s={name:"license.md"};function n(a,e,I,r,O,E){return i(),o("div",null,e[0]||(e[0]=[T("",11)]))}const A=t(s,[["render",n]]);export{N as __pageData,A as default};

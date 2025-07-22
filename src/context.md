@@ -8,7 +8,7 @@ LaraGram's "context" capabilities enable you to capture, retrieve, and share inf
 <a name="how-it-works"></a>
 ### How it Works
 
-The best way to understand LaraGram's context capabilities is to see it in action using  the built-in logging features. To get started, you may [add information to the context](#capturing-context) using the `Context` facade. In this example, we will use a [middleware](/src/middleware.mde.md) to add the request Pattern and a unique trace ID to the context on every incoming request:
+The best way to understand LaraGram's context capabilities is to see it in action using  the built-in logging features. To get started, you may [add information to the context](#capturing-context) using the `Context` facade. In this example, we will use a [middleware](/middleware.md) to add the request Pattern and a unique trace ID to the context on every incoming request:
 
 ```php
 <?php
@@ -36,7 +36,7 @@ class AddContext
 }
 ```
 
-Information added to the context is automatically appended as metadata to any [log entries](/src/logging.mdg.md) that are written throughout the request. Appending context as metadata allows information passed to individual log entries to be differentiated from the information shared via `Context`. For example, imagine we write the following log entry:
+Information added to the context is automatically appended as metadata to any [log entries](/logging.md) that are written throughout the request. Appending context as metadata allows information passed to individual log entries to be differentiated from the information shared via `Context`. For example, imagine we write the following log entry:
 
 ```php
 Log::info('User authenticated.', ['user_id' => user()->id]);

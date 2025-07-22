@@ -48,7 +48,7 @@ php laragram schedule:list
 <a name="scheduling-artisan-commands"></a>
 ### Scheduling Commander Commands
 
-In addition to scheduling closures, you may also schedule [Commander commands](/src/commander.md) and system commands. For example, you may use the `command` method to schedule an Commander command using either the command's name or class.
+In addition to scheduling closures, you may also schedule [Commander commands](/commander.md) and system commands. For example, you may use the `command` method to schedule an Commander command using either the command's name or class.
 
 When scheduling Commander commands using the command's class name, you may pass an array of additional command-line arguments that should be provided to the command when it is invoked:
 
@@ -83,7 +83,7 @@ Commander::command('emails:send {user} {--force}', function ($user) {
 <a name="scheduling-queued-jobs"></a>
 ### Scheduling Queued Jobs
 
-The `job` method may be used to schedule a [queued job](/src/queues.mds.md). This method provides a convenient way to schedule queued jobs without using the `call` method to define closures to queue the job:
+The `job` method may be used to schedule a [queued job](/queues.md). This method provides a convenient way to schedule queued jobs without using the `call` method to define closures to queue the job:
 
 ```php
 use App\Jobs\Heartbeat;
@@ -271,7 +271,7 @@ When using chained `when` methods, the scheduled command will only execute if al
 <a name="environment-constraints"></a>
 #### Environment Constraints
 
-The `environments` method may be used to execute tasks only on the given environments (as defined by the `APP_ENV` [environment variable](/src/configuration.md#environment-configuration)):
+The `environments` method may be used to execute tasks only on the given environments (as defined by the `APP_ENV` [environment variable](/configuration.md#environment-configuration)):
 
 ```php
 Schedule::command('emails:send')
@@ -314,7 +314,7 @@ use LaraGram\Support\Facades\Schedule;
 Schedule::command('emails:send')->withoutOverlapping();
 ```
 
-In this example, the `emails:send` [Commander command](/src/commander.md) will be run every minute if it is not already running. The `withoutOverlapping` method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.
+In this example, the `emails:send` [Commander command](/commander.md) will be run every minute if it is not already running. The `withoutOverlapping` method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.
 
 If needed, you may specify how many minutes must pass before the "without overlapping" lock expires. By default, the lock will expire after 24 hours:
 
@@ -322,7 +322,7 @@ If needed, you may specify how many minutes must pass before the "without overla
 Schedule::command('emails:send')->withoutOverlapping(10);
 ```
 
-Behind the scenes, the `withoutOverlapping` method utilizes your application's [cache](/src/cache.mde.md) to obtain locks. If necessary, you can clear these cache locks using the `schedule:clear-cache` Commander command. This is typically only necessary if a task becomes stuck due to an unexpected server problem.
+Behind the scenes, the `withoutOverlapping` method utilizes your application's [cache](/cache.md) to obtain locks. If necessary, you can clear these cache locks using the `schedule:clear-cache` Commander command. This is typically only necessary if a task becomes stuck due to an unexpected server problem.
 
 <a name="running-tasks-on-one-server"></a>
 ### Running Tasks on One Server
@@ -573,7 +573,7 @@ Schedule::command('emails:send')
 <a name="events"></a>
 ## Events
 
-LaraGram dispatches a variety of [events](/src/events.mds.md) during the scheduling process. You may [define listeners](/src/events.mds.md) for any of the following events:
+LaraGram dispatches a variety of [events](/events.md) during the scheduling process. You may [define listeners](/events.md) for any of the following events:
 
 <div class="overflow-auto">
 

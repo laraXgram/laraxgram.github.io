@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Throughout the LaraGram documentation, you will see examples of code that interacts with LaraGram's features via "facades". Facades provide a "static" interface to classes that are available in the application's [service container](/src/container.mdr.md). LaraGram ships with many facades which provide access to almost all of LaraGram's features.
+Throughout the LaraGram documentation, you will see examples of code that interacts with LaraGram's features via "facades". Facades provide a "static" interface to classes that are available in the application's [service container](/container.md). LaraGram ships with many facades which provide access to almost all of LaraGram's features.
 
 LaraGram facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods. It's perfectly fine if you don't totally understand how facades work - just go with the flow and continue learning about LaraGram.
 
@@ -26,7 +26,7 @@ Throughout the LaraGram documentation, many of the examples will use facades to 
 <a name="helper-functions"></a>
 #### Helper Functions
 
-To complement facades, LaraGram offers a variety of global "helper functions" that make it even easier to interact with common LaraGram features. Some of the common helper functions you may interact with are `template`, `config`, `cache`, and more. Each helper function offered by LaraGram is documented with their corresponding feature; however, a complete list is available within the dedicated [helper documentation](/src/helpers.mds.md).
+To complement facades, LaraGram offers a variety of global "helper functions" that make it even easier to interact with common LaraGram features. Some of the common helper functions you may interact with are `template`, `config`, `cache`, and more. Each helper function offered by LaraGram is documented with their corresponding feature; however, a complete list is available within the dedicated [helper documentation](/helpers.md).
 
 For example, instead of using the `LaraGram\Support\Facades\Cache` facade to read a data from cache, we may simply use the `cache` function. Because helper functions are globally available, you do not need to import any classes in order to use them:
 
@@ -132,7 +132,7 @@ class Cache extends Facade
 }
 ```
 
-Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. This method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, LaraGram resolves the `cache` binding from the [service container](/src/container.mdr.md) and runs the requested method (in this case, `get`) against that object.
+Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. This method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, LaraGram resolves the `cache` binding from the [service container](/container.md) and runs the requested method (in this case, `get`) against that object.
 
 <a name="real-time-facades"></a>
 ## Real-Time Facades
@@ -193,7 +193,7 @@ When the real-time facade is used, the publisher implementation will be resolved
 <a name="facade-class-reference"></a>
 ## Facade Class Reference
 
-Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The [service container binding](/src/container.mdr.md) key is also included where applicable.
+Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The [service container binding](/container.md) key is also included where applicable.
 
 <div class="overflow-auto">
 

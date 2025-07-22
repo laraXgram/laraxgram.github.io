@@ -1,1 +1,0 @@
-import{_ as s,c as i,o as e,ag as t}from"./chunks/framework.BHpayLOB.js";const c=JSON.parse('{"title":"Facades","description":"","frontmatter":{},"headers":[],"relativePath":"facades.md","filePath":"facades.md"}'),n={name:"facades.md"};function h(r,a,l,p,d,k){return e(),i("div",null,a[0]||(a[0]=[t("",50)]))}const g=s(n,[["render",h]]);export{c as __pageData,g as default};

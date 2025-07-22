@@ -1,1 +1,0 @@
-import{_ as a,c as i,o as e,ag as t}from"./chunks/framework.BHpayLOB.js";const c=JSON.parse('{"title":"Templates","description":"","frontmatter":{},"headers":[],"relativePath":"templates.md","filePath":"templates.md"}'),n={name:"templates.md"};function p(l,s,h,k,r,d){return e(),i("div",null,s[0]||(s[0]=[t("",70)]))}const g=a(n,[["render",p]]);export{c as __pageData,g as default};

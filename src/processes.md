@@ -304,7 +304,7 @@ while ($process->running()) {
 
 LaraGram also makes it a breeze to manage a pool of concurrent, asynchronous processes, allowing you to easily execute many tasks simultaneously. To get started, invoke the `pool` method, which accepts a closure that receives an instance of `LaraGram\Process\Pool`.
 
-Within this closure, you may define the processes that belong to the pool. Once a process pool is started via the `start` method, you may access the [collection](/src/collections.mds.md) of running processes via the `running` method:
+Within this closure, you may define the processes that belong to the pool. Once a process pool is started via the `start` method, you may access the [collection](/collections.md) of running processes via the `running` method:
 
 ```php
 use LaraGram\Process\Pool;

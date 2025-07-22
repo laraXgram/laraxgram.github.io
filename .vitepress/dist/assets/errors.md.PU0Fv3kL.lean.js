@@ -1,1 +1,0 @@
-import{_ as i,c as a,o as n,ag as t}from"./chunks/framework.BHpayLOB.js";const E=JSON.parse('{"title":"Error Handling","description":"","frontmatter":{},"headers":[],"relativePath":"errors.md","filePath":"errors.md"}'),e={name:"errors.md"};function p(h,s,l,k,r,o){return n(),a("div",null,s[0]||(s[0]=[t("",73)]))}const c=i(e,[["render",p]]);export{E as __pageData,c as default};

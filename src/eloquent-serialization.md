@@ -11,7 +11,7 @@ You will often need to convert your models and relationships to arrays or JSON. 
 <a name="serializing-to-arrays"></a>
 ### Serializing to Arrays
 
-To convert a model and its loaded [relationships](/src/eloquent-relationships.mds.md) to an array, you should use the `toArray` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:
+To convert a model and its loaded [relationships](/eloquent-relationships.md) to an array, you should use the `toArray` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:
 
 ```php
 use App\Models\User;
@@ -29,7 +29,7 @@ $user = User::first();
 return $user->attributesToArray();
 ```
 
-You may also convert entire [collections](/src/eloquent-collections.mds.md) of models to arrays by calling the `toArray` method on the collection instance:
+You may also convert entire [collections](/eloquent-collections.md) of models to arrays by calling the `toArray` method on the collection instance:
 
 ```php
 $users = User::all();
@@ -144,7 +144,7 @@ return $user->setHidden(['email', 'password', 'remember_token'])->toArray();
 <a name="appending-values-to-json"></a>
 ## Appending Values to JSON
 
-Occasionally, when converting models to arrays or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/src/eloquent-mutators.mds.md) for the value:
+Occasionally, when converting models to arrays or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/eloquent-mutators.md) for the value:
 
 ```php
 <?php
@@ -222,7 +222,7 @@ protected function serializeDate(DateTimeInterface $date): string
 <a name="customizing-the-date-format-per-attribute"></a>
 #### Customizing the Date Format per Attribute
 
-You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the model's [cast declarations](/src/eloquent-mutators.mds.md#attribute-casting):
+You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the model's [cast declarations](/eloquent-mutators.md#attribute-casting):
 
 ```php
 protected function casts(): array

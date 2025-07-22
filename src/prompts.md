@@ -8,7 +8,7 @@ LaraGram Prompts is a PHP package for adding beautiful and user-friendly forms t
 > [!NOTE]
 > This package is a rewritten and optimized version of Laravel Prompts, tailored specifically for LaraGram.
 
-LaraGram Prompts is perfect for accepting user input in your [Commander console commands](/src/commander.mdr.md#writing-commands), but it may also be used in any command-line PHP project.
+LaraGram Prompts is perfect for accepting user input in your [Commander console commands](/commander.md#writing-commands), but it may also be used in any command-line PHP project.
 
 > [!NOTE]
 > LaraGram Prompts supports macOS, Linux, and Windows with WSL. For more information, please see our documentation on [unsupported environments & fallbacks](#fallbacks).
@@ -77,7 +77,7 @@ $name = text(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/src/validation.mdn.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/validation.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $name = text(
@@ -146,7 +146,7 @@ $story = textarea(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/src/validation.mdn.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/validation.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $story = textarea(
@@ -214,7 +214,7 @@ $password = password(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/src/validation.mdn.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/validation.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $password = password(
@@ -510,7 +510,7 @@ $name = suggest(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/src/validation.mdn.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/validation.md). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $name = suggest(

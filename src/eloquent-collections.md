@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-All Eloquent methods that return more than one model result will return instances of the `LaraGram\Database\Eloquent\Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends LaraGram's [base collection](/src/collections.mds.md), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models. Be sure to review the LaraGram collection documentation to learn all about these helpful methods!
+All Eloquent methods that return more than one model result will return instances of the `LaraGram\Database\Eloquent\Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends LaraGram's [base collection](/collections.md), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models. Be sure to review the LaraGram collection documentation to learn all about these helpful methods!
 
 All collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
 
@@ -30,12 +30,12 @@ $names = User::all()->reject(function (User $user) {
 <a name="eloquent-collection-conversion"></a>
 #### Eloquent Collection Conversion
 
-While most Eloquent collection methods return a new instance of an Eloquent collection, the `collapse`, `flatten`, `flip`, `keys`, `pluck`, and `zip` methods return a [base collection](/src/collections.mds.md) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be converted to a base collection instance.
+While most Eloquent collection methods return a new instance of an Eloquent collection, the `collapse`, `flatten`, `flip`, `keys`, `pluck`, and `zip` methods return a [base collection](/collections.md) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be converted to a base collection instance.
 
 <a name="available-methods"></a>
 ## Available Methods
 
-All Eloquent collections extend the base [LaraGram collection](/src/collections.mds.md#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
+All Eloquent collections extend the base [LaraGram collection](/collections.md#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
 In addition, the `LaraGram\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `LaraGram\Database\Eloquent\Collection` instances; however, some methods, like `modelKeys`, return an `LaraGram\Support\Collection` instance.
 
@@ -87,7 +87,7 @@ In addition, the `LaraGram\Database\Eloquent\Collection` class provides a supers
 <a name="method-append"></a>
 #### `append($attributes)` {.collection-method .first-collection-method}
 
-The `append` method may be used to indicate that an attribute should be [appended](/src/eloquent-serialization.mdn.md#appending-values-to-json) for every model in the collection. This method accepts an array of attributes or a single attribute:
+The `append` method may be used to indicate that an attribute should be [appended](/eloquent-serialization.md#appending-values-to-json) for every model in the collection. This method accepts an array of attributes or a single attribute:
 
 ```php
 $users->append('team');
@@ -210,7 +210,7 @@ $users->modelKeys();
 <a name="method-makeVisible"></a>
 #### `makeVisible($attributes)` {.collection-method}
 
-The `makeVisible` method [makes attributes visible](/src/eloquent-serialization.mdn.md#hiding-attributes-from-json) that are typically "hidden" on each model in the collection:
+The `makeVisible` method [makes attributes visible](/eloquent-serialization.md#hiding-attributes-from-json) that are typically "hidden" on each model in the collection:
 
 ```php
 $users = $users->makeVisible(['address', 'phone_number']);
@@ -219,7 +219,7 @@ $users = $users->makeVisible(['address', 'phone_number']);
 <a name="method-makeHidden"></a>
 #### `makeHidden($attributes)` {.collection-method}
 
-The `makeHidden` method [hides attributes](/src/eloquent-serialization.mdn.md#hiding-attributes-from-json) that are typically "visible" on each model in the collection:
+The `makeHidden` method [hides attributes](/eloquent-serialization.md#hiding-attributes-from-json) that are typically "visible" on each model in the collection:
 
 ```php
 $users = $users->makeHidden(['address', 'phone_number']);
@@ -250,7 +250,7 @@ dump($partition[1]::class); // LaraGram\Database\Eloquent\Collection
 <a name="method-setVisible"></a>
 #### `setVisible($attributes)` {.collection-method}
 
-The `setVisible` method [temporarily overrides](/src/eloquent-serialization.mdn.md#temporarily-modifying-attribute-visibility) all of the visible attributes on each model in the collection:
+The `setVisible` method [temporarily overrides](/eloquent-serialization.md#temporarily-modifying-attribute-visibility) all of the visible attributes on each model in the collection:
 
 ```php
 $users = $users->setVisible(['id', 'name']);
@@ -259,7 +259,7 @@ $users = $users->setVisible(['id', 'name']);
 <a name="method-setHidden"></a>
 #### `setHidden($attributes)` {.collection-method}
 
-The `setHidden` method [temporarily overrides](/src/eloquent-serialization.mdn.md#temporarily-modifying-attribute-visibility) all of the hidden attributes on each model in the collection:
+The `setHidden` method [temporarily overrides](/eloquent-serialization.md#temporarily-modifying-attribute-visibility) all of the hidden attributes on each model in the collection:
 
 ```php
 $users = $users->setHidden(['email', 'password', 'remember_token']);

@@ -34,7 +34,7 @@ php laragram make:command SendEmails
 
 After generating your command, you should define appropriate values for the `signature` and `description` properties of the class. These properties will be used when displaying your command on the `list` screen. The `signature` property also allows you to define [your command's input expectations](#defining-input-expectations). The `handle` method will be called when your command is executed. You may place your command logic in this method.
 
-Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The LaraGram [service container](/src/container.mdr.md) will automatically inject all dependencies that are type-hinted in this method's signature:
+Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The LaraGram [service container](/container.md) will automatically inject all dependencies that are type-hinted in this method's signature:
 
 ```php
 <?php
@@ -109,7 +109,7 @@ The closure is bound to the underlying command instance, so you have full access
 <a name="type-hinting-dependencies"></a>
 #### Type-Hinting Dependencies
 
-In addition to receiving your command's arguments and options, command closures may also type-hint additional dependencies that you would like resolved out of the [service container](/src/container.mdr.md):
+In addition to receiving your command's arguments and options, command closures may also type-hint additional dependencies that you would like resolved out of the [service container](/container.md):
 
 ```php
 use App\Models\User;
@@ -411,7 +411,7 @@ return [
 ```
 
 > [!NOTE]
-The comprehensive [LaraGram Prompts](/src/prompts.mds.md) documentation includes additional information on the available prompts and their usage.
+The comprehensive [LaraGram Prompts](/prompts.md) documentation includes additional information on the available prompts and their usage.
 
 If you wish to prompt the user to select or enter [options](#options), you may include prompts in your command's `handle` method. However, if you only wish to prompt the user when they have also been automatically prompted for missing arguments, then you may implement the `afterPromptingForMissingArguments` method:
 
@@ -472,7 +472,7 @@ $options = $this->options();
 ### Prompting for Input
 
 > [!NOTE]
-> [LaraGram Prompts](/src/prompts.mds.md) is a built-in package in the LaraGram console, written similar to [Laravel Prompts](https://laravel.com/docs/12.x/prompts). for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
+> [LaraGram Prompts](/prompts.md) is a built-in package in the LaraGram console, written similar to [Laravel Prompts](https://laravel.com/docs/12.x/prompts). for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
 
 In addition to displaying output, you may also ask the user to provide input during the execution of your command. The `ask` method will prompt the user with the given question, accept their input, and then return the user's input back to your command:
 
@@ -671,7 +671,7 @@ use App\Domain\Orders\Commands\SendEmails;
 ])
 ```
 
-When Commander boots, all the commands in your application will be resolved by the [service container](/src/container.mdr.md) and registered with Commander.
+When Commander boots, all the commands in your application will be resolved by the [service container](/container.md) and registered with Commander.
 
 <a name="programmatically-executing-commands"></a>
 ## Programmatically Executing Commands
@@ -727,7 +727,7 @@ $exitCode = Commander::call('migrate:refresh', [
 <a name="queueing-commander-commands"></a>
 #### Queueing Commander Commands
 
-Using the `queue` method on the `Commander` facade, you may even queue Commander commands so they are processed in the background by your [queue workers](/src/queues.mds.md). Before using this method, make sure you have configured your queue and are running a queue listener:
+Using the `queue` method on the `Commander` facade, you may even queue Commander commands so they are processed in the background by your [queue workers](/queues.md). Before using this method, make sure you have configured your queue and are running a queue listener:
 
 ```php
 use LaraGram\Support\Facades\Commander;

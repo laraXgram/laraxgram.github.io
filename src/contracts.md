@@ -12,7 +12,7 @@ All of the LaraGram contracts live in [their own GitHub repository](https://gith
 <a name="contracts-vs-facades"></a>
 ### Contracts vs. Facades
 
-LaraGram's [facades](/src/facades.mds.md) and helper functions provide a simple way of utilizing LaraGram's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.
+LaraGram's [facades](/facades.md) and helper functions provide a simple way of utilizing LaraGram's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.
 
 Unlike facades, which do not require you to require them in your class' constructor, contracts allow you to define explicit dependencies for your classes. Some developers prefer to explicitly define their dependencies in this way and therefore prefer to use contracts, while other developers enjoy the convenience of facades. **In general, most applications can use facades without issue during development.**
 
@@ -28,7 +28,7 @@ In general, most applications can use facades without issue during development. 
 
 So, how do you get an implementation of a contract? It's actually quite simple.
 
-Many types of classes in LaraGram are resolved through the [service container](/src/container.mdr.md), including controllers, event listeners, middleware, queued jobs, and even listen closures. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved.
+Many types of classes in LaraGram are resolved through the [service container](/container.md), including controllers, event listeners, middleware, queued jobs, and even listen closures. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved.
 
 For example, take a look at this event listener:
 
@@ -60,7 +60,7 @@ class CacheOrderInformation
 }
 ```
 
-When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. To learn more about registering things in the service container, check out [its documentation](/src/container.mdr.md).
+When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. To learn more about registering things in the service container, check out [its documentation](/container.md).
 
 <a name="contract-reference"></a>
 ## Contract Reference

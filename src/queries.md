@@ -53,7 +53,7 @@ foreach ($users as $user) {
 ```
 
 > [!NOTE]
-> LaraGram collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on LaraGram collections, check out the [collection documentation](/src/collections.mds.md).
+> LaraGram collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on LaraGram collections, check out the [collection documentation](/collections.md).
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
 #### Retrieving a Single Row / Column From a Table
@@ -168,7 +168,7 @@ DB::table('users')->where(function ($query) {
 <a name="streaming-results-lazily"></a>
 ### Streaming Results Lazily
 
-The `lazy` method works similarly to [the chunk method](#chunking-results) in the sense that it executes the query in chunks. However, instead of passing each chunk into a callback, the `lazy()` method returns a [LazyCollection](/src/collections.mds.md#lazy-collections), which lets you interact with the results as a single stream:
+The `lazy` method works similarly to [the chunk method](#chunking-results) in the sense that it executes the query in chunks. However, instead of passing each chunk into a callback, the `lazy()` method returns a [LazyCollection](/collections.md#lazy-collections), which lets you interact with the results as a single stream:
 
 ```php
 use LaraGram\Support\Facades\DB;
@@ -1099,7 +1099,7 @@ $incomes = Income::where('amount', '<', function (Builder $query) {
 > [!WARNING]
 > Full text where clauses are currently supported by MariaDB, MySQL, and PostgreSQL.
 
-The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/src/migrations.mds.md#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by LaraGram. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MariaDB or MySQL:
+The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/migrations.md#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by LaraGram. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MariaDB or MySQL:
 
 ```php
 $users = DB::table('users')
@@ -1468,7 +1468,7 @@ DB::table('users')
     ->get();
 ```
 
-While not obligatory, it is recommended to wrap pessimistic locks within a [transaction](/src/database.mde.md#database-transactions). This ensures that the data retrieved remains unaltered in the database until the entire operation completes. In case of a failure, the transaction will roll back any changes and release the locks automatically:
+While not obligatory, it is recommended to wrap pessimistic locks within a [transaction](/database.md#database-transactions). This ensures that the data retrieved remains unaltered in the database until the entire operation completes. In case of a failure, the transaction will roll back any changes and release the locks automatically:
 
 ```php
 DB::transaction(function () {

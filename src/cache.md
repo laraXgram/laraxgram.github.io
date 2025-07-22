@@ -20,7 +20,7 @@ The cache configuration file also contains a variety of other options that you m
 <a name="prerequisites-database"></a>
 #### Database
 
-When using the `database` cache driver, you will need a database table to contain the cache data. Typically, this is included in LaraGram's default `0001_01_01_000001_create_cache_table.php` [database migration](/src/migrations.mds.md); however, if your application does not contain this migration, you may use the `make:cache-table` Commander command to create it:
+When using the `database` cache driver, you will need a database table to contain the cache data. Typically, this is included in LaraGram's default `0001_01_01_000001_create_cache_table.php` [database migration](/migrations.md); however, if your application does not contain this migration, you may use the `make:cache-table` Commander command to create it:
 
 ```shell
 php laragram make:cache-table
@@ -68,7 +68,7 @@ If needed, you may set the `host` option to a UNIX socket path. If you do this, 
 
 Before using a Redis cache with LaraGram, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~2.0) via Composer.
 
-For more information on configuring Redis, consult its [LaraGram documentation page](/src/redis.mds.md#configuration).
+For more information on configuring Redis, consult its [LaraGram documentation page](/redis.md#configuration).
 
 <a name="mongodb"></a>
 #### MongoDB
@@ -191,7 +191,7 @@ When using the `Cache::remember` method, some users may experience slow response
 
 The flexible method accepts an array that specifies how long the cached value is considered “fresh” and when it becomes “stale.” The first value in the array represents the number of seconds the cache is considered fresh, while the second value defines how long it can be served as stale data before recalculation is necessary.
 
-If a request is made within the fresh period (before the first value), the cache is returned immediately without recalculation. If a request is made during the stale period (between the two values), the stale value is served to the user, and a [deferred function](/src/helpers.mds.md#deferred-functions) is registered to refresh the cached value after the response is sent to the user. If a request is made after the second value, the cache is considered expired, and the value is recalculated immediately, which may result in a slower response for the user:
+If a request is made within the fresh period (before the first value), the cache is returned immediately without recalculation. If a request is made during the stale period (between the two values), the stale value is served to the user, and a [deferred function](/helpers.md#deferred-functions) is registered to refresh the cached value after the response is sent to the user. If a request is made after the second value, the cache is considered expired, and the value is recalculated immediately, which may result in a slower response for the user:
 
 ```php
 $value = Cache::flexible('users', [5, 10], function () {
@@ -439,7 +439,7 @@ Cache::lock('processing')->forceRelease();
 <a name="writing-the-driver"></a>
 ### Writing the Driver
 
-To create our custom cache driver, we first need to implement the `LaraGram\Contracts\Cache\Store` [contract](/src/contracts.mds.md). So, a MongoDB cache implementation might look something like this:
+To create our custom cache driver, we first need to implement the `LaraGram\Contracts\Cache\Store` [contract](/contracts.md). So, a MongoDB cache implementation might look something like this:
 
 ```php
 <?php
@@ -513,14 +513,14 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-The first argument passed to the `extend` method is the name of the driver. This will correspond to your `driver` option in the `config/cache.php` configuration file. The second argument is a closure that should return an `LaraGram\Cache\Repository` instance. The closure will be passed an `$app` instance, which is an instance of the [service container](/src/container.mdr.md).
+The first argument passed to the `extend` method is the name of the driver. This will correspond to your `driver` option in the `config/cache.php` configuration file. The second argument is a closure that should return an `LaraGram\Cache\Repository` instance. The closure will be passed an `$app` instance, which is an instance of the [service container](/container.md).
 
 Once your extension is registered, update the `CACHE_STORE` environment variable or `default` option within your application's `config/cache.php` configuration file to the name of your extension.
 
 <a name="events"></a>
 ## Events
 
-To execute code on every cache operation, you may listen for various [events](/src/events.mds.md) dispatched by the cache:
+To execute code on every cache operation, you may listen for various [events](/events.md) dispatched by the cache:
 
 <div class="overflow-auto">
 

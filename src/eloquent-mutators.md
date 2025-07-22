@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Accessors, mutators, and attribute casting allow you to transform Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the [LaraGram encrypter](/src/encryption.mdn.md) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model. Or, you may want to convert a JSON string that is stored in your database to an array when it is accessed via your Eloquent model.
+Accessors, mutators, and attribute casting allow you to transform Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the [LaraGram encrypter](/encryption.md) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model. Or, you may want to convert a JSON string that is stored in your database to an array when it is accessed via your Eloquent model.
 
 <a name="accessors-and-mutators"></a>
 ## Accessors and Mutators
@@ -50,7 +50,7 @@ $firstName = $user->first_name;
 ```
 
 > [!NOTE]
-> If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/src/eloquent-serialization.mdn.md#appending-values-to-json).
+> If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/eloquent-serialization.md#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### Building Value Objects From Multiple Attributes
@@ -271,7 +271,7 @@ $user->mergeCasts([
 <a name="stringable-casting"></a>
 #### Stringable Casting
 
-You may use the `LaraGram\Database\Eloquent\Casts\AsStringable` cast class to cast a model attribute to a [fluent LaraGram\Support\Stringable object](/src/strings.mds.md#fluent-strings-method-list):
+You may use the `LaraGram\Database\Eloquent\Casts\AsStringable` cast class to cast a model attribute to a [fluent LaraGram\Support\Stringable object](/strings.md#fluent-strings-method-list):
 
 ```php
 <?php
@@ -341,7 +341,7 @@ $user->options = $options;
 $user->save();
 ```
 
-To update a single field of a JSON attribute with a more terse syntax, you may [make the attribute mass assignable](/src/eloquent.mdt.md#mass-assignment-json-columns) and use the `->` operator when calling the `update` method:
+To update a single field of a JSON attribute with a more terse syntax, you may [make the attribute mass assignable](/eloquent.md#mass-assignment-json-columns) and use the `->` operator when calling the `update` method:
 
 ```php
 $user = User::find(1);
@@ -397,7 +397,7 @@ protected function casts(): array
 }
 ```
 
-Similarly, LaraGram offers an `AsCollection` cast that casts your JSON attribute to a LaraGram [Collection](/src/collections.mds.md) instance:
+Similarly, LaraGram offers an `AsCollection` cast that casts your JSON attribute to a LaraGram [Collection](/collections.md) instance:
 
 ```php
 use LaraGram\Database\Eloquent\Casts\AsCollection;
@@ -434,7 +434,7 @@ protected function casts(): array
 }
 ```
 
-The `of` method may be used to indicate collection items should be mapped into a given class via the collection's [mapInto method](/src/collections.mds.md#method-mapinto):
+The `of` method may be used to indicate collection items should be mapped into a given class via the collection's [mapInto method](/collections.md#method-mapinto):
 
 ```php
 use App\ValueObjects\Option;
@@ -510,7 +510,7 @@ class Option implements Arrayable, JsonSerializable
 
 By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `casts` method. Typically, dates should be cast using the `datetime` or `immutable_datetime` cast types.
 
-When defining a `date` or `datetime` cast, you may also specify the date's format. This format will be used when the [model is serialized to an array or JSON](/src/eloquent-serialization.mdn.md):
+When defining a `date` or `datetime` cast, you may also specify the date's format. This format will be used when the [model is serialized to an array or JSON](/eloquent-serialization.md):
 
 ```php
 /**
@@ -614,7 +614,7 @@ protected function casts(): array
 <a name="encrypted-casting"></a>
 ### Encrypted Casting
 
-The `encrypted` cast will encrypt a model's attribute value using LaraGram's built-in [encryption](/src/encryption.mdn.md) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
+The `encrypted` cast will encrypt a model's attribute value using LaraGram's built-in [encryption](/encryption.md) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
 
 As the final length of the encrypted text is not predictable and is longer than its plain text counterpart, make sure the associated database column is of `TEXT` type or larger. In addition, since the values are encrypted in the database, you will not be able to query or search encrypted attribute values.
 

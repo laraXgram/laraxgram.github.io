@@ -60,7 +60,7 @@ public function getListenKey(): mixed
 <a name="redirecting-controller-actions"></a>
 ## Redirecting To Controller Actions
 
-You may also generate redirects to [controller actions](/src/controllers.mds.md). To do so, pass the controller and action name to the `action` method:
+You may also generate redirects to [controller actions](/controllers.md). To do so, pass the controller and action name to the `action` method:
 
 ```php
 use App\Controllers\HomeController;
@@ -79,7 +79,7 @@ return redirect()->action(
 <a name="redirecting-with-puted-cache-data"></a>
 ## Redirecting With Flashed Session Data
 
-Redirecting to a new listen and [putting data to the cache](/src/cache.mde.md#storing-items-in-the-cache) are usually done at the same time. Typically, this is done after successfully performing an action when you put a success message to the cache. For convenience, you may create a `RedirectResponse` instance and put data to the cache in a single, fluent method chain:
+Redirecting to a new listen and [putting data to the cache](/cache.md#storing-items-in-the-cache) are usually done at the same time. Typically, this is done after successfully performing an action when you put a success message to the cache. For convenience, you may create a `RedirectResponse` instance and put data to the cache in a single, fluent method chain:
 
 ```php
 Bot:onCommand('dashboard', function () {
@@ -89,13 +89,13 @@ Bot:onCommand('dashboard', function () {
 });
 ```
 
-You may use the `withInput` method provided by the `RedirectResponse` instance to put the current request's input data to the cache before redirecting the user to a new location. Once the input has been putted to the cache, you may easily [retrieve it](/src/cache.mde.md#retrieving-items-from-the-cache) during the next request:
+You may use the `withInput` method provided by the `RedirectResponse` instance to put the current request's input data to the cache before redirecting the user to a new location. Once the input has been putted to the cache, you may easily [retrieve it](/cache.md#retrieving-items-from-the-cache) during the next request:
 
 ```php
 return to_listen('home')->withInput();
 ```
 
-After the user is redirected, you may display the putted message from the [cache](/src/cache.mde.md#storing-items-in-the-cache). For example, using [Temple8 syntax](/src/temple8.md8.md):
+After the user is redirected, you may display the putted message from the [cache](/cache.md#storing-items-in-the-cache). For example, using [Temple8 syntax](/temple8.md):
 
 ```blade
 @if (cache('status'))

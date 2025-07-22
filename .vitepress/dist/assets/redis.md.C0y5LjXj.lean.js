@@ -1,1 +1,0 @@
-import{_ as i,c as a,o as n,ag as h}from"./chunks/framework.BHpayLOB.js";const g=JSON.parse('{"title":"Redis","description":"","frontmatter":{},"headers":[],"relativePath":"redis.md","filePath":"redis.md"}'),t={name:"redis.md"};function e(p,s,l,k,d,r){return n(),a("div",null,s[0]||(s[0]=[h("",88)]))}const o=i(t,[["render",e]]);export{g as __pageData,o as default};

@@ -5,7 +5,7 @@
 
 Temple8 is the simple, yet powerful templating engine that is included with LaraGram. Unlike some PHP templating engines, Temple8 does not restrict you from using plain PHP code in your templates. In fact, all Temple8 templates are compiled into plain PHP code and cached until they are modified, meaning Temple8 adds essentially zero overhead to your application. Temple8 template files use the `.t8.php` file extension and are typically stored in the `app/templates` directory.
 
-Temple8 templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/src/templates.mds.md), data may be passed to the Temple8 template using the `template` helper's second argument:
+Temple8 templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/templates.md), data may be passed to the Temple8 template using the `template` helper's second argument:
 
 ```php
 Bot::onText('hi', function () {
@@ -200,7 +200,7 @@ You may use the `sectionMissing` directive to determine if a section does not ha
 <a name="context-directives"></a>
 #### Context Directives
 
-The `@context` directive may be used to determine if a [context](/src/context.mdt.md) value exists. If the context value exists, the template contents within the `@context` and `@endcontext` directives will be evaluated. Within the `@context` directive's contents, you may echo the `$value` variable to display the context value:
+The `@context` directive may be used to determine if a [context](/context.md) value exists. If the context value exists, the template contents within the `@context` and `@endcontext` directives will be evaluated. Within the `@context` directive's contents, you may echo the `$value` variable to display the context value:
 
 ```blade
 @context('canonical')
@@ -698,7 +698,7 @@ You also use colon-prefixed attributes, you may use a double colon (`::`) prefix
 <a name="additional-dependencies"></a>
 #### Additional Dependencies
 
-If your component requires dependencies from LaraGram's [service container](/src/container.mdr.md), you may list them before any of the component's data attributes and they will automatically be injected by the container:
+If your component requires dependencies from LaraGram's [service container](/container.md), you may list them before any of the component's data attributes and they will automatically be injected by the container:
 
 ```php
 use App\Services\AlertCreator;
@@ -1049,7 +1049,7 @@ Thankfully, Temple8 allows you to place a file matching the component's director
 
 As previously discussed, anonymous components are typically defined by placing a Temple8 template within your `app/templates/components` directory. However, you may occasionally want to register other anonymous component paths with LaraGram in addition to the default path.
 
-The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/src/providers.mds.md):
+The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/providers.md):
 
 ```php
 /**
@@ -1177,7 +1177,7 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 <a name="validation-errors"></a>
 ### Validation Errors
 
-The `@error` directive may be used to quickly check if [validation error messages](/src/validation.mdn.md#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+The `@error` directive may be used to quickly check if [validation error messages](/validation.md#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
 ```blade
 <!-- /app/templates/post/create.t8.php -->
@@ -1189,7 +1189,7 @@ The `@error` directive may be used to quickly check if [validation error message
 
 Since the `@error` directive compiles to an "if" statement, you may use the `@else` directive to render content when there is not an error for an attribute.
 
-You may pass [the name of a specific error bag](/src/validation.mdn.md#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
+You may pass [the name of a specific error bag](/validation.md#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
 
 ```blade
 <!-- /app/templates/auth.t8.php -->
@@ -1241,7 +1241,7 @@ If you would like to prepend content onto the beginning of a stack, you should u
 <a name="service-injection"></a>
 ## Service Injection
 
-The `@inject` directive may be used to retrieve a service from the LaraGram [service container](/src/container.mdr.md). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
+The `@inject` directive may be used to retrieve a service from the LaraGram [service container](/container.md). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
 
 ```blade
 @inject('metrics', 'App\Services\MetricsService')
