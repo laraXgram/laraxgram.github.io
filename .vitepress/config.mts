@@ -5,11 +5,14 @@ export default defineConfig({
     base: '/',
     title: "LaraGram",
     description: "An advanced framework for Telegram Bot development.",
+    srcDir: './src',
+
     themeConfig: {
         siteTitle: 'LaraGram',
-        logo: '/LaraGram.svg',
+        logo: '/assets/LaraGram.svg',
+        outline: 'deep',
         head: [
-            ['link', {rel: 'icon', href: '/favicon.ico'}]
+            ['link', {rel: 'icon', href: '/assets/favicon.ico'}]
         ],
 
         search: {
@@ -142,7 +145,7 @@ export default defineConfig({
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2023-present LaraXGram'
-        }
+        },
     }
 })
 
