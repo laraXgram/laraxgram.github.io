@@ -1,17 +1,5 @@
 # HTTP Requests
 
-- [Introduction](#introduction)
-- [Interacting With The Request](#interacting-with-the-request)
-    - [Accessing the Request](#accessing-the-request)
-    - [Request Scope, and Method](#request-scope-and-method)
-- [Updates](#updates)
-    - [Retrieve Update](#retrieving-updates-via-dynamic-properties)
-    - [Merging Additional Input](#merging-additional-input)
-- [Methods](#methods)
-    - [Work with API methods](#work-with-api-methods)
-    - [Request mode](#request-mode)
-    - [Multi connections](#multi-connections)
-
 <a name="introduction"></a>
 ## Introduction
 

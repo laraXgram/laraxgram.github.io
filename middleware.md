@@ -1,16 +1,5 @@
 # Middleware
 
-- [Introduction](#introduction)
-- [Defining Middleware](#defining-middleware)
-- [Registering Middleware](#registering-middleware)
-    - [Global Middleware](#global-middleware)
-    - [Assigning Middleware to Listens](#assigning-middleware-to-listens)
-    - [Middleware Groups](#middleware-groups)
-    - [Middleware Aliases](#middleware-aliases)
-    - [Sorting Middleware](#sorting-middleware)
-- [Middleware Parameters](#middleware-parameters)
-- [Terminable Middleware](#terminable-middleware)
-
 <a name="introduction"></a>
 ## Introduction
 

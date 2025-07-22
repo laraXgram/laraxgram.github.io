@@ -1,11 +1,5 @@
 # Contracts
 
-- [Introduction](#introduction)
-    - [Contracts vs. Facades](#contracts-vs-facades)
-- [When to Use Contracts](#when-to-use-contracts)
-- [How to Use Contracts](#how-to-use-contracts)
-- [Contract Reference](#contract-reference)
-
 <a name="introduction"></a>
 ## Introduction
 

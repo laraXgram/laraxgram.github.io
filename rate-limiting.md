@@ -1,11 +1,5 @@
 # Rate Limiting
 
-- [Introduction](#introduction)
-    - [Cache Configuration](#cache-configuration)
-- [Basic Usage](#basic-usage)
-    - [Manually Incrementing Attempts](#manually-incrementing-attempts)
-    - [Clearing Attempts](#clearing-attempts)
-
 <a name="introduction"></a>
 ## Introduction
 

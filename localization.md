@@ -1,17 +1,5 @@
 # Localization
 
-- [Introduction](#introduction)
-    - [Publishing the Language Files](#publishing-the-language-files)
-    - [Configuring the Locale](#configuring-the-locale)
-    - [Pluralization Language](#pluralization-language)
-- [Defining Translation Strings](#defining-translation-strings)
-    - [Using Short Keys](#using-short-keys)
-    - [Using Translation Strings as Keys](#using-translation-strings-as-keys)
-- [Retrieving Translation Strings](#retrieving-translation-strings)
-    - [Replacing Parameters in Translation Strings](#replacing-parameters-in-translation-strings)
-    - [Pluralization](#pluralization)
-- [Overriding Package Language Files](#overriding-package-language-files)
-
 <a name="introduction"></a>
 ## Introduction
 

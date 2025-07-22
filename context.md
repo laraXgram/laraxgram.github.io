@@ -1,17 +1,5 @@
 # Context
 
-- [Introduction](#introduction)
-    - [How it Works](#how-it-works)
-- [Capturing Context](#capturing-context)
-    - [Stacks](#stacks)
-- [Retrieving Context](#retrieving-context)
-    - [Determining Item Existence](#determining-item-existence)
-- [Removing Context](#removing-context)
-- [Hidden Context](#hidden-context)
-- [Events](#events)
-    - [Dehydrating](#dehydrating)
-    - [Hydrated](#hydrated)
-
 <a name="introduction"></a>
 ## Introduction
 

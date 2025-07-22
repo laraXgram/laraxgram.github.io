@@ -1,23 +1,5 @@
 # Eloquent: Mutators & Casting
 
-- [Introduction](#introduction)
-- [Accessors and Mutators](#accessors-and-mutators)
-    - [Defining an Accessor](#defining-an-accessor)
-    - [Defining a Mutator](#defining-a-mutator)
-- [Attribute Casting](#attribute-casting)
-    - [Array and JSON Casting](#array-and-json-casting)
-    - [Date Casting](#date-casting)
-    - [Enum Casting](#enum-casting)
-    - [Encrypted Casting](#encrypted-casting)
-    - [Query Time Casting](#query-time-casting)
-- [Custom Casts](#custom-casts)
-    - [Value Object Casting](#value-object-casting)
-    - [Array / JSON Serialization](#array-json-serialization)
-    - [Inbound Casting](#inbound-casting)
-    - [Cast Parameters](#cast-parameters)
-    - [Comparing Cast Values](#comparing-cast-values)
-    - [Castables](#castables)
-
 <a name="introduction"></a>
 ## Introduction
 

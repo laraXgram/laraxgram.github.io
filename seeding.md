@@ -1,12 +1,5 @@
 # Database: Seeding
 
-- [Introduction](#introduction)
-- [Writing Seeders](#writing-seeders)
-    - [Using Model Factories](#using-model-factories)
-    - [Calling Additional Seeders](#calling-additional-seeders)
-    - [Muting Model Events](#muting-model-events)
-- [Running Seeders](#running-seeders)
-
 <a name="introduction"></a>
 ## Introduction
 

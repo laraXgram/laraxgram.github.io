@@ -1,15 +1,5 @@
 # Redis
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [Clusters](#clusters)
-    - [Predis](#predis)
-    - [PhpRedis](#phpredis)
-- [Interacting With Redis](#interacting-with-redis)
-    - [Transactions](#transactions)
-    - [Pipelining Commands](#pipelining-commands)
-- [Pub / Sub](#pubsub)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,23 +1,5 @@
 # Events
 
-- [Introduction](#introduction)
-- [Generating Events and Listeners](#generating-events-and-listeners)
-- [Registering Events and Listeners](#registering-events-and-listeners)
-    - [Event Discovery](#event-discovery)
-    - [Manually Registering Events](#manually-registering-events)
-    - [Closure Listeners](#closure-listeners)
-- [Defining Events](#defining-events)
-- [Defining Listeners](#defining-listeners)
-- [Queued Event Listeners](#queued-event-listeners)
-    - [Manually Interacting With the Queue](#manually-interacting-with-the-queue)
-    - [Queued Event Listeners and Database Transactions](#queued-event-listeners-and-database-transactions)
-    - [Handling Failed Jobs](#handling-failed-jobs)
-- [Dispatching Events](#dispatching-events)
-    - [Dispatching Events After Database Transactions](#dispatching-events-after-database-transactions)
-- [Event Subscribers](#event-subscribers)
-    - [Writing Event Subscribers](#writing-event-subscribers)
-    - [Registering Event Subscribers](#registering-event-subscribers)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,28 +1,5 @@
 # Authorization
 
-- [Introduction](#introduction)
-- [Gates](#gates)
-    - [Writing Gates](#writing-gates)
-    - [Gate Responses](#gate-responses)
-    - [Intercepting Gate Checks](#intercepting-gate-checks)
-    - [Inline Authorization](#inline-authorization)
-- [Creating Policies](#creating-policies)
-    - [Generating Policies](#generating-policies)
-    - [Registering Policies](#registering-policies)
-- [Writing Policies](#writing-policies)
-    - [Policy Methods](#policy-methods)
-    - [Policy Responses](#policy-responses)
-    - [Methods Without Models](#methods-without-models)
-    - [Policy Filters](#policy-filters)
-- [Authorizing Actions Using Policies](#authorizing-actions-using-policies)
-    - [Via the User Model](#via-the-user-model)
-    - [Via the Gate Facade](#via-the-gate-facade)
-    - [Via Middleware](#via-middleware)
-    - [Via Temple8 Templates](#via-temple8-templates)
-    - [Supplying Additional Context](#supplying-additional-context)
-- [Check User Status](#check-user-status)
-    - [Observe User Status](#observe-user-status)
-
 <a name="introduction"></a>
 ## Introduction
 

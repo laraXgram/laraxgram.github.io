@@ -1,14 +1,5 @@
 # Error Handling
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Handling Exceptions](#handling-exceptions)
-    - [Reporting Exceptions](#reporting-exceptions)
-    - [Exception Log Levels](#exception-log-levels)
-    - [Ignoring Exceptions by Type](#ignoring-exceptions-by-type)
-    - [Reportable Exceptions](#reportable-exceptions)
-- [Throttling Reported Exceptions](#throttling-reported-exceptions)
-
 <a name="introduction"></a>
 ## Introduction
 

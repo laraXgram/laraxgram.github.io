@@ -1,14 +1,5 @@
 # Request Lifecycle
 
-- [Introduction](#introduction)
-- [Lifecycle Overview](#lifecycle-overview)
-    - [First Steps](#first-steps)
-    - [Bot / Console Kernels](#bot-console-kernels)
-    - [Service Providers](#service-providers)
-    - [Listening](#listening)
-    - [Finishing Up](#finishing-up)
-- [Focus on Service Providers](#focus-on-service-providers)
-
 <a name="introduction"></a>
 ## Introduction
 

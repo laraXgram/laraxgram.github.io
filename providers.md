@@ -1,12 +1,5 @@
 # Service Providers
 
-- [Introduction](#introduction)
-- [Writing Service Providers](#writing-service-providers)
-    - [The Register Method](#the-register-method)
-    - [The Boot Method](#the-boot-method)
-- [Registering Providers](#registering-providers)
-- [Deferred Providers](#deferred-providers)
-
 <a name="introduction"></a>
 ## Introduction
 

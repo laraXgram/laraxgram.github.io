@@ -1,12 +1,5 @@
 # Controllers
 
-- [Introduction](#introduction)
-- [Writing Controllers](#writing-controllers)
-    - [Basic Controllers](#basic-controllers)
-    - [Single Action Controllers](#single-action-controllers)
-- [Controller Middleware](#controller-middleware)
-- [Dependency Injection and Controllers](#dependency-injection-and-controllers)
-
 <a name="introduction"></a>
 ## Introduction
 

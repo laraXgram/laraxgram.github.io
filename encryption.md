@@ -1,10 +1,5 @@
 # Encryption
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [Gracefully Rotating Encryption Keys](#gracefully-rotating-encryption-keys)
-- [Using the Encrypter](#using-the-encrypter)
-
 <a name="introduction"></a>
 ## Introduction
 

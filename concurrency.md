@@ -1,9 +1,5 @@
 # Concurrency
 
-- [Introduction](#introduction)
-- [Running Concurrent Tasks](#running-concurrent-tasks)
-- [Deferring Concurrent Tasks](#deferring-concurrent-tasks)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,21 +1,5 @@
 # Package Development
 
-- [Introduction](#introduction)
-- [Package Discovery](#package-discovery)
-- [Service Providers](#service-providers)
-- [Resources](#resources)
-    - [Configuration](#configuration)
-    - [Migrations](#migrations)
-    - [Listens](#listens)
-    - [Language Files](#language-files)
-    - [Views](#views)
-    - [View Components](#view-components)
-    - ["About" Commander Command](#about-artisan-command)
-- [Commands](#commands)
-    - [Optimize Commands](#optimize-commands)
-- [Public Assets](#public-assets)
-- [Publishing File Groups](#publishing-file-groups)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,13 +1,5 @@
 # MongoDB
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-    - [MongoDB Driver](#mongodb-driver)
-    - [Starting a MongoDB Server](#starting-a-mongodb-server)
-    - [Install the LaraGram MongoDB Package](#install-the-laragram-mongodb-package)
-- [Configuration](#configuration)
-- [Features](#features)
-
 <a name="introduction"></a>
 ## Introduction
 

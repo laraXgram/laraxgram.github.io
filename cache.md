@@ -1,23 +1,5 @@
 # Cache
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Cache Usage](#cache-usage)
-    - [Obtaining a Cache Instance](#obtaining-a-cache-instance)
-    - [Retrieving Items From the Cache](#retrieving-items-from-the-cache)
-    - [Storing Items in the Cache](#storing-items-in-the-cache)
-    - [Removing Items From the Cache](#removing-items-from-the-cache)
-    - [Cache Memoization](#cache-memoization)
-    - [The Cache Helper](#the-cache-helper)
-- [Atomic Locks](#atomic-locks)
-    - [Managing Locks](#managing-locks)
-    - [Managing Locks Across Processes](#managing-locks-across-processes)
-- [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
-    - [Writing the Driver](#writing-the-driver)
-    - [Registering the Driver](#registering-the-driver)
-- [Events](#events)
-
 <a name="introduction"></a>
 ## Introduction
 

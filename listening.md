@@ -1,32 +1,5 @@
 # Listening
 
-- [Basic Listening](#basic-listening)
-    - [The Default Listen Files](#the-default-listen-files)
-    - [Redirect Listens](#redirect-listens)
-    - [Template Listens](#template-listens)
-    - [Listing Your Listens](#listing-your-listens)
-    - [Listening Customization](#listening-customization)
-- [Listen Parameters](#listen-parameters)
-    - [Required Parameters](#required-parameters)
-    - [Optional Parameters](#parameters-optional-parameters)
-    - [Regular Expression Constraints](#parameters-regular-expression-constraints)
-- [Named Listens](#named-listens)
-- [Listen Groups](#listen-groups)
-    - [Middleware](#listen-group-middleware)
-    - [Controllers](#listen-group-controllers)
-    - [Listen Prefixes](#listen-group-prefixes)
-    - [Listen Name Prefixes](#listen-group-name-prefixes)
-- [Listen Model Binding](#listen-model-binding)
-    - [Implicit Binding](#implicit-binding)
-    - [Implicit Enum Binding](#implicit-enum-binding)
-    - [Explicit Binding](#explicit-binding)
-- [Fallback Listens](#fallback-listens)
-- [Rate Limiting](#rate-limiting)
-    - [Defining Rate Limiters](#defining-rate-limiters)
-    - [Attaching Rate Limiters to Listens](#attaching-rate-limiters-to-listens)
-- [Accessing the Current Listen](#accessing-the-current-listen)
-- [Listen Caching](#listen-caching)
-
 <a name="basic-listening"></a>
 ## Basic Listening
 

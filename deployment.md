@@ -1,17 +1,5 @@
 # Deployment
 
-- [Introduction](#introduction)
-- [Server Requirements](#server-requirements)
-- [Server Configuration](#server-configuration)
-    - [Nginx](#nginx)
-    - [Directory Permissions](#directory-permissions)
-- [Optimization](#optimization)
-    - [Caching Configuration](#optimizing-configuration-loading)
-    - [Caching Events](#caching-events)
-    - [Caching Listens](#optimizing-listen-loading)
-    - [Caching Templates](#optimizing-template-loading)
-- [Debug Mode](#debug-mode)
-
 <a name="introduction"></a>
 ## Introduction
 

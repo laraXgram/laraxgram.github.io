@@ -1,9 +1,5 @@
 # Release Notes
 
-- [Versioning Scheme](#versioning-scheme)
-- [Support Policy](#support-policy)
-- [LaraGram 3](#laragram-12)
-
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
 

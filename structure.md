@@ -1,30 +1,5 @@
 # Directory Structure
 
-- [Introduction](#introduction)
-- [The Root Directory](#the-root-directory)
-    - [The `app` Directory](#the-root-app-directory)
-    - [The `bootstrap` Directory](#the-bootstrap-directory)
-    - [The `config` Directory](#the-config-directory)
-    - [The `database` Directory](#the-database-directory)
-    - [The `public` Directory](#the-public-directory)
-    - [The `listrns` Directory](#the-listens-directory)
-    - [The `storage` Directory](#the-storage-directory)
-    - [The `vendor` Directory](#the-vendor-directory)
-- [The App Directory](#the-app-directory)
-    - [The `Console` Directory](#the-console-directory)
-    - [The `Controller` Directory](#the-controllers-directory)
-    - [The `Conversation` Directory](#the-conversations-directory)
-    - [The `Events` Directory](#the-events-directory)
-    - [The `Exceptions` Directory](#the-exceptions-directory)
-    - [The `Jobs` Directory](#the-jobs-directory)
-    - [The `Listeners` Directory](#the-listeners-directory)
-    - [The `Models` Directory](#the-models-directory)
-    - [The `Middlewares` Directory](#the-middlewares-directory)
-    - [The `Policies` Directory](#the-policies-directory)
-    - [The `Providers` Directory](#the-providers-directory)
-    - [The `Rules` Directory](#the-rules-directory)
-    - [The `Templates` Directory](#the-templates-directory)
-
 <a name="introduction"></a>
 ## Introduction
 

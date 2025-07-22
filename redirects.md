@@ -1,9 +1,4 @@
-# HTTP Redirects
-
-- [Creating Redirects](#creating-redirects)
-- [Redirecting To Named Listens](#redirecting-named-listens)
-- [Redirecting To Controller Actions](#redirecting-controller-actions)
-- [Redirecting With Flashed Session Data](#redirecting-with-puted-cache-data)
+# Redirects
 
 <a name="creating-redirects"></a>
 ## Creating Redirects

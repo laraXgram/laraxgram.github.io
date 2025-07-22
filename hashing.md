@@ -1,13 +1,5 @@
 # Hashing
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Basic Usage](#basic-usage)
-    - [Hashing Passwords](#hashing-passwords)
-    - [Verifying That a Password Matches a Hash](#verifying-that-a-password-matches-a-hash)
-    - [Determining if a Password Needs to be Rehashed](#determining-if-a-password-needs-to-be-rehashed)
-- [Hash Algorithm Verification](#hash-algorithm-verification)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,16 +1,5 @@
 # Templates
 
-- [Introduction](#introduction)
-- [Creating and Rendering Templates](#creating-and-rendering-templates)
-    - [Nested Template Directories](#nested-template-directories)
-    - [Creating the First Available Template](#creating-the-first-available-template)
-    - [Determining if a Template Exists](#determining-if-a-template-exists)
-- [Passing Data to Templates](#passing-data-to-templates)
-    - [Sharing Data With All Templates](#sharing-data-with-all-templates)
-- [Template Composers](#template-composers)
-    - [Template Creators](#template-creators)
-- [Optimizing Templates](#optimizing-templates)
-
 <a name="introduction"></a>
 ## Introduction
 

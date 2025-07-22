@@ -1,19 +1,5 @@
 # Logging
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [Available Channel Drivers](#available-channel-drivers)
-    - [Channel Prerequisites](#channel-prerequisites)
-    - [Logging Deprecation Warnings](#logging-deprecation-warnings)
-- [Building Log Stacks](#building-log-stacks)
-- [Writing Log Messages](#writing-log-messages)
-    - [Contextual Information](#contextual-information)
-    - [Writing to Specific Channels](#writing-to-specific-channels)
-- [LaraGram Channel Customization](#laragram-channel-customization)
-    - [Customizing LaraGram for Channels](#customizing-laragram-for-channels)
-    - [Creating LaraGram Handler Channels](#creating-laragram-handler-channels)
-    - [Creating Custom Channels via Factories](#creating-custom-channels-via-factories)
-
 <a name="introduction"></a>
 ## Introduction
 

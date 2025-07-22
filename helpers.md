@@ -1,16 +1,5 @@
 # Helpers
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
-- [Other Utilities](#other-utilities)
-    - [Benchmarking](#benchmarking)
-    - [Dates](#dates)
-    - [Deferred Functions](#deferred-functions)
-    - [Lottery](#lottery)
-    - [Pipeline](#pipeline)
-    - [Sleep](#sleep)
-    - [Timebox](#timebox)
-
 <a name="introduction"></a>
 ## Introduction
 

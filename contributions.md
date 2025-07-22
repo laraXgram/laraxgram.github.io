@@ -1,15 +1,5 @@
 # Contribution Guide
 
-- [Bug Reports](#bug-reports)
-- [Support Questions](#support-questions)
-- [Core Development Discussion](#core-development-discussion)
-- [Which Branch?](#which-branch)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Coding Style](#coding-style)
-    - [PHPDoc](#phpdoc)
-    - [StyleCI](#styleci)
-- [Code of Conduct](#code-of-conduct)
-
 <a name="bug-reports"></a>
 ## Bug Reports
 

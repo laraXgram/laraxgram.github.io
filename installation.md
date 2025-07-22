@@ -1,17 +1,5 @@
 # Installation
 
-- [Meet LaraGram](#meet-laragram)
-    - [Why LaraGram?](#why-laragram)
-- [Creating a LaraGram Application](#creating-a-laragram-project)
-    - [Installing PHP and the LaraGram Installer](#installing-php)
-    - [Creating an Application](#creating-an-application)
-- [Initial Configuration](#initial-configuration)
-    - [Environment Based Configuration](#environment-based-configuration)
-    - [Config Bot Connection](#config-bot-connections)
-    - [Databases and Migrations](#databases-and-migrations)
-    - [Directory Configuration](#directory-configuration)
-- [Next Steps](#next-steps)
-
 <a name="meet-laragram"></a>
 ## Meet LaraGram
 

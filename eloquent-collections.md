@@ -1,9 +1,5 @@
 # Eloquent: Collections
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
-- [Custom Collections](#custom-collections)
-
 <a name="introduction"></a>
 ## Introduction
 

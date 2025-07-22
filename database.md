@@ -1,17 +1,5 @@
 # Database: Getting Started
 
-- [Introduction](#introduction)
-    - [Configuration](#configuration)
-    - [Read and Write Connections](#read-and-write-connections)
-- [Running SQL Queries](#running-queries)
-    - [Using Multiple Database Connections](#using-multiple-database-connections)
-    - [Listening for Query Events](#listening-for-query-events)
-    - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
-- [Database Transactions](#database-transactions)
-- [Connecting to the Database CLI](#connecting-to-the-database-cli)
-- [Inspecting Your Databases](#inspecting-your-databases)
-- [Monitoring Your Databases](#monitoring-your-databases)
-
 <a name="introduction"></a>
 ## Introduction
 

@@ -1,7 +1,5 @@
 # Tempora
 
-- [Introduction](#introduction)
-
 <a name="introduction"></a>
 ## Introduction
 

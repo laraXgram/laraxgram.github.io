@@ -1,8 +1,5 @@
 # Strings
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
-
 <a name="introduction"></a>
 ## Introduction
 

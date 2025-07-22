@@ -1,11 +1,5 @@
 # Authentication
 
-- [Introduction](#introduction)
-- [Adding Custom User Providers](#adding-custom-user-providers)
-    - [The User Provider Contract](#the-user-provider-contract)
-    - [The Authenticatable Contract](#the-authenticatable-contract)
-
-
 <a name="introduction"></a>
 ## Introduction
 
