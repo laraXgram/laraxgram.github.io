@@ -6,26 +6,21 @@ export default defineConfig({
     title: "LaraGram",
     description: "An advanced framework for Telegram Bot development.",
     srcDir: './src',
+    head: [
+        ['link', { rel: 'icon', href: '/assets/favicon.ico' }]
+    ],
 
     themeConfig: {
         siteTitle: 'LaraGram',
         logo: '/assets/LaraGram.svg',
         outline: 'deep',
-
-        head: [
-            ['link', {rel: 'icon', href: '/assets/favicon.ico'}]
-        ],
-
         search: {
             provider: 'local'
         },
-
-        // https://vitepress.dev/reference/default-theme-config
         nav: [
             {text: 'Home', link: '/'},
             {text: 'Document', link: '/installation'}
         ],
-
         sidebar: [
             {
                 text: 'Prologue',
@@ -138,11 +133,10 @@ export default defineConfig({
                 ]
             },
         ],
-
         socialLinks: [
-            {icon: 'github', link: 'https://github.com/laraXgram/LaraGram'}
+            {icon: 'github', link: 'https://github.com/laraXgram/LaraGram'},
+            {icon: 'telegram', link: 'https://t.me/LaraXGram'},
         ],
-
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2023-present LaraXGram'
