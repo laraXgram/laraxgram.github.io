@@ -7,12 +7,12 @@ export default defineConfig({
     description: "An advanced framework for Telegram Bot development.",
     srcDir: './src',
     head: [
-        ['link', { rel: 'icon', href: '/assets/favicon.ico' }]
+        ['link', { rel: 'icon', href: '/favicon.ico' }]
     ],
 
     themeConfig: {
         siteTitle: 'LaraGram',
-        logo: '/assets/LaraGram.svg',
+        logo: '/LaraGram.svg',
         outline: 'deep',
         search: {
             provider: 'local'
