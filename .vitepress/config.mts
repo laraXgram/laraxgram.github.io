@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/',
   title: "LaraGram",
   description: "An advanced framework for Telegram Bot development.",
   themeConfig: {
