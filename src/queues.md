@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-While building your web application, you may have some tasks, such as parsing and storing an uploaded CSV file, that take too long to perform during a typical request. Thankfully, LaraGram allows you to easily create queued jobs that may be processed in the background. By moving time intensive tasks to a queue, your application can respond to web requests with blazing speed and provide a better user experience to your customers.
+While building your bot application, you may have some tasks, such as parsing and storing an uploaded CSV file, that take too long to perform during a typical request. Thankfully, LaraGram allows you to easily create queued jobs that may be processed in the background. By moving time intensive tasks to a queue, your application can respond to bot requests with blazing speed and provide a better user experience to your customers.
 
 LaraGram queues provide a unified queueing API across a variety of different queue backends, [Redis](https://redis.io), or even a relational database.
 
@@ -1567,7 +1567,7 @@ Bus::chain([
 <a name="adding-jobs-to-batches"></a>
 ### Adding Jobs to Batches
 
-Sometimes it may be useful to add additional jobs to a batch from within a batched job. This pattern can be useful when you need to batch thousands of jobs which may take too long to dispatch during a web request. So, instead, you may wish to dispatch an initial batch of "loader" jobs that hydrate the batch with even more jobs:
+Sometimes it may be useful to add additional jobs to a batch from within a batched job. This pattern can be useful when you need to batch thousands of jobs which may take too long to dispatch during a bot request. So, instead, you may wish to dispatch an initial batch of "loader" jobs that hydrate the batch with even more jobs:
 
 ```php
 $batch = Bus::batch([

@@ -5,7 +5,7 @@
 
 Some of the data retrieval or processing tasks performed by your application could be CPU intensive or take several seconds to complete. When this is the case, it is common to cache the retrieved data for a time so it can be retrieved quickly on subsequent requests for the same data. The cached data is usually stored in a very fast data store such as [Memcached](https://memcached.org) or [Redis](https://redis.io).
 
-Thankfully, LaraGram provides an expressive, unified API for various cache backends, allowing you to take advantage of their blazing fast data retrieval and speed up your web application.
+Thankfully, LaraGram provides an expressive, unified API for various cache backends, allowing you to take advantage of their blazing fast data retrieval and speed up your bot application.
 
 <a name="configuration"></a>
 ## Configuration
@@ -407,7 +407,7 @@ Cache::lock('foo', 10)->block(5, function () {
 <a name="managing-locks-across-processes"></a>
 ### Managing Locks Across Processes
 
-Sometimes, you may wish to acquire a lock in one process and release it in another process. For example, you may acquire a lock during a web request and wish to release the lock at the end of a queued job that is triggered by that request. In this scenario, you should pass the lock's scoped "owner token" to the queued job so that the job can re-instantiate the lock using the given token.
+Sometimes, you may wish to acquire a lock in one process and release it in another process. For example, you may acquire a lock during a bot request and wish to release the lock at the end of a queued job that is triggered by that request. In this scenario, you should pass the lock's scoped "owner token" to the queued job so that the job can re-instantiate the lock using the given token.
 
 In the example below, we will dispatch a queued job if a lock is successfully acquired. In addition, we will pass the lock's owner token to the queued job via the lock's `owner` method:
 

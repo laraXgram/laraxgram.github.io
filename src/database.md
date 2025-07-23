@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Almost every modern web application interacts with a database. LaraGram makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/queries.md), and the [Eloquent ORM](/eloquent.md). Currently, LaraGram provides first-party support for five databases:
+Almost every modern bot application interacts with a database. LaraGram makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/queries.md), and the [Eloquent ORM](/eloquent.md). Currently, LaraGram provides first-party support for five databases:
 
 <div class="content-list" markdown="1">
 
@@ -316,7 +316,7 @@ class AppServiceProvider extends ServiceProvider
 <a name="monitoring-cumulative-query-time"></a>
 ### Monitoring Cumulative Query Time
 
-A common performance bottleneck of modern web applications is the amount of time they spend querying databases. Thankfully, LaraGram can invoke a closure or callback of your choice when it spends too much time querying the database during a single request. To get started, provide a query time threshold (in milliseconds) and closure to the `whenQueryingForLongerThan` method. You may invoke this method in the `boot` method of a [service provider](/providers.md):
+A common performance bottleneck of modern bot applications is the amount of time they spend querying databases. Thankfully, LaraGram can invoke a closure or callback of your choice when it spends too much time querying the database during a single request. To get started, provide a query time threshold (in milliseconds) and closure to the `whenQueryingForLongerThan` method. You may invoke this method in the `boot` method of a [service provider](/providers.md):
 
 ```php
 <?php

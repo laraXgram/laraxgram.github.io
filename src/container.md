@@ -269,7 +269,7 @@ class PhotoController extends Controller
 }
 ```
 
-In addition to the `Storage` attribute, LaraGram offers `Auth`, `Cache`, `Config`, `Context`, `DB`, `Give`, `Log`, `ListenParameter`, and [Tag](#tagging) attributes:
+In addition to the `Storage` attribute, LaraGram offers `Cache`, `Config`, `Context`, `DB`, `Give`, `Log`, `ListenParameter`, and [Tag](#tagging) attributes:
 
 ```php
 <?php
@@ -296,7 +296,6 @@ use Psr\Log\LoggerInterface;
 class PhotoController extends Controller
 {
     public function __construct(
-        #[Auth('web')] protected Guard $auth,
         #[Cache('redis')] protected Repository $cache,
         #[Config('app.timezone')] protected string $timezone,
         #[Context('uuid')] protected string $uuid,

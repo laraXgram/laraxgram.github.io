@@ -141,7 +141,7 @@ server {
 <a name="watching-for-file-changes"></a>
 ### Watching for File Changes
 
-Since your application is loaded in memory once when the Surge server starts, any changes to your application's files will not be reflected when you refresh your browser. For example, listen definitions added to your `listens/web.php` file will not be reflected until the server is restarted. For convenience, you may use the `--watch` flag to instruct Surge to automatically restart the server on any file changes within your application:
+Since your application is loaded in memory once when the Surge server starts, any changes to your application's files will not be reflected when you refresh your browser. For example, listen definitions added to your `listens/bot.php` file will not be reflected until the server is restarted. For convenience, you may use the `--watch` flag to instruct Surge to automatically restart the server on any file changes within your application:
 
 ```shell
 php laragram surge:start --watch

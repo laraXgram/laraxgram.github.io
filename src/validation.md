@@ -112,7 +112,7 @@ $rules = [
 
 So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, LaraGram will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [putted to the cache](/cache.md#storing-items-in-the-cache).
 
-An `$errors` variable is shared with all of your application's templates by the `LaraGram\View\Middleware\ShareErrorsFromSession` middleware, which is provided by the `web` middleware group. When this middleware is applied an `$errors` variable will always be available in your templates, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `LaraGram\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
+An `$errors` variable is shared with all of your application's templates, which is provided by the `bot` middleware group. When this middleware is applied an `$errors` variable will always be available in your templates, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `LaraGram\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
 
 So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
 
@@ -1940,7 +1940,7 @@ $validator = Validator::make($inputs, [
 ]);
 ```
 
-Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting games. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
+Let's assume our bot application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting games. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
 
 ```php
 use LaraGram\Support\Fluent;

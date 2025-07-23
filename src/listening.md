@@ -17,7 +17,7 @@ Bot::onText('hello', function (Request $request) {
 <a name="the-default-listen-files"></a>
 ### The Default Listen Files
 
-All LaraGram listens are defined in your listen files, which are located in the `listens` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `listens/bot.php` file defines listens that are for your web interface. These listens are assigned the `bot` [middleware group](/middleware.md#laragrams-default-middleware-groups), which provides features like scope limiter.
+All LaraGram listens are defined in your listen files, which are located in the `listens` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `listens/bot.php` file defines listens that are for your bot interface. These listens are assigned the `bot` [middleware group](/middleware.md#laragrams-default-middleware-groups), which provides features like scope limiter.
 
 For most applications, you will begin by defining listens in your `listens/bot.php` file. The listens defined in `listens/bot.php` may be accessed by entering the defined listen's update in your bot. For example, you may access the following listen by sending a `hello`:
 
@@ -211,7 +211,7 @@ However, sometimes you may want to define an entirely new file to contain a subs
 use LaraGram\Support\Facades\Bot;
 
 ->withListening(
-    web: __DIR__.'/../listens/bot.php',
+    bot: __DIR__.'/../listens/bot.php',
     commands: __DIR__.'/../listens/console.php',
     then: function () {
         Bot::middleware('scope:groups')

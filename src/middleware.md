@@ -224,7 +224,7 @@ Listen::middleware(['group-name'])->group(function () {
 <a name="laragrams-default-middleware-groups"></a>
 #### LaraGram's Default Middleware Groups
 
-LaraGram includes predefined `bot` middleware groups that contain common middleware you may want to apply to your web and API listens. Remember, LaraGram automatically applies these middleware groups to the corresponding `listens/bot.php` files:
+LaraGram includes predefined `bot` middleware groups that contain common middleware you may want to apply to your bot listens. Remember, LaraGram automatically applies these middleware groups to the corresponding `listens/bot.php` files:
 
 <div class="overflow-auto">
 

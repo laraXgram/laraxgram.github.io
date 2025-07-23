@@ -1085,7 +1085,7 @@ When a prefix is provided, components within that "namespace" may be rendered by
 <a name="layouts-using-components"></a>
 ### Layouts Using Components
 
-Most web applications maintain the same general layout across various pages. It would be incredibly cumbersome and hard to maintain our application if we had to repeat the entire layout in every template we create. Thankfully, it's convenient to define this layout as a single [Temple8 component](#components) and then use it throughout our application.
+Most bot applications maintain the same general layout across various pages. It would be incredibly cumbersome and hard to maintain our application if we had to repeat the entire layout in every template we create. Thankfully, it's convenient to define this layout as a single [Temple8 component](#components) and then use it throughout our application.
 
 <a name="applying-the-layout-component"></a>
 #### Applying the Layout Component
@@ -1136,7 +1136,7 @@ Bot::onText('/tasks', function () {
 
 Layouts may also be created via "template inheritance". This was the primary way of building applications prior to the introduction of [components](#components).
 
-To get started, let's take a look at a simple example. First, we will examine a page layout. Since most web applications maintain the same general layout across various pages, it's convenient to define this layout as a single Temple8 template:
+To get started, let's take a look at a simple example. First, we will examine a page layout. Since most bot applications maintain the same general layout across various pages, it's convenient to define this layout as a single Temple8 template:
 
 ```blade
 <!-- app/templates/layouts/app.t8.php -->
