@@ -73,9 +73,9 @@ For more information on configuring Redis, consult its [LaraGram documentation p
 <a name="mongodb"></a>
 #### MongoDB
 
-If you are using MongoDB, a `mongodb` cache driver is provided by the official `laraxgram/laragram-mongodb` package and can be configured using a `mongodb` database connection. MongoDB supports TTL indexes, which can be used to automatically clear expired cache items.
+If you are using MongoDB, a `mongodb` cache driver is provided by the official `laraxgram/mongodb` package and can be configured using a `mongodb` database connection. MongoDB supports TTL indexes, which can be used to automatically clear expired cache items.
 
-For more information on configuring MongoDB, please refer to the MongoDB [Cache and Locks documentation](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/cache/).
+For more information on configuring MongoDB, please refer to the MongoDB [Cache and Locks documentation](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/cache/).
 
 <a name="cache-usage"></a>
 ## Cache Usage

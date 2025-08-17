@@ -15,7 +15,7 @@ Almost every modern bot application interacts with a database. LaraGram makes in
 
 </div>
 
-Additionally, MongoDB is supported via the `laraxgram/laragram-mongodb` package, which is officially maintained by MongoDB. Check out the [LaraGram MongoDB](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/) documentation for more information.
+Additionally, MongoDB is supported via the `laraxgram/mongodb` package, which is officially maintained by MongoDB. Check out the [LaraGram MongoDB](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/) documentation for more information.
 
 <a name="configuration"></a>
 ### Configuration

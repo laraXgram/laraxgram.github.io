@@ -7,10 +7,10 @@
 
 Instead of storing data in tables of rows or columns like SQL databases, each record in a MongoDB database is a document described in BSON, a binary representation of the data. Applications can then retrieve this information in a JSON format. It supports a wide variety of data types, including documents, arrays, embedded documents, and binary data.
 
-Before using MongoDB with LaraGram, we recommend installing and using the `laraxgram/laragram-mongodb` package via Composer. The `laragram-mongodb` package is officially maintained by MongoDB, and while MongoDB is natively supported by PHP through the MongoDB driver, the [LaraGram MongoDB](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/) package provides a richer integration with Eloquent and other LaraGram features:
+Before using MongoDB with LaraGram, we recommend installing and using the `laraxgram/mongodb` package via Composer. While MongoDB is natively supported by PHP through the MongoDB driver, the [LaraGram MongoDB](https://github.com/laraXgram/mongodb) package provides a richer integration with Eloquent and other LaraGram features:
 
 ```shell
-composer require laraxgram/laragram-mongodb
+composer require laraxgram/mongodb
 ```
 
 <a name="installation"></a>
@@ -55,7 +55,7 @@ MONGODB_DATABASE="laragram_app"
 Finally, use Composer to install the LaraGram MongoDB package:
 
 ```shell
-composer require laraxgram/laragram-mongodb
+composer require laraxgram/mongodb
 ```
 
 > [!NOTE]
@@ -81,11 +81,10 @@ You may configure your MongoDB connection via your application's `config/databas
 
 Once your configuration is complete, you can use the `mongodb` package and database connection in your application to leverage a variety of powerful features:
 
-- [Using Eloquent](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/eloquent-models/), models can be stored in MongoDB collections. In addition to the standard Eloquent features, the LaraGram MongoDB package provides additional features such as embedded relationships. The package also provides direct access to the MongoDB driver, which can be used to execute operations such as raw queries and aggregation pipelines.
-- [Write complex queries](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/query-builder/) using the query builder.
-- The `mongodb` [cache driver](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/cache/) is optimized to use MongoDB features such as TTL indexes to automatically clear expired cache entries.
-- [Dispatch and process queued jobs](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/queues/) with the `mongodb` queue driver.
-- [Storing files in GridFS](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/filesystems/), via the [GridFS Adapter for Flysystem](https://flysystem.thephpleague.com/docs/adapter/gridfs/).
+- [Using Eloquent](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/eloquent-models/), models can be stored in MongoDB collections. In addition to the standard Eloquent features, the LaraGram MongoDB package provides additional features such as embedded relationships. The package also provides direct access to the MongoDB driver, which can be used to execute operations such as raw queries and aggregation pipelines.
+- [Write complex queries](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/query-builder/) using the query builder.
+- The `mongodb` [cache driver](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/cache/) is optimized to use MongoDB features such as TTL indexes to automatically clear expired cache entries.
+- [Dispatch and process queued jobs](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/queues/) with the `mongodb` queue driver.
 - Most third party packages using a database connection or Eloquent can be used with MongoDB.
 
 To continue learning how to use MongoDB and LaraGram, refer to MongoDB's [Quick Start guide](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/quick-start/).
