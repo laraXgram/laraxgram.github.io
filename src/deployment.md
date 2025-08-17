@@ -23,6 +23,7 @@ The LaraGram framework has a few system requirements. You should ensure that you
 - PCRE PHP Extension
 - PDO PHP Extension
 - Tokenizer PHP Extension
+- Intl PHP Extension
 
 </div>
 
