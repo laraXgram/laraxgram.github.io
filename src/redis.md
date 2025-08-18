@@ -398,7 +398,7 @@ Now we may publish messages to the channel using the `publish` method:
 ```php
 use LaraGram\Support\Facades\Redis;
 
-Listen::get('/publish', function () {
+Bot::onCommand('publish', function () {
     // ...
 
     Redis::publish('test-channel', json_encode([

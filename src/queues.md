@@ -1651,8 +1651,8 @@ To retrieve a batch by its ID, you may use the `Bus` facade's `findBatch` method
 use LaraGram\Support\Facades\Bus;
 use LaraGram\Support\Facades\Listen;
 
-Listen::get('/batch/{batchId}', function (string $batchId) {
-    return Bus::findBatch($batchId);
+Bot::onText('batch {batchId}', function (Request $request, string $batchId) {
+    $request->sendMessage(chat()->id, Bus::findBatch($batchId));
 });
 ```
 

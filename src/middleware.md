@@ -149,7 +149,7 @@ Bot::onText('profile', function () {
 You may assign multiple middleware to the listen by passing an array of middleware names to the `middleware` method:
 
 ```php
-Listen::onText('profile', function () {
+Bot::onText('profile', function () {
     // ...
 })->middleware([First::class, Second::class]);
 ```
@@ -162,12 +162,12 @@ When assigning middleware to a group of listens, you may occasionally need to pr
 ```php
 use App\Middleware\EnsureTokenIsValid;
 
-Listen::middleware([EnsureTokenIsValid::class])->group(function () {
-    Listen::onText('profile', function () {
+Bot::middleware([EnsureTokenIsValid::class])->group(function () {
+    Bot::onText('profile', function () {
         // ...
     });
 
-    Listen::onText('profile', function () {
+    Bot::onText('profile', function () {
         // ...
     })->withoutMiddleware([EnsureTokenIsValid::class]);
 });
@@ -178,8 +178,8 @@ You may also exclude a given set of middleware from an entire [group](/listening
 ```php
 use App\Middleware\EnsureTokenIsValid;
 
-Listen::withoutMiddleware([EnsureTokenIsValid::class])->group(function () {
-    Listen::onText('profile', function () {
+Bot::withoutMiddleware([EnsureTokenIsValid::class])->group(function () {
+    Bot::onText('profile', function () {
         // ...
     });
 });
@@ -212,11 +212,11 @@ use App\Middleware\Second;
 Middleware groups may be assigned to listens and controller actions using the same syntax as individual middleware:
 
 ```php
-Listen::onText('profile', function () {
+Bot::onText('profile', function () {
     // ...
 })->middleware('group-name');
 
-Listen::middleware(['group-name'])->group(function () {
+Bot::middleware(['group-name'])->group(function () {
     // ...
 });
 ```
@@ -302,7 +302,7 @@ use App\Middleware\EnsureUserIsSubscribed;
 Once the middleware alias has been defined in your application's `bootstrap/app.php` file, you may use the alias when assigning the middleware to listens:
 
 ```php
-Listen::onText('profile', function () {
+Bot::onText('profile', function () {
     // ...
 })->middleware('subscribed');
 ```
@@ -373,7 +373,7 @@ Middleware parameters may be specified when defining the listen by separating th
 ```php
 use App\Middleware\EnsureUserHasRole;
 
-Listen::onText('edit {id}', function (string $id) {
+Bot::onText('edit {id}', function (string $id) {
     // ...
 })->middleware(EnsureUserHasRole::class.':editor');
 ```
@@ -381,7 +381,7 @@ Listen::onText('edit {id}', function (string $id) {
 Multiple parameters may be delimited by commas:
 
 ```php
-Listen::onText('edit {id}', function (string $id) {
+Bot::onText('edit {id}', function (string $id) {
     // ...
 })->middleware(EnsureUserHasRole::class.':editor,publisher');
 ```
