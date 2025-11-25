@@ -21,7 +21,8 @@ For all LaraGram releases, bug fixes are provided for 18 months and security fix
 
 | Version | PHP (*)   | Release         | Bug Fixes Until    | Security Fixes Until |
 |---------|-----------|-----------------|--------------------|----------------------|
-| 3       | 8.2 - 8.4 | July 17th, 2025 | February 1th, 2027 | July 1th, 2027       |
+| 3       | 8.2 - 8.5 | July 17th, 2025 | February 1th, 2027 | July 1th, 2027       |
+| 4       | 8.3 - 8.5 | Q2 2026         | Q4 2027            | Q2 2027              |
 
 
 </div>

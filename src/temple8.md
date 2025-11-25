@@ -1,11 +1,11 @@
-# Temple8 Templates
+# Template templates
 
 <a name="introduction"></a>
 ## Introduction
 
-Temple8 is the simple, yet powerful templating engine that is included with LaraGram. Unlike some PHP templating engines, Temple8 does not restrict you from using plain PHP code in your templates. In fact, all Temple8 templates are compiled into plain PHP code and cached until they are modified, meaning Temple8 adds essentially zero overhead to your application. Temple8 template files use the `.t8.php` file extension and are typically stored in the `app/templates` directory.
+Template is the simple, yet powerful templating engine that is included with LaraGram. Unlike some PHP templating engines, Template does not restrict you from using plain PHP code in your templates. In fact, all Template templates are compiled into plain PHP code and cached until they are modified, meaning Template adds essentially zero overhead to your application. Template template files use the `.t8.php` file extension and are typically stored in the `app/templates` directory.
 
-Temple8 templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/templates.md), data may be passed to the Temple8 template using the `template` helper's second argument:
+Template templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/templates.md), data may be passed to the Template template using the `template` helper's second argument:
 
 ```php
 Bot::onText('hi', function () {
@@ -16,7 +16,7 @@ Bot::onText('hi', function () {
 <a name="displaying-data"></a>
 ## Displaying Data
 
-You may display data that is passed to your Temple8 templates by wrapping the variable in curly braces. For example, given the following listen:
+You may display data that is passed to your Template templates by wrapping the variable in curly braces. For example, given the following listen:
 
 ```php
 Bot::onText('hi', function () {
@@ -31,9 +31,9 @@ Hello, {{ $name }}.
 ```
 
 > [!NOTE]
-> Temple8's `{{ }}` echo statements are automatically sent through PHP's `htmlspecialchars` function.
+> Template's `{{ }}` echo statements are automatically sent through PHP's `htmlspecialchars` function.
 
-You are not limited to displaying the contents of the variables passed to the template. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Temple8 echo statement:
+You are not limited to displaying the contents of the variables passed to the template. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Template echo statement:
 
 ```blade
 The current UNIX timestamp is {{ time() }}.
@@ -42,21 +42,21 @@ The current UNIX timestamp is {{ time() }}.
 <a name="displaying-unescaped-data"></a>
 #### Displaying Unescaped Data
 
-By default, Temple8 `{{ }}` statements are automatically sent through PHP's `htmlspecialchars` function. If you do not want your data to be escaped, you may use the following syntax:
+By default, Template `{{ }}` statements are automatically sent through PHP's `htmlspecialchars` function. If you do not want your data to be escaped, you may use the following syntax:
 
 ```blade
 Hello, {!! $name !!}.
 ```
 
 <a name="temple8-directives"></a>
-## Temple8 Directives
+## Template Directives
 
-In addition to template inheritance and displaying data, Temple8 also provides convenient shortcuts for common PHP control structures, such as conditional statements and loops. These shortcuts provide a very clean, terse way of working with PHP control structures while also remaining familiar to their PHP counterparts.
+In addition to template inheritance and displaying data, Template also provides convenient shortcuts for common PHP control structures, such as conditional statements and loops. These shortcuts provide a very clean, terse way of working with PHP control structures while also remaining familiar to their PHP counterparts.
 
 <a name="inputs"></a>
 ### Inputs
 
-You can write all Telegram method inputs as Temple8 directives, making your templates clean and expressive.
+You can write all Telegram method inputs as Template directives, making your templates clean and expressive.
 
 ```blade
 @text()
@@ -73,7 +73,7 @@ The `chat_id` input is optional. if not defined, it will default to the `chat_id
 <a name="method-field"></a>
 ### Method Field
 
-The `@method` Temple8 directive change API request method:
+The `@method` Template directive change API request method:
 
 ```blade
 @method('sendAnimation')
@@ -131,7 +131,7 @@ You may construct `if` statements using the `@if`, `@elseif`, `@else`, and `@end
 @endif
 ```
 
-For convenience, Temple8 also provides an `@unless` directive:
+For convenience, Template also provides an `@unless` directive:
 
 ```blade
 @unless ($user->signed())
@@ -231,7 +231,7 @@ Switch statements can be constructed using the `@switch`, `@case`, `@break`, `@d
 <a name="loops"></a>
 ### Loops
 
-In addition to conditional statements, Temple8 provides simple directives for working with PHP's loop structures. Again, each of these directives functions identically to their PHP counterparts:
+In addition to conditional statements, Template provides simple directives for working with PHP's loop structures. Again, each of these directives functions identically to their PHP counterparts:
 
 ```blade
 @for ($i = 0; $i < 10; $i++)
@@ -338,9 +338,9 @@ class="overflow-auto
 ### Including Subtemplates
 
 > [!NOTE]
-> While you're free to use the `@include` directive, Temple8 [components](#components) provide similar functionality and offer several benefits over the `@include` directive such as data and attribute binding.
+> While you're free to use the `@include` directive, Template [components](#components) provide similar functionality and offer several benefits over the `@include` directive such as data and attribute binding.
 
-Temple8's `@include` directive allows you to include a Temple8 template from within another template. All variables that are available to the parent template will be made available to the included template:
+Template's `@include` directive allows you to include a Template template from within another template. All variables that are available to the parent template will be made available to the included template:
 
 ```blade
 @text
@@ -377,12 +377,12 @@ To include the first template that exists from a given array of templates, you m
 ```
 
 > [!WARNING]
-> You should avoid using the `__DIR__` and `__FILE__` constants in your Temple8 templates, since they will refer to the location of the cached, compiled template.
+> You should avoid using the `__DIR__` and `__FILE__` constants in your Template templates, since they will refer to the location of the cached, compiled template.
 
 <a name="rendering-templates-for-collections"></a>
 #### Rendering Templates for Collections
 
-You may combine loops and includes into one line with Temple8's `@each` directive:
+You may combine loops and includes into one line with Template's `@each` directive:
 
 ```blade
 @each('template.name', $jobs, 'job')
@@ -423,7 +423,7 @@ Since the `@once` directive is often used in conjunction with the `@push` or `@p
 <a name="raw-php"></a>
 ### Raw PHP
 
-In some situations, it's useful to embed PHP code into your templates. You can use the Temple8 `@php` directive to execute a block of plain PHP within your template:
+In some situations, it's useful to embed PHP code into your templates. You can use the Template `@php` directive to execute a block of plain PHP within your template:
 
 ```blade
 @php
@@ -473,7 +473,7 @@ Grouped imports are also supported with both function and const modifiers, allow
 <a name="comments"></a>
 ### Comments
 
-Temple8 also allows you to define comments in your templates. However, unlike PHP comments, Temple8 comments are not included in the request by your application:
+Template also allows you to define comments in your templates. However, unlike PHP comments, Template comments are not included in the request by your application:
 
 ```blade
 {{-- This comment will not be present in the rendered --}}
@@ -500,30 +500,30 @@ php laragram make:component Forms/Input
 
 The command above will create an `Input` component in the `app/Template/Components/Forms` directory and the template will be placed in the `app/templates/components/forms` directory.
 
-If you would like to create an anonymous component (a component with only a Temple8 template and no class), you may use the `--template` flag when invoking the `make:component` command:
+If you would like to create an anonymous component (a component with only a Template template and no class), you may use the `--template` flag when invoking the `make:component` command:
 
 ```shell
 php laragram make:component forms.input --template
 ```
 
-The command above will create a Temple8 file at `app/templates/components/forms/input.t8.php` which can be rendered as a component via `<x-forms.input />`.
+The command above will create a Template file at `app/templates/components/forms/input.t8.php` which can be rendered as a component via `<x-forms.input />`.
 
 <a name="manually-registering-package-components"></a>
 #### Manually Registering Package Components
 
 When writing components for your own application, components are automatically discovered within the `app/Template/Components` directory and `app/templates/components` directory.
 
-However, if you are building a package that utilizes Temple8 components, you will need to manually register your component class. You should typically register your components in the `boot` method of your package's service provider:
+However, if you are building a package that utilizes Template components, you will need to manually register your component class. You should typically register your components in the `boot` method of your package's service provider:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 
 /**
  * Bootstrap your package's services.
  */
 public function boot(): void
 {
-    Temple8::component('package-alert', Alert::class);
+    Template::component('package-alert', Alert::class);
 }
 ```
 
@@ -536,14 +536,14 @@ Once your component has been registered, it may be rendered using its tag alias:
 Alternatively, you may use the `componentNamespace` method to autoload component classes by convention. For example, a `Nightshade` package might have `Calendar` and `ColorPicker` components that reside within the `Package\Templates\Components` namespace:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 
 /**
  * Bootstrap your package's services.
  */
 public function boot(): void
 {
-    Temple8::componentNamespace('Nightshade\\Templates\\Components', 'nightshade');
+    Template::componentNamespace('Nightshade\\Templates\\Components', 'nightshade');
 }
 ```
 
@@ -554,12 +554,12 @@ This will allow the usage of package components by their vendor namespace using 
 <x-nightshade::color-picker />
 ```
 
-Temple8 will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
+Template will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
 
 <a name="rendering-components"></a>
 ### Rendering Components
 
-To display a component, you may use a Temple8 component tag within one of your Temple8 templates. Temple8 component tags start with the string `x-` followed by the kebab case name of the component class:
+To display a component, you may use a Template component tag within one of your Template templates. Template component tags start with the string `x-` followed by the kebab case name of the component class:
 
 ```blade
 <x-alert/>
@@ -587,6 +587,24 @@ public function shouldRender(): bool
 }
 ```
 
+<a name="disable-request"></a>
+### Disable request
+
+Each template file is automatically converted into a Telegram request. However, when using components, multiple template files may be called simultaneously, which can cause conflicts between requests.
+By placing the phrase `<!-- !component! -->` at the beginning of a template file, that file will not be converted into a Telegram request.
+
+```php
+<!-- !component! -->
+
+<x-alert :message="$message"/>
+
+@keyboard()
+    @row()
+        @col('Ok', callback_data: 'ok_btn')
+    @endRow()
+@endKeyboard()
+```
+
 <a name="index-components"></a>
 ### Index Components
 
@@ -610,7 +628,7 @@ Since the root `Card` component is nested within a `Card` directory, you might e
 <a name="passing-data-to-components"></a>
 ### Passing Data to Components
 
-You may pass data to Temple8 components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attribute strings. PHP expressions and variables should be passed to the component via attributes that use the `:` character as a prefix:
+You may pass data to Template components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attribute strings. PHP expressions and variables should be passed to the component via attributes that use the `:` character as a prefix:
 
 ```blade
 <x-alert :message="$message"/>
@@ -687,7 +705,7 @@ When passing attributes to components, you may also use a "short attribute" synt
 <a name="escaping-attribute-rendering"></a>
 #### Escaping Attribute Rendering
 
-You also use colon-prefixed attributes, you may use a double colon (`::`) prefix to inform Temple8 that the attribute is not a PHP expression. For example, given the following component:
+You also use colon-prefixed attributes, you may use a double colon (`::`) prefix to inform Template that the attribute is not a PHP expression. For example, given the following component:
 
 ```blade
 <x-button ::type="{ reply: markup }">
@@ -815,7 +833,7 @@ The `except` method may be used to retrieve all attributes except those with the
 <a name="reserved-keywords"></a>
 ### Reserved Keywords
 
-By default, some keywords are reserved for Temple8's internal use in order to render components. The following keywords cannot be defined as public properties or method names within your components:
+By default, some keywords are reserved for Template's internal use in order to render components. The following keywords cannot be defined as public properties or method names within your components:
 
 class="content-list" markdown="1
 
@@ -920,9 +938,9 @@ For very small components, it may feel cumbersome to manage both the component c
  */
 public function render(): string
 {
-    return <<<'temple8'
+    return <<<'t8'
             {{ $slot }}
-    temple8;
+    t8;
 }
 ```
 
@@ -954,10 +972,10 @@ Sometimes you may need to render a component but not know which component should
 
 When writing components for your own application, components are automatically discovered within the `app/Template/Components` directory and `app/templates/components` directory.
 
-However, if you are building a package that utilizes Temple8 components or placing components in non-conventional directories, you will need to manually register your component class so that LaraGram knows where to find the component. You should typically register your components in the `boot` method of your package's service provider:
+However, if you are building a package that utilizes Template components or placing components in non-conventional directories, you will need to manually register your component class so that LaraGram knows where to find the component. You should typically register your components in the `boot` method of your package's service provider:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 use VendorPackage\Template\Components\AlertComponent;
 
 /**
@@ -965,7 +983,7 @@ use VendorPackage\Template\Components\AlertComponent;
  */
 public function boot(): void
 {
-    Temple8::component('package-alert', AlertComponent::class);
+    Template::component('package-alert', AlertComponent::class);
 }
 ```
 
@@ -980,14 +998,14 @@ Once your component has been registered, it may be rendered using its tag alias:
 Alternatively, you may use the `componentNamespace` method to autoload component classes by convention. For example, a `Nightshade` package might have `Calendar` and `ColorPicker` components that reside within the `Package\Templates\Components` namespace:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 
 /**
  * Bootstrap your package's services.
  */
 public function boot(): void
 {
-    Temple8::componentNamespace('Nightshade\\Templates\\Components', 'nightshade');
+    Template::componentNamespace('Nightshade\\Templates\\Components', 'nightshade');
 }
 ```
 
@@ -998,12 +1016,12 @@ This will allow the usage of package components by their vendor namespace using 
 <x-nightshade::color-picker />
 ```
 
-Temple8 will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
+Template will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
 
 <a name="anonymous-components"></a>
 ## Anonymous Components
 
-Similar to inline components, anonymous components provide a mechanism for managing a component via a single file. However, anonymous components utilize a single template file and have no associated class. To define an anonymous component, you only need to place a Temple8 template within your `app/templates/components` directory. For example, assuming you have defined a component at `app/templates/components/alert.t8.php`, you may simply render it like so:
+Similar to inline components, anonymous components provide a mechanism for managing a component via a single file. However, anonymous components utilize a single template file and have no associated class. To define an anonymous component, you only need to place a Template template within your `app/templates/components` directory. For example, assuming you have defined a component at `app/templates/components/alert.t8.php`, you may simply render it like so:
 
 ```blade
 <x-alert/>
@@ -1018,7 +1036,7 @@ You may use the `.` character to indicate if a component is nested deeper inside
 <a name="anonymous-index-components"></a>
 ### Anonymous Index Components
 
-Sometimes, when a component is made up of many Temple8 templates, you may wish to group the given component's templates within a single directory. For example, imagine an "accordion" component with the following directory structure:
+Sometimes, when a component is made up of many Template templates, you may wish to group the given component's templates within a single directory. For example, imagine an "accordion" component with the following directory structure:
 
 ```text
 /app/templates/components/accordion.t8.php
@@ -1037,7 +1055,7 @@ This directory structure allows you to render the accordion component and its it
 
 However, in order to render the accordion component via `x-accordion`, we were forced to place the "index" accordion component template in the `app/templates/components` directory instead of nesting it within the `accordion` directory with the other accordion related templates.
 
-Thankfully, Temple8 allows you to place a file matching the component's directory name within the component's directory itself. When this template exists, it can be rendered as the "root" element of the component even though it is nested within a directory. So, we can continue to use the same Temple8 syntax given in the example above; however, we will adjust our directory structure like so:
+Thankfully, Template allows you to place a file matching the component's directory name within the component's directory itself. When this template exists, it can be rendered as the "root" element of the component even though it is nested within a directory. So, we can continue to use the same Template syntax given in the example above; however, we will adjust our directory structure like so:
 
 ```text
 /app/templates/components/accordion/accordion.t8.php
@@ -1047,7 +1065,7 @@ Thankfully, Temple8 allows you to place a file matching the component's director
 <a name="anonymous-component-paths"></a>
 ### Anonymous Component Paths
 
-As previously discussed, anonymous components are typically defined by placing a Temple8 template within your `app/templates/components` directory. However, you may occasionally want to register other anonymous component paths with LaraGram in addition to the default path.
+As previously discussed, anonymous components are typically defined by placing a Template template within your `app/templates/components` directory. However, you may occasionally want to register other anonymous component paths with LaraGram in addition to the default path.
 
 The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/providers.md):
 
@@ -1057,11 +1075,11 @@ The `anonymousComponentPath` method accepts the "path" to the anonymous componen
  */
 public function boot(): void
 {
-    Temple8::anonymousComponentPath(__DIR__.'/../components');
+    Template::anonymousComponentPath(__DIR__.'/../components');
 }
 ```
 
-When component paths are registered without a specified prefix as in the example above, they may be rendered in your Temple8 components without a corresponding prefix as well. For example, if a `panel.t8.php` component exists in the path registered above, it may be rendered like so:
+When component paths are registered without a specified prefix as in the example above, they may be rendered in your Template components without a corresponding prefix as well. For example, if a `panel.t8.php` component exists in the path registered above, it may be rendered like so:
 
 ```blade
 <x-panel />
@@ -1070,7 +1088,7 @@ When component paths are registered without a specified prefix as in the example
 Prefix "namespaces" may be provided as the second argument to the `anonymousComponentPath` method:
 
 ```php
-Temple8::anonymousComponentPath(__DIR__.'/../components', 'dashboard');
+Template::anonymousComponentPath(__DIR__.'/../components', 'dashboard');
 ```
 
 When a prefix is provided, components within that "namespace" may be rendered by prefixing to the component's namespace to the component name when the component is rendered:
@@ -1085,12 +1103,12 @@ When a prefix is provided, components within that "namespace" may be rendered by
 <a name="layouts-using-components"></a>
 ### Layouts Using Components
 
-Most bot applications maintain the same general layout across various pages. It would be incredibly cumbersome and hard to maintain our application if we had to repeat the entire layout in every template we create. Thankfully, it's convenient to define this layout as a single [Temple8 component](#components) and then use it throughout our application.
+Most bot applications maintain the same general layout across various pages. It would be incredibly cumbersome and hard to maintain our application if we had to repeat the entire layout in every template we create. Thankfully, it's convenient to define this layout as a single [Template component](#components) and then use it throughout our application.
 
 <a name="applying-the-layout-component"></a>
 #### Applying the Layout Component
 
-Once the `layout` component has been defined, we may create a Temple8 template that utilizes the component. In this example, we will define a simple template that displays our task list:
+Once the `layout` component has been defined, we may create a Template template that utilizes the component. In this example, we will define a simple template that displays our task list:
 
 ```blade
 <!-- app/templates/tasks.t8.php -->
@@ -1136,7 +1154,7 @@ Bot::onText('/tasks', function () {
 
 Layouts may also be created via "template inheritance". This was the primary way of building applications prior to the introduction of [components](#components).
 
-To get started, let's take a look at a simple example. First, we will examine a page layout. Since most bot applications maintain the same general layout across various pages, it's convenient to define this layout as a single Temple8 template:
+To get started, let's take a look at a simple example. First, we will examine a page layout. Since most bot applications maintain the same general layout across various pages, it's convenient to define this layout as a single Template template:
 
 ```blade
 <!-- app/templates/layouts/app.t8.php -->
@@ -1154,7 +1172,7 @@ Now that we have defined a layout for our application, let's define a child page
 <a name="extending-a-layout"></a>
 #### Extending a Layout
 
-When defining a child template, use the `@extends` Temple8 directive to specify which layout the child template should "inherit". Templates which extend a Temple8 layout may inject content into the layout's sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
+When defining a child template, use the `@extends` Template directive to specify which layout the child template should "inherit". Templates which extend a Template layout may inject content into the layout's sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
 
 ```blade
 <!-- app/templates/child.t8.php -->
@@ -1202,7 +1220,7 @@ You may pass [the name of a specific error bag](/validation.md#named-error-bags)
 <a name="stacks"></a>
 ## Stacks
 
-Temple8 allows you to push to named stacks which can be rendered somewhere else in another template or layout.
+Template allows you to push to named stacks which can be rendered somewhere else in another template or layout.
 
 ```blade
 @push('head')
@@ -1250,20 +1268,20 @@ Monthly Revenue: {{ $metrics->monthlyRevenue() }}.
 ```
 
 <a name="rendering-inline-temple8-templates"></a>
-## Rendering Inline Temple8 Templates
+## Rendering Inline Template templates
 
-Sometimes you may need to transform a raw Temple8 template string into valid PHP code. You may accomplish this using the `render` method provided by the `Temple8` facade. The `render` method accepts the Temple8 template string and an optional array of data to provide to the template:
+Sometimes you may need to transform a raw Template template string into valid PHP code. You may accomplish this using the `render` method provided by the `Template` facade. The `render` method accepts the Template template string and an optional array of data to provide to the template:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 
-return Temple8::render('Hello, {{ $name }}', ['name' => 'Julian Bashir']);
+return Template::render('Hello, {{ $name }}', ['name' => 'Julian Bashir']);
 ```
 
-LaraGram renders inline Temple8 templates by writing them to the `storage/framework/templates` directory. If you would like LaraGram to remove these temporary files after rendering the Temple8 template, you may provide the `deleteCachedTemplate` argument to the method:
+LaraGram renders inline Template templates by writing them to the `storage/framework/templates` directory. If you would like LaraGram to remove these temporary files after rendering the Template template, you may provide the `deleteCachedTemplate` argument to the method:
 
 ```php
-return Temple8::render(
+return Template::render(
     'Hello, {{ $name }}',
     ['name' => 'Julian Bashir'],
     deleteCachedTemplate: true
@@ -1271,7 +1289,7 @@ return Temple8::render(
 ```
 
 <a name="rendering-temple8-fragments"></a>
-## Rendering Temple8 Fragments
+## Rendering Template Fragments
 
 ```blade
 @fragment('user-list')
@@ -1308,9 +1326,9 @@ template('dashboard', ['users' => $users])
 ```
 
 <a name="extending-temple8"></a>
-## Extending Temple8
+## Extending Template
 
-Temple8 allows you to define your own custom directives using the `directive` method. When the Temple8 compiler encounters the custom directive, it will call the provided callback with the expression that the directive contains.
+Template allows you to define your own custom directives using the `directive` method. When the Template compiler encounters the custom directive, it will call the provided callback with the expression that the directive contains.
 
 The following example creates a `@datetime($var)` directive which formats a given `$var`, which should be an instance of `DateTime`:
 
@@ -1319,7 +1337,7 @@ The following example creates a `@datetime($var)` directive which formats a give
 
 namespace App\Providers;
 
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 use LaraGram\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -1337,7 +1355,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Temple8::directive('datetime', function (string $expression) {
+        Template::directive('datetime', function (string $expression) {
             return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
         });
     }
@@ -1351,17 +1369,17 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 ```
 
 > [!WARNING]
-> After updating the logic of a Temple8 directive, you will need to delete all of the cached Temple8 templates. The cached Temple8 templates may be removed using the `template:clear` Commander command.
+> After updating the logic of a Template directive, you will need to delete all of the cached Template templates. The cached Template templates may be removed using the `template:clear` Commander command.
 
 <a name="custom-echo-handlers"></a>
 ### Custom Echo Handlers
 
-If you attempt to "echo" an object using Temple8, the object's `__toString` method will be invoked. The [__toString](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
+If you attempt to "echo" an object using Template, the object's `__toString` method will be invoked. The [__toString](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
 
-In these cases, Temple8 allows you to register a custom echo handler for that particular type of object. To accomplish this, you should invoke Temple8's `stringable` method. The `stringable` method accepts a closure. This closure should type-hint the type of object that it is responsible for rendering. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
+In these cases, Template allows you to register a custom echo handler for that particular type of object. To accomplish this, you should invoke Template's `stringable` method. The `stringable` method accepts a closure. This closure should type-hint the type of object that it is responsible for rendering. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 use Money\Money;
 
 /**
@@ -1369,13 +1387,13 @@ use Money\Money;
  */
 public function boot(): void
 {
-    Temple8::stringable(function (Money $money) {
+    Template::stringable(function (Money $money) {
         return $money->formatTo('en_GB');
     });
 }
 ```
 
-Once your custom echo handler has been defined, you may simply echo the object in your Temple8 template:
+Once your custom echo handler has been defined, you may simply echo the object in your Template template:
 
 ```blade
 Cost: {{ $money }}
@@ -1384,17 +1402,17 @@ Cost: {{ $money }}
 <a name="custom-if-statements"></a>
 ### Custom If Statements
 
-Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Temple8 provides a `Temple8::if` method which allows you to quickly define custom conditional directives using closures. For example, let's define a custom conditional that checks the configured default "disk" for the application. We may do this in the `boot` method of our `AppServiceProvider`:
+Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Template provides a `Template::if` method which allows you to quickly define custom conditional directives using closures. For example, let's define a custom conditional that checks the configured default "disk" for the application. We may do this in the `boot` method of our `AppServiceProvider`:
 
 ```php
-use LaraGram\Support\Facades\Temple8;
+use LaraGram\Support\Facades\Template;
 
 /**
  * Bootstrap any application services.
  */
 public function boot(): void
 {
-    Temple8::if('disk', function (string $value) {
+    Template::if('disk', function (string $value) {
         return config('filesystems.default') === $value;
     });
 }

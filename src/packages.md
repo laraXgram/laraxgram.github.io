@@ -157,7 +157,7 @@ If your package contains [language files](/localization.md), you may use the `lo
  */
 public function boot(): void
 {
-    $this->loadTranslationsFrom(__DIR__.'/../lang', 'courier');
+    $this->loadTranslationsFrom(__DIR__.'/../lang', 'surge');
 }
 ```
 
@@ -211,7 +211,7 @@ To register your package's [templates](/templates.md) with LaraGram, you need to
  */
 public function boot(): void
 {
-    $this->loadViewsFrom(__DIR__.'/../app/templates', 'surge');
+    $this->loadTemplatesFrom(__DIR__.'/../app/templates', 'surge');
 }
 ```
 
@@ -219,7 +219,7 @@ Package views are referenced using the `package::template` syntax convention. So
 
 ```php
 Bot::onCommand('dashboard', function () {
-    return view('surge::dashboard');
+    return template('surge::dashboard');
 });
 ```
 
@@ -239,7 +239,7 @@ If you would like to make your views available for publishing to the application
  */
 public function boot(): void
 {
-    $this->loadViewsFrom(__DIR__.'/../app/templates', 'surge');
+    $this->loadTemplatesFrom(__DIR__.'/../app/templates', 'surge');
 
     $this->publishes([
         __DIR__.'/../app/templates' => resource_path('templates/vendor/surge'),
@@ -252,7 +252,7 @@ Now, when users of your package execute LaraGram's `vendor:publish` Commander co
 <a name="template-components"></a>
 ### Template Components
 
-If you are building a package that utilizes Temple8 components or placing components in non-conventional directories, you will need to manually register your component class and its tag alias so that LaraGram knows where to find the component. You should typically register your components in the `boot` method of your package's service provider:
+If you are building a package that utilizes Template components or placing components in non-conventional directories, you will need to manually register your component class and its tag alias so that LaraGram knows where to find the component. You should typically register your components in the `boot` method of your package's service provider:
 
 ```php
 use LaraGram\Support\Facades\Template;

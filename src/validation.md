@@ -117,7 +117,7 @@ An `$errors` variable is shared with all of your application's templates, which 
 So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
 
 ```blade
-<!-- /resources/templates/post/create.temple8.php -->
+<!-- /resources/templates/post/create.t8.php -->
 
 ***Create Post***
 
@@ -148,7 +148,7 @@ In addition, you may copy this file to another language directory to translate t
 You may use the `@error` [temple8](/temple8.md) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
 ```blade
-<!-- /resources/templates/post/create.temple8.php -->
+<!-- /resources/templates/post/create.t8.php -->
 
 @error('title')
     <div class="alert alert-danger">{{ $message }}</div>

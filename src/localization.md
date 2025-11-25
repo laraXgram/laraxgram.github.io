@@ -162,7 +162,7 @@ echo __('I love programming.');
 
 Again, if the translation string does not exist, the `__` function will return the translation string key that it was given.
 
-If you are using the [Temple8 templating engine](/temple8.md), you may use the `{{ }}` echo syntax to display the translation string:
+If you are using the [Template templating engine](/temple8.md), you may use the `{{ }}` echo syntax to display the translation string:
 
 ```blade
 {{ __('messages.welcome') }}

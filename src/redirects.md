@@ -95,7 +95,7 @@ You may use the `withInput` method provided by the `RedirectResponse` instance t
 return to_listen('home')->withInput();
 ```
 
-After the user is redirected, you may display the putted message from the [cache](/cache.md#storing-items-in-the-cache). For example, using [Temple8 syntax](/temple8.md):
+After the user is redirected, you may display the putted message from the [cache](/cache.md#storing-items-in-the-cache). For example, using [Template syntax](/temple8.md):
 
 ```blade
 @if (cache('status'))

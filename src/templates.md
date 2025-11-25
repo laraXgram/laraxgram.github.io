@@ -5,7 +5,7 @@
 
 Of course, it's not always practical for controllers to generate all the messages and keyboards directly. Thankfully, templates provide a convenient way to organize this content into separate files.
 
-Templates separate your controller / application logic from your presentation logic and are stored in the `app/templates` directory. When using LaraGram, template are usually written using the [Temple8 templating language](/temple8.md). A simple template might look something like this:
+Templates separate your controller / application logic from your presentation logic and are stored in the `app/templates` directory. When using LaraGram, template are usually written using the [Template templating language](/temple8.md). A simple template might look something like this:
 
 ```blade
 <!-- Template stored in app/templates/greeting.t8.php -->
@@ -24,7 +24,7 @@ Bot::onText('hi', function () {
 ```
 
 > [!NOTE]
-> Looking for more information on how to write Temple8 templates? Check out the full [Temple8 documentation](/temple8.md) to get started.
+> Looking for more information on how to write Template templates? Check out the full [Template documentation](/temple8.md) to get started.
 
 <a name="creating-and-rendering-templates"></a>
 ## Creating and Rendering Templates
@@ -35,7 +35,7 @@ You may create a template by placing a file with the `.t8.php` extension in your
 php laragram make:template greeting
 ```
 
-The `.t8.php` extension informs the framework that the file contains a [Temple8 template](/temple8.md). Temple8 templates contain method input as well as Temple8 directives that allow you to easily call a api request, create "if" statements, iterate over data, and more.
+The `.t8.php` extension informs the framework that the file contains a [Template template](/temple8.md). Template templates contain method input as well as Template directives that allow you to easily call a api request, create "if" statements, iterate over data, and more.
 
 Once you have created a template, you may return it from one of your application's listens or controllers using the global `template` helper:
 
@@ -53,7 +53,7 @@ use LaraGram\Support\Facades\Template;
 return Template::make('greeting', ['name' => 'James']);
 ```
 
-As you can see, the first argument passed to the `template` helper corresponds to the name of the template file in the `app/templates` directory. The second argument is an array of data that should be made available to the template. In this case, we are passing the `name` variable, which is displayed in the template using [Temple8 syntax](/temple8.md).
+As you can see, the first argument passed to the `template` helper corresponds to the name of the template file in the `app/templates` directory. The second argument is an array of data that should be made available to the template. In this case, we are passing the `name` variable, which is displayed in the template using [Template syntax](/temple8.md).
 
 <a name="nested-template-directories"></a>
 ### Nested Template Directories
@@ -263,7 +263,7 @@ Template::creator('profile', ProfileCreator::class);
 <a name="optimizing-templates"></a>
 ## Optimizing Templates
 
-By default, Temple8 template templates are compiled on demand. When a request is executed that renders a template, LaraGram will determine if a compiled version of the template exists. If the file exists, LaraGram will then determine if the uncompiled template has been modified more recently than the compiled template. If the compiled template either does not exist, or the uncompiled template has been modified, LaraGram will recompile the template.
+By default, Template template templates are compiled on demand. When a request is executed that renders a template, LaraGram will determine if a compiled version of the template exists. If the file exists, LaraGram will then determine if the uncompiled template has been modified more recently than the compiled template. If the compiled template either does not exist, or the uncompiled template has been modified, LaraGram will recompile the template.
 
 Compiling templates during the request may have a small negative impact on performance, so LaraGram provides the `template:cache` Commander command to precompile all of the templates utilized by your application. For increased performance, you may wish to run this command as part of your deployment process:
 

@@ -122,7 +122,7 @@ Gate::authorize('update-post', $post);
 <a name="gates-supplying-additional-context"></a>
 #### Supplying Additional Context
 
-The gate methods for authorizing abilities (`allows`, `denies`, `check`, `any`, `none`, `authorize`, `can`, `cannot`) and the authorization [Temple8 directives](#via-temple8-templates) (`@can`, `@cannot`, `@canany`) can receive an array as their second argument. These array elements are passed as parameters to the gate closure, and can be used for additional context when making authorization decisions:
+The gate methods for authorizing abilities (`allows`, `denies`, `check`, `any`, `none`, `authorize`, `can`, `cannot`) and the authorization [Template directives](#via-temple8-templates) (`@can`, `@cannot`, `@canany`) can receive an array as their second argument. These array elements are passed as parameters to the gate closure, and can be used for additional context when making authorization decisions:
 
 ```php
 use App\Models\Category;
@@ -602,9 +602,9 @@ Bot::onText('post', function () {
 ```
 
 <a name="via-temple8-templates"></a>
-### Via Temple8 Templates
+### Via Template Templates
 
-When writing Temple8 templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` directives:
+When writing Template templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` directives:
 
 ```blade
 @can('update', $post)
