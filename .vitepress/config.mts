@@ -110,6 +110,7 @@ const baseSidebar = [
         collapsed: true,
         items: [
             {text: 'Surge', link: '/surge'},
+            {text: 'Watchdog', link: '/watchdog'},
             {text: 'Prompts', link: '/prompts'},
             {text: 'Tempora', link: '/tempora'},
         ]
