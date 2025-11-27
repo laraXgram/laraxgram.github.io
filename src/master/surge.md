@@ -11,7 +11,7 @@
 Surge may be installed via the Composer package manager:
 
 ```shell
-composer require laragram/surge
+composer require laraxgram/surge
 ```
 
 After installing Surge, you may execute the `surge:install` Commander command, which will install Surge's configuration file into your application:
