@@ -1,125 +1,232 @@
 # Keyboard Builder
 
 <a name="introduction"></a>
+
 ## Introduction
 
-LaraGram is equipped with an advanced and flexible keyboard builder, allowing you to easily create various types of Telegram keyboards with a clean and professional structure.
+LaraGram is equipped with an advanced and flexible keyboard builder, allowing you to easily create various types of
+Telegram keyboards with a clean and professional structure.
+
+```php
+use LaraGram\Support\Facades\Keyboard;
+use LaraGram\Keyboard\Make;
+
+$keyboard = Keyboard::inlineKeyboardMarkup(
+    Make::row(
+        Make::callbackData("OK", 'ok_btn'),
+        Make::callbackData("Cancel", 'cancel_btn'),
+    )
+)->get();
+```
 
 <a name="keyboard-types"></a>
+
 ## Keyboard Types
 
 LaraGram supports several types of keyboards that you can create using the keyboard builder:
 
 #### Reply Keyboards
 
-Reply keyboards are displayed below the message input field on the user's device. They can contain multiple rows of buttons and are persistent until removed.
+Reply keyboards are displayed below the message input field on the user's device. They can contain multiple rows of
+buttons and are persistent until removed.
+
 ```php
 use LaraGram\Support\Facades\Keyboard;
 
-$keyboard = Keyboard::replyKeyboardMarkup();
+$keyboard = Keyboard::replyKeyboardMarkup(...$row);
 ```
 
 #### Inline Keyboards
 
-Inline keyboards are attached directly to messages and allow users to interact with the bot by pressing buttons within the message itself. These keyboards are ideal for interactive content.
+Inline keyboards are attached directly to messages and allow users to interact with the bot by pressing buttons within
+the message itself. These keyboards are ideal for interactive content.
+
 ```php
 use LaraGram\Support\Facades\Keyboard;
 
-$keyboard = Keyboard::inlineKeyboardMarkup();
+$keyboard = Keyboard::inlineKeyboardMarkup(...$row);
 ```
 
 #### Force Reply
 
-The force reply keyboard prompts the user to reply to a specific message, useful for collecting user input in a conversational manner.
+The force reply keyboard prompts the user to reply to a specific message, useful for collecting user input in a
+conversational manner.
+
 ```php
 use LaraGram\Support\Facades\Keyboard;
 
-$keyboard = Keyboard::forceReply();
+$keyboard = Keyboard::forceReply($input_field_placeholder = '', $selective = false);
 ```
 
 #### Remove Keyboard
 
 This option allows you to hide the current keyboard, returning the user to the standard input field.
+
 ```php
 use LaraGram\Support\Facades\Keyboard;
 
-$keyboard = Keyboard::replyKeyboardRemove();
+$keyboard = Keyboard::replyKeyboardRemove($selective = false);
 ```
 
 <a name="available-methods"></a>
+
 ## Available Methods
 
 The keyboard builder provides a fluent interface for constructing keyboards. Below are the key methods available:
 
-### Creating a Keyboard
+### Set Options
 
-To start building a keyboard, use the `make` method:
-
-```php
-use LaraGram\Keyboard\Keyboard;
-
-$keyboard = Keyboard::make();
-```
-
-### Adding Buttons
-
-Add buttons to your keyboard using the `addButton` method:
+To set keyboard options, you can do the following:
 
 ```php
-$keyboard->addButton('Button Text');
+$keyboard->setOption('resize_keyboard', false);
+// Or
+$keyboard->setOptions([
+    'resize_keyboard' => false,
+    'one_time_keyboard' => true
+]);
 ```
 
-For inline keyboards, you can specify callback data:
+### Manage Row
+
+You can easily add another row to the row from your keyboard, or even delete or edit them:
 
 ```php
-$keyboard->addButton('Button Text', 'callback_data');
+// Add
+$keyboard->appendRow(Make::row(
+    //
+));
+
+$keyboard->prependRow(Make::row(
+    //
+));
+
+// Remove
+$keyboard->removeRow($index);
+
+// Edit
+$keyboard->editRow(
+    Make::row(
+        //
+    ),
+    $index
+);
 ```
 
-### Setting Keyboard Type
+### Manage Col
 
-Specify the type of keyboard:
+Similarly, you can add, edit, or delete a new column anywhere in the rows:
 
 ```php
-$keyboard->inline(); // For inline keyboards
-$keyboard->reply();  // For reply keyboards (default)
-$keyboard->forceReply(); // For force reply
-$keyboard->remove(); // To remove the keyboard
+// Add
+$keyboard->appendCol(
+    Make::callbackData('OK', 'ok_btn'),
+    $row_index
+);
+
+$keyboard->prependCol(
+    Make::callbackData('OK', 'ok_btn'),
+    $row_index
+);
+
+// Remove
+$keyboard->removeCol($row_index, $col_index);
+
+// Edit
+$keyboard->editCol(
+    Make::row(
+        //
+    ),
+    $row_index,
+    $col_index
+);
 ```
 
-### Customizing Layout
+### Get Keyboard
 
-Control the layout and behavior:
+Finally, you have an object from the keyboard builder that you need to convert into a JSON or array to send to Telegram,
+this can be done easily with the get method.
 
 ```php
-$keyboard->oneTime(); // Hide keyboard after one use
-$keyboard->resize();  // Resize keyboard to fit content
-$keyboard->selective(); // Show keyboard only to specific users
+$keyboard = Keyboard::inlineKeyboardMarkup(
+    Make::row(
+        Make::callbackData("OK", 'ok_btn'),
+        Make::callbackData("Cancel", 'cancel_btn'),
+    )
+);
+
+$jsonFormat  = $keyboard->get();
+$arrayFormat = $keyboard->get(true);
 ```
 
-### Building the Keyboard
+## Button Type
 
-Once configured, build the keyboard array:
+The types of keyboards supported by Telegram can be done as simply as calling a method, you can call them from the
+`LaraGram\Keyboard\Make` class:
 
 ```php
-$keyboardArray = $keyboard->build();
+$keyboard = Keyboard::inlineKeyboardMarkup(
+    Make::row(
+        Make::callbackData("OK", 'ok_btn'),
+        Make::copyText("Copy", 'Hello, LaraGram!'),
+    )
+);
 ```
+
+### Available Buttons
+
+| Button Type                    | Parameters                                                               |
+|--------------------------------|--------------------------------------------------------------------------|
+| `url`                          | `text`, `url`                                                            |
+| `callbackData`                 | `text`, `callback_data`                                                  |
+| `loginUrl`                     | `text`, `url`, `?forward_text`, `?bot_username`, `?request_write_access` |
+| `switchInlineQuery`            | `text`, `switch_inline_query`                                            |
+| `switchInlineQueryCurrentChat` | `text`, `switch_inline_query_current_chat`                               |
+| `switchInlineQueryChosenChat`  | `text`, `?query`, `?options `                                            |
+| `copyText`                     | `text`, `copy`                                                           |
+| `text`                         | `text`                                                                   |
+| `pay`                          | `text`                                                                   |
+| `requestUsers`                 | `text`, `?id`, `?max_quantity`, `?options`                               |
+| `requestChat`                  | `text`, `?id`, `?options`                                                |
+| `requestContact`               | `text`                                                                   |
+| `requestLocation`              | `text`                                                                   |
+| `requestPoll`                  | `text`, `?type `                                                         |
+| `webApp`                       | `text`, `url`                                                            |
 
 <a name="use-in-templates"></a>
+
 ## Use In Templates
 
-In your Template templates, you can easily render keyboards using the `@keyboard` directive:
+In your [Template templates](temple8.md#keyboard-builder), you can easily render keyboards using the `@keyboard`, `@row`, and `@col` directives:
 
 ```blade
-@keyboard($keyboard)
+@keyboard()
+    @row()
+        @col('first', callback_data: 'first_btn')
+        @col('second', callback_data: 'second_btn')
+    @endRow
+    @row()
+        @col('return', callback_data: 'return_btn') 
+    @endRow
+@endKeyboard()
 ```
 
-You can also pass keyboard options directly:
+To specify the keyboard type, simply pass the desired type as an argument to the `@keyboard` directive. By default, the keyboard type is set to `inlineKeyboardMarkup`.
 
 ```blade
-@keyboard([
-    ['text' => 'Button 1', 'callback_data' => 'action1'],
-    ['text' => 'Button 2', 'callback_data' => 'action2']
-], 'inline')
+@keyboard(reply)
+
+@endKeyboard()
 ```
+
+<a name="available-keyboard-types"></a>
+#### Available Keyboard Types
+
+| directive parameter name | type                 |
+|--------------------------|----------------------|
+| `reply`                  | replyKeyboardMarkup  |
+| `remove`                 | replyKeyboardRemove  |
+| `force`                  | forceReply           |
+| `inline`                 | inlineKeyboardMarkup |
 
 This allows for seamless integration of keyboards into your bot's responses within templates.
