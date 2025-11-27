@@ -144,7 +144,7 @@ export default defineConfig({
     base: '/',
     title: "LaraGram",
     description: "An advanced framework for Telegram Bot development.",
-    srcDir: './src',
+    srcDir: './src' + '/' + DEFAULT_VERSION,
     head: [
         ['link', { rel: 'icon', href: '/favicon.ico' }]
     ],
