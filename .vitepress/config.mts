@@ -135,6 +135,10 @@ export default defineConfig({
     description: 'An advanced framework for Telegram Bot development.',
     srcDir: './src',
 
+    sitemap: {
+        hostname: 'https://laraxgram.github.io/',
+    },
+
     // No rewrites → handled via redirect file
     head: [ ['link', { rel: 'icon', href: '/favicon.ico' }] ],
 
