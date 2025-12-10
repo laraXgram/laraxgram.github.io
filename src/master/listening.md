@@ -142,7 +142,6 @@ Bot::redirect('hello', 'main');
 ### Template Listens
 
 If your listen only needs to return a [template](/templates.md), you may use the `Bot::template` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full listen or controller. The `template` method accepts a pattern as its first argument and a template name as its second argument and a update verbs as its third argument. In addition, you may provide an array of data to pass to the template as an optional fourth argument:
-Bot::onReferral($action)
 
 ```php
 Bot::template('hello', 'welcome');
@@ -151,7 +150,7 @@ Bot::template('/start', 'welcome', 'COMMAND', ['name' => 'LaraGram']);
 ```
 
 > [!WARNING]
-> When using listen parameters in template listens, the following parameters are reserved by LaraGram and cannot be used: `template`, `template`.
+> When using listen parameters in template listens, the following parameters are reserved by LaraGram and cannot be used: `template`, `data`.
 
 <a name="listing-your-listens"></a>
 ### Listing Your Listens

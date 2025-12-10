@@ -150,7 +150,7 @@ Bot::template('/start', 'welcome', 'COMMAND', ['name' => 'LaraGram']);
 ```
 
 > [!WARNING]
-> When using listen parameters in template listens, the following parameters are reserved by LaraGram and cannot be used: `template`, `template`.
+> When using listen parameters in template listens, the following parameters are reserved by LaraGram and cannot be used: `template`, `data`.
 
 <a name="listing-your-listens"></a>
 ### Listing Your Listens
