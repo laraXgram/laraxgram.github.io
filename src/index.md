@@ -4,7 +4,10 @@ layout: home
 
 hero:
   name: "LaraGram"
-  text: "An advanced framework for Telegram Bot development."
+  tagline: "An advanced framework for Telegram Bot development."
+  image:
+    src: /LaraGram.svg
+    alt: VitePress
   actions:
     - theme: brand
       text: Documentation

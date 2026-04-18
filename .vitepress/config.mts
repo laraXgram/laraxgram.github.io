@@ -153,6 +153,7 @@ export default defineConfig({
 
         nav: [
             { text: 'Home', link: '/' },
+            { text: 'Simula', link: '/simula' },
             { text: 'Document', link: versions[DEFAULT_VERSION].path + 'installation' },
             {
                 text: 'Version',
