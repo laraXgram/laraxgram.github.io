@@ -14,7 +14,7 @@ It provides a fully controlled local runtime that replaces the official Telegram
 
 # Introduction
 
-![Chat interface](simula/chat.png)
+![Chat interface](/simula/chat.png)
 
 Simula acts as a drop-in development-time replacement for the official Telegram Bot API server and client, without requiring any modifications to existing bot implementations.
 
@@ -71,7 +71,7 @@ Simula is especially useful for:
 
 # Realtime Debug Console
 
-![Debug console](simula/debug.png)
+![Debug console](/simula/debug.png)
 
 Simula provides a built-in **realtime observability console** for inspecting Bot API interactions end-to-end during development.
 
