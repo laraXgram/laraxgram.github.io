@@ -17,7 +17,7 @@ hero:
       link: https://github.com/laraXgram
     - theme: alt
       text: Simula
-      link: https://github.com/laraXgram/simula
+      link: /simula
 
 features:
   - title: Listening System
