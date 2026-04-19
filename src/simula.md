@@ -8,7 +8,7 @@ A local Telegram Bot API simulation environment for building, testing, and debug
 
 It provides a fully controlled local runtime that replaces the official Telegram Bot API server during development, enabling safe and isolated bot testing without relying on production Telegram infrastructure.
 
-[GitHub](https://github.com/laraXgram/Simula)
+Explore the source code on GitHub → https://github.com/laraXgram/Simula
 
 ---
 
