@@ -172,7 +172,7 @@ export default defineConfig({
         sidebar: versionSidebars,
 
         socialLinks: [
-            { icon: 'github', link: 'https://github.com/laraXgram/LaraGram' },
+            { icon: 'github', link: 'https://github.com/laraXgram' },
             { icon: 'telegram', link: 'https://t.me/LaraXGram' },
         ],
 
