@@ -63,6 +63,7 @@ const baseSidebar = [
             { text: 'Queues', link: 'queues' },
             { text: 'Rate Limiting', link: 'rate-limiting' },
             { text: 'Redirects', link: 'redirects' },
+            { text: 'Step Manager', link: 'step' },
             { text: 'Strings', link: 'strings' },
             { text: 'Task Scheduling', link: 'scheduling' },
         ]

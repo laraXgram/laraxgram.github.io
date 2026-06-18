@@ -104,7 +104,7 @@ Get the latest prebuilt release for local development and testing.
 
 | Version       | Platform                     | Action |
 | ------------- | --------------------------- |---------- |
-| Latest        | Web       | [Download](https://github.com/laraXgram/Simula/releases/download/v0.1.1/simula-web.zip) |
+| Latest        | Web       | [Download](https://github.com/laraXgram/Simula/releases/download/v0.1.2/simula-web.zip) |
 
 ---
 

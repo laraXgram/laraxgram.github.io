@@ -197,7 +197,7 @@ $request->mode(64)->sendMessage();
 | `Mode::NO_RESPONSE_CURL` | `64` |
 
 <a name="multi-connections"></a>
-### Multi connections
+## Multi connections
 
 You can easily create multiple bot connections and use different connections for different types of requests.
 
@@ -216,3 +216,28 @@ Bot::connection('connection_name')->group(function (){
     // ...
 });
 ```
+
+<a name="receiving-updates-from-multiple-bots"></a>
+### Receiving Updates From Multiple Bots
+
+Sometimes you want a single application to receive updates from several different bots at once. To do this, give each connection its own `secret_token` in the `config/bot.php` file and set the `default` connection to `auto`:
+
+```php
+'default' => 'auto',
+
+'connections' => [
+    'first' => [
+        'token' => '',
+        'secret_token' => "AAA",
+    ],
+    'second' => [
+        'token' => '',
+        'secret_token' => "BBB",
+    ],
+],
+```
+
+When the `default` connection is set to `auto`, LaraGram inspects the secret token sent with each incoming update and automatically determines which connection it belongs to. The matching connection is then set as the current, active connection for that request, so any request you send back—as well as features like the `connection` method—will use the correct bot without any manual configuration.
+
+> [!NOTE]
+> The `secret_token` of each connection must be unique. It is the value LaraGram uses to identify which bot an incoming update came from. The same token must also be configured as the webhook secret token of the corresponding bot.

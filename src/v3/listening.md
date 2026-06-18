@@ -235,6 +235,41 @@ use LaraGram\Support\Facades\Bot;
 )
 ```
 
+<a name="assigning-listen-files-to-connections"></a>
+### Assigning Listen Files to Connections
+
+If your application uses multiple bot connections, you may assign each listen file to one or more specific connections. To do so, pass an array to the `bot` argument of the `withListening` method. Each element may be either a plain file path, which registers the file for all connections, or a `path => connection` pair, which limits the file to the given connection(s):
+
+```php
+<?php
+
+use LaraGram\Foundation\Application;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withListening(
+        bot: [
+            __DIR__.'/../listens/bot.php', // All connections
+            __DIR__.'/../listens/first.php' => 'first-bot', // A specific connection
+            __DIR__.'/../listens/multi.php' => ['first-bot', 'second-bot'], // Multiple connections
+            __DIR__.'/../listens/all.php' => '*', // All connections
+        ],
+        commands: __DIR__.'/../listens/console.php',
+    )->create();
+```
+
+The connection names refer to the connections defined in your application's bot configuration. The values you may assign are:
+
+<div class="overflow-x-auto">
+
+| Value | Description |
+| --- | --- |
+| A plain path (no key) | The listen file is registered for **all** connections. |
+| `'first-bot'` | The listen file is registered only for the `first-bot` connection. |
+| `['first-bot', 'second-bot']` | The listen file is registered for each of the listed connections. |
+| `'*'` | The listen file is registered for **all** connections. |
+
+</div>
+
 <a name="listen-parameters"></a>
 ## Listen Parameters
 
@@ -430,6 +465,72 @@ public function handle(Request $request, Closure $next): Response
 }
 ```
 
+<a name="step-listeners"></a>
+## Step Listeners
+
+While you can branch on the current step manually using `is`, LaraGram provides a dedicated `onStep` listener that registers a handler bound to a specific step. The listener only fires when the user's current step matches the given name, so you can split each stage of a conversation into its own clean handler instead of branching inside a single one.
+
+<a name="defining-step-listeners"></a>
+### Defining Step Listeners
+
+The `onStep` method accepts the step name as its first argument and the handler as its second. When an update arrives, the listener runs only if `Step::is()` returns `true` for that step:
+
+```php
+use LaraGram\Support\Facades\Bot;
+use LaraGram\Support\Facades\Step;
+use LaraGram\Request\Request;
+
+// Begin the conversation...
+Bot::onText('start', function (Request $request) {
+    Step::set('awaiting_name');
+
+    $request->sendMessage(chat()->id, 'What is your name?');
+});
+
+// Only runs while the user's step is "awaiting_name"...
+Bot::onStep('awaiting_name', function (Request $request, string $name) {
+    Step::set('awaiting_email');
+
+    $request->sendMessage(chat()->id, "Nice to meet you, {$name}! What is your email?");
+});
+
+// Only runs while the user's step is "awaiting_email"...
+Bot::onStep('awaiting_email', function (Request $request, string $email) {
+    Step::forget();
+
+    $request->sendMessage(chat()->id, 'Thanks, you are all set!');
+});
+```
+
+By default, a step listener matches incoming text updates and captures the entire message text, passing it to your handler as a listen parameter. As with any listen, parameters are injected after your type-hinted dependencies and bound by position, so you may name the argument whatever you like.
+
+<a name="customizing-the-match"></a>
+### Customizing the Match
+
+The `onStep` method accepts two optional arguments — a `pattern` and a `method` — for finer control over what the listener matches:
+
+```php
+Bot::onStep(
+    step: 'awaiting_age',
+    action: function (Request $request, string $age) {
+        // ...
+    },
+    pattern: '{age}',
+    method: 'TEXT'
+);
+```
+
+The `pattern` argument lets you supply an explicit [listen pattern](listening.md#required-parameters) instead of capturing the whole message, while the `method` argument controls which update types the listener responds to. You may pass a single type, an array of types, or `'*'` to match every supported update verb. When omitted, the listener defaults to capturing all text updates.
+
+<a name="step-listener-priority"></a>
+### Step Listener Priority
+
+By default, step listeners are evaluated after your regular listens. If you would like step listeners to be matched in definition order, mixed in with your other listens, you may enable priority registration:
+
+```php
+Bot::enableStepListensPriorityRegister();
+```
+
 <a name="listen-groups"></a>
 ## Listen Groups
 
@@ -474,7 +575,7 @@ Bot::controller(OrderController::class)->group(function () {
 The `prefix` method may be used to prefix each listen in the group with a given Pattern. For example, you may want to prefix all listen Patterns within the group with `set`:
 
 ```php
-Bot::prefix('set')->group(function () {
+Bot::prefix('set ')->group(function () {
     Bot::onText('admin', function () {
         // Matches The "set admin" text messages
     });
@@ -491,6 +592,107 @@ Bot::name('admin.')->group(function () {
     Bot::onText('users', function () {
         // Listen assigned name "admin.users"...
     })->name('users');
+});
+```
+
+<a name="listen-group-scopes"></a>
+### Chat Scopes
+
+Telegram delivers updates from several chat types: `private`, `group`, `supergroup`, and `channel`. The `scope` method limits the listens within a group so they only run when the incoming update originates from one of the given chat types. This is convenient when, for example, certain listens should only respond inside private chats:
+
+```php
+Bot::scope('private')->group(function () {
+    Bot::onText('hello', function () {
+        // Only runs in private chats...
+    });
+});
+```
+
+You may pass an array of chat types to match any one of them:
+
+```php
+Bot::scope(['private', 'channel', 'group', 'supergroup'])->group(function () {
+    // ...
+});
+```
+
+The available chat scopes are:
+
+<div class="overflow-x-auto">
+
+| Scope | Description |
+| --- | --- |
+| `private` | One-on-one private chats. |
+| `group` | Basic groups. |
+| `supergroup` | Supergroups. |
+| `channel` | Channels. |
+
+</div>
+
+<a name="listen-group-out-of-scope"></a>
+#### Inverting the Scope
+
+The `outOfScope` method is the opposite of `scope`. The listens within the group will run for every chat type **except** the ones you provide:
+
+```php
+Bot::outOfScope('private')->group(function () {
+    Bot::onText('hello', function () {
+        // Runs everywhere except private chats...
+    });
+});
+```
+
+Like `scope`, the `outOfScope` method also accepts an array of chat types:
+
+```php
+Bot::outOfScope(['group', 'supergroup'])->group(function () {
+    // Runs everywhere except groups and supergroups...
+});
+```
+
+<a name="listen-group-reply"></a>
+### Reply Constraints
+
+Sometimes you only want a listen to run when the incoming message is (or is not) a reply to another message. The `hasReply` and `hasNotReply` methods constrain a group based on the reply status of the incoming update:
+
+```php
+Bot::hasReply()->group(function () {
+    Bot::onText('delete', function () {
+        // Only runs when the message is a reply to another message...
+    });
+});
+
+Bot::hasNotReply()->group(function () {
+    Bot::onText('delete', function () {
+        // Only runs when the message is NOT a reply...
+    });
+});
+```
+
+<a name="listen-group-applying-to-single-listens"></a>
+### Applying Constraints to a Single Listen
+
+The `scope`, `outOfScope`, `hasReply`, and `hasNotReply` methods are not limited to groups. You may chain them directly onto an individual listen to apply the same constraint to just that listen:
+
+```php
+// Applied to a whole group...
+Bot::scope('private')->group(function () {
+    Bot::onText('hello', function () {
+        // ...
+    });
+});
+
+// Applied to a single listen...
+Bot::scope('private')->onText('hello', function () {
+    // ...
+});
+```
+
+These constraints may also be combined to express more specific conditions. For example, the following listen only runs in groups when the message is a reply:
+
+```php
+Bot::scope(['group', 'supergroup'])->hasReply()->onText('ban', function () {
+    // ...
 });
 ```
 

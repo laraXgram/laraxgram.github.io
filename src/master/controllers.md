@@ -208,7 +208,7 @@ If your controller method is also expecting input from a listen parameter, list 
 ```php
 use App\Controllers\UserController;
 
-Bot::put('user/{id}', [UserController::class, 'update']);
+Bot::onText('user {id}', [UserController::class, 'foo']);
 ```
 
 You may still type-hint the `LaraGram\Request\Request` and access your `id` parameter by defining your controller method as follows:
