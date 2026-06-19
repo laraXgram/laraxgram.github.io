@@ -99,6 +99,81 @@ Bot::onJoinMember($action)
 Bot::onMention($action)
 Bot::onHashtag($action)
 Bot::onCashtag($action)
+Bot::onUrl($action)
+Bot::onEmail($action)
+Bot::onPhoneNumber($action)
+Bot::onTextLink($action)
+Bot::onTextMention($action)
+Bot::onCustomEmoji($action)
+Bot::onSpoiler($action)
+Bot::onBlockquote($action)
+Bot::onExpandableBlockquote($action)
+Bot::onBold($action)
+Bot::onItalic($action)
+Bot::onUnderline($action)
+Bot::onStrikethrough($action)
+Bot::onCode($action)
+Bot::onPre($action)
+Bot::onStory($action)
+Bot::onPaidMedia($action)
+Bot::onLivePhoto($action)
+Bot::onAlbum($action)
+Bot::onChecklist($action)
+Bot::onChecklistTasksDone($action)
+Bot::onChecklistTasksAdded($action)
+Bot::onBoostAdded($action)
+Bot::onChatBackgroundSet($action)
+Bot::onChannelChatCreated($action)
+Bot::onGift($action)
+Bot::onUniqueGift($action)
+Bot::onGiftUpgradeSent($action)
+Bot::onRefundedPayment($action)
+Bot::onUsersShared($action)
+Bot::onChatShared($action)
+Bot::onWriteAccessAllowed($action)
+Bot::onGiveawayCreated($action)
+Bot::onGiveaway($action)
+Bot::onGiveawayWinners($action)
+Bot::onGiveawayCompleted($action)
+Bot::onGeneralForumTopicHidden($action)
+Bot::onGeneralForumTopicUnhidden($action)
+Bot::onDirectMessagePriceChanged($action)
+Bot::onPaidMessagePriceChanged($action)
+Bot::onPollOptionAdded($action)
+Bot::onPollOptionDeleted($action)
+Bot::onSuggestedPostApproved($action)
+Bot::onSuggestedPostApprovalFailed($action)
+Bot::onSuggestedPostDeclined($action)
+Bot::onSuggestedPostPaid($action)
+Bot::onSuggestedPostRefunded($action)
+Bot::onManagedBotCreated($action)
+Bot::onChatOwnerLeft($action)
+Bot::onChatOwnerChanged($action)
+Bot::onRichMessage($action)
+Bot::onRichMessageType($type, $action)
+Bot::onMessageReaction($action)
+Bot::onMessageReactionEmoji($action, $emoji)
+Bot::onMessageReactionCustomEmoji($action)
+Bot::onMessageReactionType($type, $action)
+Bot::onMessageReactionCount($action)
+Bot::onBusinessConnection($action)
+Bot::onBusinessMessage($action)
+Bot::onBusinessMessageText($pattern, $action)
+Bot::onEditedBusinessMessage($action)
+Bot::onEditedBusinessMessageText($pattern, $action)
+Bot::onDeletedBusinessMessages($action)
+Bot::onGuestMessage($action)
+Bot::onGuestMessageText($pattern, $action)
+Bot::onEditedMessageText($pattern, $action)
+Bot::onChannelPostText($pattern, $action)
+Bot::onEditedChannelPostText($pattern, $action)
+Bot::onInlineQueryQuery($pattern, $action)
+Bot::onChosenInlineResultQuery($pattern, $action)
+Bot::onPurchasedPaidMedia($action)
+Bot::onChatBoost($action)
+Bot::onRemovedChatBoost($action)
+Bot::onManagedBot($action)
+Bot::onPollUpdate($action)
 ```
 
 Sometimes you may need to register a listen that responds to multiple Bot verbs. You may do so using the `match` method:
@@ -696,6 +771,71 @@ Bot::scope(['group', 'supergroup'])->hasReply()->onText('ban', function () {
 });
 ```
 
+<a name="overlapping-listens"></a>
+## Overlapping Listens
+
+By default, dispatch is exclusive: the first listen that matches an incoming update handles it, and no other listen runs. Occasionally a single update should trigger more than one handler. For example, a message that contains both text and a URL might need to run `onText` *and* `onUrl`. Marking a listen as **overlapping** lets several matching listens run for the same update instead of competing for the match.
+
+Use the `overlap` method to opt a listen into overlapping dispatch:
+
+```php
+use LaraGram\Support\Facades\Bot;
+use LaraGram\Request\Request;
+
+Bot::onText('{text}', function (Request $request, string $text) {
+    $request->sendMessage(chat()->id, 'onText');
+})->where('text', '.*')->overlap();
+
+Bot::onUrl(function (Request $request) {
+    $request->sendMessage(chat()->id, 'onUrl');
+})->overlap();
+```
+
+When the update matches both listens, both run. The first matched listen is the *primary* and produces the response; overlapping listens run afterwards, each within its own middleware stack, so they cannot interfere with one another.
+
+> [!NOTE]
+> "Overlap" describes co-running handlers for one update, not concurrency. Handlers run sequentially within the same request.
+
+<a name="overlap-groups"></a>
+### Overlap Groups
+
+To control exactly which listens may run together, assign one or more **groups**. Overlapping listens run together when they share a group with the matched listen — directly, or transitively through other group members. A listen may belong to several groups:
+
+```php
+Bot::onCashtag(function (Request $request) {
+    $request->sendMessage(chat()->id, 'onCashtag');
+})->overlap(['group-1', 'group-2']);
+
+Bot::onHashtag(function (Request $request) {
+    $request->sendMessage(chat()->id, 'onHashtag');
+})->overlap('group-2');
+
+Bot::onText('{text}', function (Request $request, string $text) {
+    $request->sendMessage(chat()->id, 'onText');
+})->where('text', '.*')->overlap('group-1');
+```
+
+In the example above `onText` and `onCashtag` share `group-1`, while `onCashtag` and `onHashtag` share `group-2`. Because `onCashtag` bridges the two groups, an update that matches all three runs every handler. Group membership is order-independent: starting from any matched listen, the full connected set of group members runs.
+
+An `overlap()` call without a group always co-runs with the primary listen, regardless of which groups the primary belongs to.
+
+<a name="overlap-groups-as-a-group"></a>
+### Marking a Whole Group as Overlapping
+
+Just like `middleware`, `prefix`, or `scope`, you may apply `overlap` to an entire [listen group](#listen-groups). Every listen defined within the closure becomes part of the given overlap group:
+
+```php
+Bot::overlap('group-1')->group(function () {
+    Bot::onText('{text}', function (Request $request, string $text) {
+        // ...
+    })->where('text', '.*');
+
+    Bot::onCashtag(function (Request $request) {
+        // ...
+    });
+});
+```
+
 <a name="listen-model-binding"></a>
 ## Listen Model Binding
 
@@ -1122,6 +1262,9 @@ php laragram listen:cache
 ```
 
 After running this command, your cached listens file will be loaded on every request. Remember, if you add any new listens you will need to generate a fresh listen cache. Because of this, you should only run the `listen:cache` command during your project's deployment.
+
+> [!NOTE]
+> The listen cache preserves every listener type and option, including service-field listeners, entity listeners, and [overlap groups](#overlapping-listens). Cached dispatch behaves identically to uncached dispatch.
 
 You may use the `listen:clear` command to clear the listen cache:
 
