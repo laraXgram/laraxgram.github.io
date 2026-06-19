@@ -696,18 +696,179 @@ public function update(Request $request, Post $post): RedirectResponse
 <a name="check-user-status"></a>
 ## Check User Status
 
-If one of the statuses `administrator`, `creator`, `member`, `kicked`, `left`, or `restricted` is provided to the gate and no policy model is not defined, the authorization will be handled based on the user's status.
-
-If the `status` field is already set for the user in the database, it will be used directly. Otherwise, a `getChatMember` request will be made to retrieve and evaluate the user's status.
+Beyond models and policies, LaraGram can authorize a listen against a user's **Telegram chat-member status**. The six Telegram statuses — `creator`, `administrator` `member`, `restricted`, `left` and `kicked` — are registered as gates, so you can authorize them like any other ability:
 
 ```php
 Bot::onText('ban', function () {
-    // The current user may create posts...
+    // The current user is an administrator of this chat...
 })->can('administrator');
 ```
-<a name="observe-user-status"></a>
-### Observe User Status
 
-LaraGram provides two default listeners to automatically update the database when a user's status changes in a group or channel. You can enable this feature by setting `observe_users_status` to `true` in the `config/auth.php` file. Make sure the default LaraGram fields exist in your `users` table.
+When a status name is passed to a gate and no policy model is supplied, the authorization is resolved by the configured **status driver** rather than a gate closure. The framework is never coupled to your `User` model for this — the driver decides where the status comes from.
 
+You may require any one of several statuses (OR semantics). The check passes as soon as one of them matches:
 
+```php
+Bot::onText('promote {user}', function () {
+    // The current user is an administrator OR the creator...
+})->can(['administrator', 'creator']);
+```
+
+<a name="status-drivers"></a>
+
+### Status Drivers
+
+The strategy used to resolve a user's status is configured in the `status` section of your `config/auth.php` file. The active driver is set with `default`, and each driver is configured under `drivers`:
+
+```php
+'status' => [
+
+    'default' => env('AUTH_STATUS_DRIVER', 'live'),
+
+    'observe' => env('AUTH_STATUS_OBSERVE', null),
+
+    'drivers' => [
+
+        'live' => [
+            'driver' => 'live',
+        ],
+
+        'eloquent' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'status_column' => 'status',
+            'user_column' => 'user_id',
+            'chat_column' => 'chat_id',
+        ],
+
+        'database' => [
+            'driver' => 'database',
+            'connection' => env('AUTH_STATUS_CONNECTION'),
+            'table' => 'users',
+            'status_column' => 'status',
+            'user_column' => 'user_id',
+            'chat_column' => 'chat_id',
+        ],
+
+        'cache' => [
+            'driver' => 'cache',
+            'store' => env('AUTH_STATUS_CACHE_STORE'),
+            'prefix' => 'chat_status',
+            'ttl' => env('AUTH_STATUS_CACHE_TTL', 3600),
+        ],
+
+    ],
+
+],
+```
+
+LaraGram ships with four drivers:
+
+<div class="content-list" markdown="1">
+
+- `live` — asks Telegram via a `getChatMember` request on demand. The result is cached for the duration of the current update, so multiple status checks in one request only cost a single API call. Always fresh, requires no storage and no migrations. This is the default.
+- `eloquent` — reads the status from an Eloquent model. The model and the `status` / `user_id` / `chat_id` columns are fully configurable, so you are not tied to `App\Models\User` or to a column named `status`.
+- `database` — reads the status straight from a database table using the query builder, with the same configurable columns.
+- cache — reads the status from any cache store (`redis`, `memcached`, `file`, `array`, ...). Ideal for a fast, disposable mirror. `prefix` and `ttl` control the cache key and lifetime (`ttl` of `null` stores forever).
+
+</div>
+
+> [!NOTE]
+> The `live` driver requires no `users` table. If you choose `eloquent` or `database`, make sure your table holds the configured `status`, `user_id` and `chat_id` columns.
+
+Because each `drivers` entry names its underlying type with a `driver` key, you may register several named configurations of the same type and switch between them with `default` — for example a `redis`-backed cache mirror:
+
+```php
+'default' => 'fast',
+
+'drivers' => [
+    'fast' => [
+        'driver' => 'cache',
+        'store' => 'redis',
+        'prefix' => 'chat_status',
+        'ttl' => 1800,
+    ],
+],
+```
+
+<a name="observing-status"></a>
+
+### Observing Status
+
+LaraGram registers two listeners — for `chat_member` and `my_chat_member` updates — that write the new status back through the active driver whenever a user's status changes in a group or channel. This keeps your mirror in sync automatically.
+
+Observing is controlled by the `status.observe` option:
+
+<div class="content-list" markdown="1">
+
+- `null` (default) — automatic. Every writable driver (`eloquent`, `database`, `cache`) observes, while the read-only `live` driver does not.
+- `true` — always observe, regardless of driver.
+- `false` — never observe. Useful when the mirror is populated elsewhere (a cron job, an admin panel, or another service that owns the writes).
+
+</div>
+
+So selecting the `eloquent` driver is enough to start keeping the database in sync — no extra configuration required.
+
+> [!WARNING]
+> The `chat_member` update is only delivered when your bot is an administrator of the chat and the update type is included in your `allowed_updates`.
+
+<a name="custom-status-drivers"></a>
+
+### Custom Status Drivers
+
+If none of the built-in drivers fit, you may register your own. Implement the `LaraGram\Contracts\Auth\StatusProvider` contract:
+
+```php
+<?php
+
+namespace LaraGram\Contracts\Auth;
+
+interface StatusProvider
+{
+    public function get($userId, $chatId);
+
+    public function put($userId, $chatId, array $attributes);
+}
+```
+
+`get` returns the user's status string (or `null`), and `put` persists a status change (a read-only driver may leave it empty). Register the driver type with the status manager's `extend` method, typically from the `boot` method of your `AppServiceProvider`. The closure receives the container and the driver's configuration array:
+
+```php
+use App\Status\MongoStatusProvider;
+
+app('auth.status')->extend('mongo', function ($app, array $config) {
+    return new MongoStatusProvider($app->make('mongo.connection'), $config);
+});
+```
+
+Then point a driver configuration at your new type:
+
+```php
+'drivers' => [
+    'users' => [
+        'driver' => 'mongo',
+        // ...any options your provider needs...
+    ],
+],
+```
+
+<a name="checking-status-manually"></a>
+
+### Checking Status Manually
+
+You may resolve a status outside of a listen through the `auth.status` manager. It resolves the current user and chat from the incoming update by default, but you may pass an explicit user and chat id:
+
+```php
+$manager = app('auth.status');
+
+// Does the current user hold the given status?
+if ($manager->is('administrator')) {
+    // ...
+}
+
+// The raw status of a specific user in a specific chat...
+$status = $manager->statusFor($userId, $chatId);
+
+// Persist a status change through the active driver...
+$manager->record($userId, $chatId, ['status' => 'member']);
+```

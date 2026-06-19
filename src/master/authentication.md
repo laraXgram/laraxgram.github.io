@@ -16,7 +16,7 @@ By default, LaraGram includes an `App\Models\User` [Eloquent model](/eloquent.md
 
 If your application is not using Eloquent, you may use the `database` authentication provider which uses the LaraGram query builder. If your application is using MongoDB, check out MongoDB's official [LaraGram user authentication documentation](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/user-authentication/).
 
-When building the database schema for the `App\Models\User` model, make sure the status column is at least 60 characters in length. Of course, the `users` table migration that is included in new LaraGram applications already creates a column that exceeds this length.
+When building the database schema for the `App\Models\User` model, make sure the status column is at least 15 characters in length. Of course, the `users` table migration that is included in new LaraGram applications already creates a column that exceeds this length.
 
 
 <a name="retrieving-the-authenticated-user"></a>
