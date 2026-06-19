@@ -116,6 +116,46 @@ To specify the keyboard type, simply pass the desired type as an argument to the
 | `force`                  | forceReply           |
 | `inline`                 | inlineKeyboardMarkup |
 
+<a name="dynamic-keyboards"></a>
+#### Dynamic Keyboards
+
+The `@keyboard` directive is compiled imperatively, so you may freely place control structures such as `@if`, `@foreach`, and `@switch` between the `@row` and `@col` directives to build a keyboard dynamically:
+
+```blade
+@keyboard()
+    @foreach ($products as $product)
+        @row()
+            @col($product->name, callback_data: 'buy:' . $product->id)
+
+            @if ($product->discounted)
+                @col('🔥 ' . $product->discount . '%', callback_data: 'sale:' . $product->id)
+            @endif
+        @endRow
+    @endforeach
+
+    @row()
+        @col('Close', callback_data: 'close_btn')
+    @endRow
+@endKeyboard()
+```
+
+Empty rows are skipped automatically, so a `@row` whose `@col` directives are all guarded by a condition that evaluates to `false` will not be added to the keyboard.
+
+<a name="keyboard-options"></a>
+#### Keyboard Options
+
+You may set keyboard options such as `resize_keyboard` or `one_time_keyboard` using the `@keyboardOptions` directive. The given array is forwarded to the keyboard builder's `setOptions` method:
+
+```blade
+@keyboard(reply)
+    @keyboardOptions(['resize_keyboard' => true, 'one_time_keyboard' => true])
+
+    @row()
+        @col('Share contact', request_contact: true)
+    @endRow
+@endKeyboard()
+```
+
 <a name="if-statements"></a>
 ### If Statements
 
