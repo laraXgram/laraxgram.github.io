@@ -139,6 +139,75 @@ $text = $request->message->text;
 ```
 You can receive all updates according to the official Telegram documentation, with full support for syntax highlighting in your editor or IDE.
 
+<a name="retrieving-all-input-data"></a>
+### Retrieving All Input Data
+
+You may retrieve all of the incoming update's data as a nested `array` using the `all` method. The whole update tree is normalized to arrays, so nested fields are available as nested arrays:
+
+```php
+$update = $request->all();
+```
+
+<a name="retrieving-an-input-value"></a>
+#### Retrieving an Input Value
+
+Using the `input` method, you may retrieve any value from the update using "dot" notation, regardless of how deeply nested the field is:
+
+```php
+$text = $request->input('message.text');
+```
+
+You may pass a default value as the second argument. It will be returned if the requested field is not present on the update:
+
+```php
+$text = $request->input('message.text', 'default');
+```
+
+<a name="determining-if-input-is-present"></a>
+#### Determining if Input Is Present
+
+You may use the `has` method to determine if a value is present on the update. The `has` method returns `true` if the value is present:
+
+```php
+if ($request->has('message.text')) {
+    // ...
+}
+```
+
+The `missing` method is the inverse of `has`:
+
+```php
+if ($request->missing('message.text')) {
+    // ...
+}
+```
+
+<a name="retrieving-a-portion-of-the-input-data"></a>
+#### Retrieving a Portion of the Input Data
+
+If you need to retrieve a subset of the update data, you may use the `only` and `except` methods. Both accept a single `array` or a dynamic list of arguments:
+
+```php
+$input = $request->only(['message.text', 'message.chat.id']);
+
+$input = $request->except(['message.entities']);
+```
+
+<a name="validating-updates"></a>
+### Validating Updates
+
+You may validate the incoming update directly on the request using the `validate` method. Rules target update fields using "dot" notation, and the validated data is returned as a `LaraGram\Request\ValidatedInput` instance:
+
+```php
+$validated = $request->validate([
+    'message.text' => 'required|string|max:255',
+]);
+
+$text = $validated->message->text;
+```
+
+For more information, check out the complete [validation documentation](/validation.md).
+
 <a name="merging-additional-input"></a>
 ### Merging Additional Input
 

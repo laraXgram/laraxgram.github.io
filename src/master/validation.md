@@ -7,6 +7,44 @@ LaraGram provides several different approaches to validate your application's in
 
 LaraGram includes a wide variety of convenient validation rules that you may apply to data, even providing the ability to validate if values are unique in a given database table. We'll cover each of these validation rules in detail so that you are familiar with all of LaraGram's validation features.
 
+<a name="validating-telegram-updates"></a>
+## Validating Telegram Updates
+
+The `validate` method available on the `LaraGram\Request\Request` instance lets you validate the incoming Telegram update directly. Because an update is a nested structure (`message`, `chat`, `from`, ...), you may target any field using "dot" notation:
+
+```php
+use LaraGram\Request\Request;
+
+Bot::onText('register {name}', function (Request $request) {
+    $validated = $request->validate([
+        'message.text' => 'required|string|max:255',
+        'message.chat.id' => 'required|integer',
+    ]);
+
+    // ...
+});
+```
+
+If the rules pass, execution continues normally. If validation fails, a `LaraGram\Validation\ValidationException` is thrown.
+
+The rules may also be specified as arrays of rules instead of a single `|` delimited string:
+
+```php
+$validated = $request->validate([
+    'message.text' => ['required', 'string', 'max:255'],
+]);
+```
+
+To store the error messages in a [named error bag](#named-error-bags), use the `validateWithBag` method:
+
+```php
+$validated = $request->validateWithBag('post', [
+    'message.text' => 'required|string|max:255',
+]);
+```
+
+The data returned by `validate` is a `LaraGram\Request\ValidatedInput` instance. See [Working With Validated Input](#working-with-validated-input) for details on how to read it.
+
 <a name="validation-quickstart"></a>
 ## Validation Quickstart
 
@@ -376,6 +414,32 @@ After validating incoming request data using a form request or a manually create
 
 ```php
 $validated = $validator->validated();
+```
+
+<a name="the-validated-input-container"></a>
+#### The Validated Input Container
+
+When you call the `validate` method on the `LaraGram\Request\Request` instance, the validated data is returned as a `LaraGram\Request\ValidatedInput` instance. This container is recursive, so any nested value may be read using either object or array syntax at any depth:
+
+```php
+$validated = $request->validate([
+    'message.text' => 'required|string|max:255',
+]);
+
+// Object access...
+$text = $validated->message->text;
+
+// Array access...
+$text = $validated['message']['text'];
+
+// "dot" notation via the get method...
+$text = $validated->get('message.text');
+```
+
+The container also implements `Countable`, `IteratorAggregate`, and `JsonSerializable`, so you may iterate over it, count it, or cast it to JSON. To retrieve the underlying array, call the `toArray` method:
+
+```php
+$array = $validated->toArray();
 ```
 
 <a name="working-with-error-messages"></a>
