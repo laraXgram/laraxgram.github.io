@@ -5,10 +5,10 @@
 
 LaraGram Precognition allows you to anticipate the outcome of a future HTTP request. One of the primary use cases of Precognition is the ability to provide "live" validation for your frontend JavaScript application without having to duplicate your application's backend validation rules.
 
-When LaraGram receives a "precognitive request", it will execute all of the route's middleware and resolve the route's controller dependencies, including validating [form requests](/master/validation#form-request-validation) - but it will not actually execute the route's controller method.
+When LaraGram receives a "precognitive request", it will execute all of the route's middleware and resolve the route's controller dependencies, including validating [form requests](/v4/validation#form-request-validation) - but it will not actually execute the route's controller method.
 
 > [!NOTE]
-> As of Luna, Precognition support is built-in. Please consult the [Luna Forms documentation](https://laraxgram.github.io/master/luna-forms) for more information. Earlier Luna versions require Precognition 0.x.
+> As of Luna, Precognition support is built-in. Please consult the [Luna Forms documentation](https://laraxgram.github.io/v4/luna-forms) for more information. Earlier Luna versions require Precognition 0.x.
 
 <a name="live-validation"></a>
 ## Live Validation
@@ -18,7 +18,7 @@ When LaraGram receives a "precognitive request", it will execute all of the rout
 
 Using LaraGram Precognition, you can offer live validation experiences to your users without having to duplicate your validation rules in your frontend Vue application. To illustrate how it works, let's build a form for creating new users within our application.
 
-First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/master/validation#form-request-validation) to house the route's validation rules:
+First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/v4/validation#form-request-validation) to house the route's validation rules:
 
 ```php
 use App\Http\Requests\StoreUserRequest;
@@ -182,7 +182,7 @@ You may determine if a form submission request is in-flight by inspecting the fo
 
 Using LaraGram Precognition, you can offer live validation experiences to your users without having to duplicate your validation rules in your frontend React application. To illustrate how it works, let's build a form for creating new users within our application.
 
-First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/master/validation#form-request-validation) to house the route's validation rules:
+First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/v4/validation#form-request-validation) to house the route's validation rules:
 
 ```php
 use App\Http\Requests\StoreUserRequest;
@@ -341,7 +341,7 @@ You may determine if a form submission request is in-flight by inspecting the fo
 
 Using LaraGram Precognition, you can offer live validation experiences to your users without having to duplicate your validation rules in your frontend Alpine application. To illustrate how it works, let's build a form for creating new users within our application.
 
-First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/master/validation#form-request-validation) to house the route's validation rules:
+First, to enable Precognition for a route, the `HandlePrecognitiveRequests` middleware should be added to the route definition. You should also create a [form request](/v4/validation#form-request-validation) to house the route's validation rules:
 
 ```php
 use App\Http\Requests\CreateUserRequest;

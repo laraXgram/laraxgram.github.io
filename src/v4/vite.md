@@ -11,7 +11,7 @@ LaraGram integrates seamlessly with Vite by providing an official plugin and Bla
 ## Installation & Setup
 
 > [!NOTE]
-> The following documentation discusses how to manually install and configure the LaraGram Vite plugin. However, LaraGram's [starter kits](/master/starter-kits) already include all of this scaffolding and are the fastest way to get started with LaraGram and Vite.
+> The following documentation discusses how to manually install and configure the LaraGram Vite plugin. However, LaraGram's [starter kits](/v4/starter-kits) already include all of this scaffolding and are the fastest way to get started with LaraGram and Vite.
 
 <a name="installing-node"></a>
 ### Installing Node
@@ -299,7 +299,7 @@ export default defineConfig({
 ```
 
 > [!NOTE]
-> LaraGram's [starter kits](/master/starter-kits) already include the proper LaraGram, Vue, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Vue, and Vite.
+> LaraGram's [starter kits](/v4/starter-kits) already include the proper LaraGram, Vue, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Vue, and Vite.
 
 <a name="react"></a>
 ### React
@@ -337,7 +337,7 @@ You will also need to include the additional `@viteReactRefresh` Blade directive
 The `@viteReactRefresh` directive must be called before the `@vite` directive.
 
 > [!NOTE]
-> LaraGram's [starter kits](/master/starter-kits) already include the proper LaraGram, React, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, React, and Vite.
+> LaraGram's [starter kits](/v4/starter-kits) already include the proper LaraGram, React, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, React, and Vite.
 
 <a name="svelte"></a>
 ### Svelte
@@ -368,7 +368,7 @@ export default defineConfig({
 ```
 
 > [!NOTE]
-> LaraGram's [starter kits](/master/starter-kits) already include the proper LaraGram, Svelte, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Svelte, and Vite.
+> LaraGram's [starter kits](/v4/starter-kits) already include the proper LaraGram, Svelte, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Svelte, and Vite.
 
 <a name="luna"></a>
 ### Luna
@@ -393,7 +393,7 @@ createLunaApp({
 If you are using Vite's code splitting feature with Luna, we recommend configuring [asset prefetching](#asset-prefetching).
 
 > [!NOTE]
-> LaraGram's [starter kits](/master/starter-kits) already include the proper LaraGram, Luna, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Luna, and Vite.
+> LaraGram's [starter kits](/v4/starter-kits) already include the proper LaraGram, Luna, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Luna, and Vite.
 
 <a name="url-processing"></a>
 ### URL Processing
@@ -439,7 +439,7 @@ Your application's CSS may be placed within the `resources/css/app.css` file.
 <a name="working-with-fonts"></a>
 ## Working With Fonts
 
-The LaraGram Vite plugin can serve optimized, self-hosted fonts for your application. When fonts are configured, the plugin resolves the requested font files, emits them as Vite assets, generates font CSS, and writes a font manifest that may be consumed by Blade's [`@fonts` directive](/master/blade#fonts).
+The LaraGram Vite plugin can serve optimized, self-hosted fonts for your application. When fonts are configured, the plugin resolves the requested font files, emits them as Vite assets, generates font CSS, and writes a font manifest that may be consumed by Blade's [`@fonts` directive](/v4/blade#fonts).
 
 To configure fonts, import one or more provider helpers from `laragram-vite-plugin/fonts` and add them to the LaraGram plugin's `fonts` option:
 
@@ -653,7 +653,7 @@ export default defineConfig({
 <a name="blade-aliases"></a>
 ### Aliases
 
-It is common in JavaScript applications to [create aliases](#aliases) to regularly referenced directories. But, you may also create aliases to use in Blade by using the `macro` method on the `LaraGram\Support\Facades\Vite` class. Typically, "macros" should be defined within the `boot` method of a [service provider](/master/providers):
+It is common in JavaScript applications to [create aliases](#aliases) to regularly referenced directories. But, you may also create aliases to use in Blade by using the `macro` method on the `LaraGram\Support\Facades\Vite` class. Typically, "macros" should be defined within the `boot` method of a [service provider](/v4/providers):
 
 ```php
 /**
@@ -676,7 +676,7 @@ Once a macro has been defined, it can be invoked within your templates. For exam
 
 When building an SPA using Vite's code splitting feature, required assets are fetched on each page navigation. This behavior can lead to delayed UI rendering. If this is a problem for your frontend framework of choice, LaraGram offers the ability to eagerly prefetch your application's JavaScript and CSS assets on initial page load.
 
-You can instruct LaraGram to eagerly prefetch your assets by invoking the `Vite::prefetch` method in the `boot` method of a [service provider](/master/providers):
+You can instruct LaraGram to eagerly prefetch your assets by invoking the `Vite::prefetch` method in the `boot` method of a [service provider](/v4/providers):
 
 ```php
 <?php
@@ -864,7 +864,7 @@ php artisan luna:start-ssr
 ```
 
 > [!NOTE]
-> LaraGram's [starter kits](/master/starter-kits) already include the proper LaraGram, Luna SSR, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Luna SSR, and Vite.
+> LaraGram's [starter kits](/v4/starter-kits) already include the proper LaraGram, Luna SSR, and Vite configuration. These starter kits offer the fastest way to get started with LaraGram, Luna SSR, and Vite.
 
 <a name="script-and-style-attributes"></a>
 ## Script and Style Tag Attributes
@@ -872,7 +872,7 @@ php artisan luna:start-ssr
 <a name="content-security-policy-csp-nonce"></a>
 ### Content Security Policy (CSP) Nonce
 
-If you wish to include a [nonce attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce) on your script and style tags as part of your [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you may generate or specify a nonce using the `useCspNonce` method within a custom [middleware](/master/middleware):
+If you wish to include a [nonce attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce) on your script and style tags as part of your [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you may generate or specify a nonce using the `useCspNonce` method within a custom [middleware](/v4/middleware):
 
 ```php
 <?php
@@ -904,7 +904,7 @@ class AddContentSecurityPolicyHeaders
 
 After invoking the `useCspNonce` method, LaraGram will automatically include the `nonce` attributes on all generated script and style tags.
 
-If you need to specify the nonce elsewhere, including the [Ziggy `@route` directive](https://github.com/tighten/ziggy#using-routes-with-a-content-security-policy) included with LaraGram's [starter kits](/master/starter-kits), you may retrieve it using the `cspNonce` method:
+If you need to specify the nonce elsewhere, including the [Ziggy `@route` directive](https://github.com/tighten/ziggy#using-routes-with-a-content-security-policy) included with LaraGram's [starter kits](/v4/starter-kits), you may retrieve it using the `cspNonce` method:
 
 ```blade
 @routes(nonce: Vite::cspNonce())
@@ -959,7 +959,7 @@ Vite::useIntegrityKey(false);
 <a name="arbitrary-attributes"></a>
 ### Arbitrary Attributes
 
-If you need to include additional attributes on your script and style tags, such as the [data-turbo-track](https://turbo.hotwired.dev/handbook/drive#reloading-when-assets-change) attribute, you may specify them via the `useScriptTagAttributes` and `useStyleTagAttributes` methods. Typically, this methods should be invoked from a [service provider](/master/providers):
+If you need to include additional attributes on your script and style tags, such as the [data-turbo-track](https://turbo.hotwired.dev/handbook/drive#reloading-when-assets-change) attribute, you may specify them via the `useScriptTagAttributes` and `useStyleTagAttributes` methods. Typically, this methods should be invoked from a [service provider](/v4/providers):
 
 ```php
 use LaraGram\Support\Facades\Vite;

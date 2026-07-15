@@ -16,7 +16,7 @@ Route::get('/greeting', function () {
 <a name="the-default-route-files"></a>
 ### The Default Route Files
 
-All LaraGram routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` [middleware group](/master/middleware#laragrams-default-middleware-groups), which provides features like session state and CSRF protection.
+All LaraGram routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by LaraGram using the configuration specified in your application's `bootstrap/app.php` file. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` [middleware group](/v4/middleware#laragrams-default-middleware-groups), which provides features like session state and CSRF protection.
 
 For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://example.com/user` in your browser:
 
@@ -43,7 +43,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 ```
 
-The routes in `routes/api.php` are stateless and are assigned to the `api` [middleware group](/master/middleware#laragrams-default-middleware-groups). Additionally, the `/api` URI prefix is automatically applied to these routes, so you do not need to manually apply it to every route in the file. You may change the prefix by modifying your application's `bootstrap/app.php` file:
+The routes in `routes/api.php` are stateless and are assigned to the `api` [middleware group](/v4/middleware#laragrams-default-middleware-groups). Additionally, the `/api` URI prefix is automatically applied to these routes, so you do not need to manually apply it to every route in the file. You may change the prefix by modifying your application's `bootstrap/app.php` file:
 
 ```php
 ->withRouting(
@@ -85,7 +85,7 @@ Route::any('/', function () {
 <a name="dependency-injection"></a>
 #### Dependency Injection
 
-You may type-hint any dependencies required by your route in your route's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the LaraGram [service container](/master/container). For example, you may type-hint the `LaraGram\Http\Request` class to have the current HTTP request automatically injected into your route callback:
+You may type-hint any dependencies required by your route in your route's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the LaraGram [service container](/v4/container). For example, you may type-hint the `LaraGram\Http\Request` class to have the current HTTP request automatically injected into your route callback:
 
 ```php
 use LaraGram\Http\Request;
@@ -134,7 +134,7 @@ Route::permanentRedirect('/here', '/there');
 <a name="view-routes"></a>
 ### View Routes
 
-If your route only needs to return a [view](/master/views), you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+If your route only needs to return a [view](/v4/views), you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
 
 ```php
 Route::view('/welcome', 'welcome');
@@ -436,7 +436,7 @@ $url = route('profile', ['id' => 1, 'photos' => 'yes']);
 ```
 
 > [!NOTE]
-> Sometimes, you may wish to specify request-wide default values for URL parameters, such as the current locale. To accomplish this, you may use the [URL::defaults method](/master/urls#default-values).
+> Sometimes, you may wish to specify request-wide default values for URL parameters, such as the current locale. To accomplish this, you may use the [URL::defaults method](/v4/urls#default-values).
 
 <a name="inspecting-the-current-route"></a>
 #### Inspecting the Current Route
@@ -473,7 +473,7 @@ Nested groups attempt to intelligently "merge" attributes with their parent grou
 <a name="route-group-middleware"></a>
 ### Middleware
 
-To assign [middleware](/master/middleware) to all routes within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
+To assign [middleware](/v4/middleware) to all routes within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
 
 ```php
 Route::middleware(['first', 'second'])->group(function () {
@@ -490,7 +490,7 @@ Route::middleware(['first', 'second'])->group(function () {
 <a name="route-group-controllers"></a>
 ### Controllers
 
-If a group of routes all utilize the same [controller](/master/controllers), you may use the `controller` method to define the common controller for all of the routes within the group. Then, when defining the routes, you only need to provide the controller method that they invoke:
+If a group of routes all utilize the same [controller](/v4/controllers), you may use the `controller` method to define the common controller for all of the routes within the group. Then, when defining the routes, you only need to provide the controller method that they invoke:
 
 ```php
 use App\Http\Controllers\OrderController;
@@ -579,7 +579,7 @@ public function show(User $user)
 <a name="implicit-soft-deleted-models"></a>
 #### Soft Deleted Models
 
-Typically, implicit model binding will not retrieve models that have been [soft deleted](/master/eloquent#soft-deleting). However, you may instruct the implicit binding to retrieve these models by chaining the `withTrashed` method onto your route's definition:
+Typically, implicit model binding will not retrieve models that have been [soft deleted](/v4/eloquent#soft-deleting). However, you may instruct the implicit binding to retrieve these models by chaining the `withTrashed` method onto your route's definition:
 
 ```php
 use App\Models\User;
@@ -938,7 +938,7 @@ RateLimiter::for('resource-not-found', function (Request $request) {
 <a name="attaching-rate-limiters-to-routes"></a>
 ### Attaching Rate Limiters to Routes
 
-Rate limiters may be attached to routes or route groups using the `throttle` [middleware](/master/middleware). The throttle middleware accepts the name of the rate limiter you wish to assign to the route:
+Rate limiters may be attached to routes or route groups using the `throttle` [middleware](/v4/middleware). The throttle middleware accepts the name of the rate limiter you wish to assign to the route:
 
 ```php
 Route::middleware(['throttle:uploads'])->group(function () {
@@ -976,7 +976,7 @@ HTML forms do not support `PUT`, `PATCH`, or `DELETE` actions. So, when defining
 </form>
 ```
 
-For convenience, you may use the `@method` [Blade directive](/master/blade) to generate the `_method` input field:
+For convenience, you may use the `@method` [Blade directive](/v4/blade) to generate the `_method` input field:
 
 ```blade
 <form action="/example" method="POST">
@@ -1003,7 +1003,7 @@ You may refer to the API documentation for both the underlying class of the Rout
 <a name="cors"></a>
 ## Cross-Origin Resource Sharing (CORS)
 
-LaraGram can automatically respond to CORS `OPTIONS` HTTP requests with values that you configure. The `OPTIONS` requests will automatically be handled by the `HandleCors` [middleware](/master/middleware) that is automatically included in your application's global middleware stack.
+LaraGram can automatically respond to CORS `OPTIONS` HTTP requests with values that you configure. The `OPTIONS` requests will automatically be handled by the `HandleCors` [middleware](/v4/middleware) that is automatically included in your application's global middleware stack.
 
 Sometimes, you may need to customize the CORS configuration values for your application. You may do so by publishing the `cors` configuration file using the `config:publish` Commander command:
 

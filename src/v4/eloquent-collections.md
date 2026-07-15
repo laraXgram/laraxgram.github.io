@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-All Eloquent methods that return more than one model result will return instances of the `LaraGram\Database\Eloquent\Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends LaraGram's [base collection](/master/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models. Be sure to review the LaraGram collection documentation to learn all about these helpful methods!
+All Eloquent methods that return more than one model result will return instances of the `LaraGram\Database\Eloquent\Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends LaraGram's [base collection](/v4/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models. Be sure to review the LaraGram collection documentation to learn all about these helpful methods!
 
 All collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
 
@@ -30,12 +30,12 @@ $names = User::all()->reject(function (User $user) {
 <a name="eloquent-collection-conversion"></a>
 #### Eloquent Collection Conversion
 
-While most Eloquent collection methods return a new instance of an Eloquent collection, the `collapse`, `flatten`, `flip`, `keys`, `pluck`, and `zip` methods return a [base collection](/master/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be converted to a base collection instance.
+While most Eloquent collection methods return a new instance of an Eloquent collection, the `collapse`, `flatten`, `flip`, `keys`, `pluck`, and `zip` methods return a [base collection](/v4/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be converted to a base collection instance.
 
 <a name="available-methods"></a>
 ## Available Methods
 
-All Eloquent collections extend the base [LaraGram collection](/master/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
+All Eloquent collections extend the base [LaraGram collection](/v4/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
 In addition, the `LaraGram\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `LaraGram\Database\Eloquent\Collection` instances; however, some methods, like `modelKeys`, return an `LaraGram\Support\Collection` instance.
 
@@ -91,7 +91,7 @@ In addition, the `LaraGram\Database\Eloquent\Collection` class provides a supers
 <a name="method-append"></a>
 #### `append($attributes)` {.collection-method .first-collection-method}
 
-The `append` method may be used to indicate that an attribute should be [appended](/master/eloquent-serialization#appending-values-to-json) for every model in the collection. This method accepts an array of attributes or a single attribute:
+The `append` method may be used to indicate that an attribute should be [appended](/v4/eloquent-serialization#appending-values-to-json) for every model in the collection. This method accepts an array of attributes or a single attribute:
 
 ```php
 $users->append('team');
@@ -214,7 +214,7 @@ $users->modelKeys();
 <a name="method-makeVisible"></a>
 #### `makeVisible($attributes)` {.collection-method}
 
-The `makeVisible` method [makes attributes visible](/master/eloquent-serialization#hiding-attributes-from-json) that are typically "hidden" on each model in the collection:
+The `makeVisible` method [makes attributes visible](/v4/eloquent-serialization#hiding-attributes-from-json) that are typically "hidden" on each model in the collection:
 
 ```php
 $users = $users->makeVisible(['address', 'phone_number']);
@@ -223,7 +223,7 @@ $users = $users->makeVisible(['address', 'phone_number']);
 <a name="method-makeHidden"></a>
 #### `makeHidden($attributes)` {.collection-method}
 
-The `makeHidden` method [hides attributes](/master/eloquent-serialization#hiding-attributes-from-json) that are typically "visible" on each model in the collection:
+The `makeHidden` method [hides attributes](/v4/eloquent-serialization#hiding-attributes-from-json) that are typically "visible" on each model in the collection:
 
 ```php
 $users = $users->makeHidden(['address', 'phone_number']);
@@ -232,7 +232,7 @@ $users = $users->makeHidden(['address', 'phone_number']);
 <a name="method-mergeVisible"></a>
 #### `mergeVisible($attributes)` {.collection-method}
 
-The `mergeVisible` method [makes additional attributes visible](/master/eloquent-serialization#hiding-attributes-from-json) while retaining existing visible attributes:
+The `mergeVisible` method [makes additional attributes visible](/v4/eloquent-serialization#hiding-attributes-from-json) while retaining existing visible attributes:
 
 ```php
 $users = $users->mergeVisible(['middle_name']);
@@ -241,7 +241,7 @@ $users = $users->mergeVisible(['middle_name']);
 <a name="method-mergeHidden"></a>
 #### `mergeHidden($attributes)` {.collection-method}
 
-The `mergeHidden` method [hides additional attributes](/master/eloquent-serialization#hiding-attributes-from-json) while retaining existing hidden attributes:
+The `mergeHidden` method [hides additional attributes](/v4/eloquent-serialization#hiding-attributes-from-json) while retaining existing hidden attributes:
 
 ```php
 $users = $users->mergeHidden(['last_login_at']);
@@ -272,7 +272,7 @@ dump($partition[1]::class); // LaraGram\Database\Eloquent\Collection
 <a name="method-setAppends"></a>
 #### `setAppends($attributes)` {.collection-method}
 
-The `setAppends` method temporarily overrides all of the [appended attributes](/master/eloquent-serialization#appending-values-to-json) on each model in the collection:
+The `setAppends` method temporarily overrides all of the [appended attributes](/v4/eloquent-serialization#appending-values-to-json) on each model in the collection:
 
 ```php
 $users = $users->setAppends(['is_admin']);
@@ -281,7 +281,7 @@ $users = $users->setAppends(['is_admin']);
 <a name="method-setVisible"></a>
 #### `setVisible($attributes)` {.collection-method}
 
-The `setVisible` method [temporarily overrides](/master/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the visible attributes on each model in the collection:
+The `setVisible` method [temporarily overrides](/v4/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the visible attributes on each model in the collection:
 
 ```php
 $users = $users->setVisible(['id', 'name']);
@@ -290,7 +290,7 @@ $users = $users->setVisible(['id', 'name']);
 <a name="method-setHidden"></a>
 #### `setHidden($attributes)` {.collection-method}
 
-The `setHidden` method [temporarily overrides](/master/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the hidden attributes on each model in the collection:
+The `setHidden` method [temporarily overrides](/v4/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the hidden attributes on each model in the collection:
 
 ```php
 $users = $users->setHidden(['email', 'password', 'remember_token']);
@@ -323,7 +323,7 @@ $users = $users->unique();
 <a name="method-withoutAppends"></a>
 #### `withoutAppends()` {.collection-method}
 
-The `withoutAppends` method temporarily removes all of the [appended attributes](/master/eloquent-serialization#appending-values-to-json) on each model in the collection:
+The `withoutAppends` method temporarily removes all of the [appended attributes](/v4/eloquent-serialization#appending-values-to-json) on each model in the collection:
 
 ```php
 $users = $users->withoutAppends();

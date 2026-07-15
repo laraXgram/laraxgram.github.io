@@ -94,7 +94,7 @@ The second value passed to the `env` function is the "default value". This value
 <a name="determining-the-current-environment"></a>
 ### Determining the Current Environment
 
-The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/master/facades):
+The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/v4/facades):
 
 ```php
 use LaraGram\Support\Facades\App;
@@ -138,7 +138,7 @@ php laragram env:encrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
 ```
 
 > [!NOTE]
-> The length of the key provided should match the key length required by the encryption cipher being used. By default, LaraGram will use the `AES-256-CBC` cipher which requires a 32 character key. You are free to use any cipher supported by LaraGram's [encrypter](/master/encryption) by passing the `--cipher` option when invoking the command.
+> The length of the key provided should match the key length required by the encryption cipher being used. By default, LaraGram will use the `AES-256-CBC` cipher which requires a 32 character key. You are free to use any cipher supported by LaraGram's [encrypter](/v4/encryption) by passing the `--cipher` option when invoking the command.
 
 If your application has multiple environment files, such as `.env` and `.env.staging`, you may specify the environment file that should be encrypted by providing the environment name via the `--env` option:
 
@@ -379,4 +379,4 @@ php laragram up
 <a name="maintenance-mode-queues"></a>
 #### Maintenance Mode and Queues
 
-While your application is in maintenance mode, no [queued jobs](/master/queues) will be handled. The jobs will continue to be handled as normal once the application is out of maintenance mode.
+While your application is in maintenance mode, no [queued jobs](/v4/queues) will be handled. The jobs will continue to be handled as normal once the application is out of maintenance mode.

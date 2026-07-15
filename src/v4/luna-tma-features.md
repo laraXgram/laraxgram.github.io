@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Beyond [authentication, theme, and buttons](/master/luna-tma), the Telegram WebApp SDK exposes a large surface of device and platform features — storage, biometrics, location, motion sensors, haptics, popups, sharing, payments, and viewport control. Luna wraps every one of them in a small, **promise-based, SSR-safe** helper so you can `await` them and call them without checking `window.Telegram` first.
+Beyond [authentication, theme, and buttons](/v4/luna-tma), the Telegram WebApp SDK exposes a large surface of device and platform features — storage, biometrics, location, motion sensors, haptics, popups, sharing, payments, and viewport control. Luna wraps every one of them in a small, **promise-based, SSR-safe** helper so you can `await` them and call them without checking `window.Telegram` first.
 
 All helpers are exported from `@laraxgram/luna` with a `telegram*` prefix (the core also exports the unprefixed objects). Each is a thin wrapper over the native SDK, so [Telegram's WebApp documentation](https://core.telegram.org/bots/webapps) is the authoritative reference for behavior and platform support.
 
@@ -126,7 +126,7 @@ telegramHaptic.notification('success')// 'success' | 'warning' | 'error'
 telegramHaptic.selection()            // On a value change in a picker.
 ```
 
-A natural place to fire haptics is a form submit — see the [MainButton example](/master/luna-tma#main-button-and-forms).
+A natural place to fire haptics is a form submit — see the [MainButton example](/v4/luna-tma#main-button-and-forms).
 
 <a name="popups"></a>
 ## Popups, Alerts & QR
@@ -189,7 +189,7 @@ await telegramDownloadFile({ url, file_name: 'invoice.pdf' })
 telegramSwitchInlineQuery('search term', ['users', 'groups'])
 ```
 
-The `preparedMessageId` comes from [`Luna::shareMessage()`](/master/luna-tma#bot-actions) on the server, which prepares the inline message and returns its id.
+The `preparedMessageId` comes from [`Luna::shareMessage()`](/v4/luna-tma#bot-actions) on the server, which prepares the inline message and returns its id.
 
 <a name="invoices"></a>
 ## Payments
@@ -208,7 +208,7 @@ if (status === 'paid') {
 }
 ```
 
-Generate the invoice link server-side with [`Luna::invoiceLink()`](/master/luna-tma#bot-actions).
+Generate the invoice link server-side with [`Luna::invoiceLink()`](/v4/luna-tma#bot-actions).
 
 <a name="viewport"></a>
 ## Viewport & Home Screen
@@ -237,12 +237,12 @@ if (status !== 'added') {
 }
 ```
 
-For reactive viewport height and safe-area insets, use [`useTelegramViewport`](/master/luna-tma#theme-and-viewport) instead of polling.
+For reactive viewport height and safe-area insets, use [`useTelegramViewport`](/v4/luna-tma#theme-and-viewport) instead of polling.
 
 <a name="native-transport"></a>
 ## Native Transport (TMA-first escape hatch)
 
-Most Mini Apps talk to a Luna backend over normal [visits](/master/luna-routing). For a purely client-driven app that hands data back to the *bot* (not an HTTP server), the lightweight native transport sends data straight through Telegram and closes the app:
+Most Mini Apps talk to a Luna backend over normal [visits](/v4/luna-routing). For a purely client-driven app that hands data back to the *bot* (not an HTTP server), the lightweight native transport sends data straight through Telegram and closes the app:
 
 ```js
 import { telegramSendData, telegramCloseMiniApp } from '@laraxgram/luna'
@@ -256,7 +256,7 @@ telegramCloseMiniApp()
 ```
 
 > [!NOTE]
-> `telegramSendData` is an opt-in escape hatch for simple keyboard-button apps. It bypasses your Luna backend entirely, so there's no server-side validation of the result — the bot receives the raw data. Prefer normal Luna visits (which are authenticated by the [`telegram` middleware](/master/luna-tma#the-telegram-middleware)) for anything non-trivial.
+> `telegramSendData` is an opt-in escape hatch for simple keyboard-button apps. It bypasses your Luna backend entirely, so there's no server-side validation of the result — the bot receives the raw data. Prefer normal Luna visits (which are authenticated by the [`telegram` middleware](/v4/luna-tma#the-telegram-middleware)) for anything non-trivial.
 
 <a name="testing-with-the-mock"></a>
 ## Testing with the Mock
@@ -276,12 +276,12 @@ installTelegramMock({
 ```
 
 > [!WARNING]
-> The mock is for local development and testing only. It fabricates client-side state and provides **no** security. `initData` is always empty for a mock — the real security boundary is server-side [init-data validation](/master/luna-tma#authentication), which a mock cannot and must not satisfy. Never rely on a mock to represent an authenticated user in production.
+> The mock is for local development and testing only. It fabricates client-side state and provides **no** security. `initData` is always empty for a mock — the real security boundary is server-side [init-data validation](/v4/luna-tma#authentication), which a mock cannot and must not satisfy. Never rely on a mock to represent an authenticated user in production.
 
 <a name="framework-notes"></a>
 ## Framework Notes
 
-Every helper in this chapter is framework-agnostic — the same `telegram*` imports work in React, Vue, and Svelte, because they operate on the native SDK directly rather than on framework state. Use them alongside the [reactive hooks](/master/luna-tma#theme-and-viewport) (`useTelegram`, `useTelegramFormButton`, `useTelegramBackButton`, …), which *are* framework-specific and live in `@laraxgram/react`, `@laraxgram/vue3`, and `@laraxgram/svelte`.
+Every helper in this chapter is framework-agnostic — the same `telegram*` imports work in React, Vue, and Svelte, because they operate on the native SDK directly rather than on framework state. Use them alongside the [reactive hooks](/v4/luna-tma#theme-and-viewport) (`useTelegram`, `useTelegramFormButton`, `useTelegramBackButton`, …), which *are* framework-specific and live in `@laraxgram/react`, `@laraxgram/vue3`, and `@laraxgram/svelte`.
 
 <a name="wrap-up"></a>
 ## Wrap-Up
@@ -290,12 +290,12 @@ That completes the Luna documentation:
 
 <div class="content-list" markdown="1">
 
-- **[Luna](/master/luna)** — introduction, installation, and how it works.
-- **[Pages & Props](/master/luna-pages)** — rendering and data.
-- **[Routing & Visits](/master/luna-routing)** — navigation.
-- **[Forms](/master/luna-forms)** — sending data back.
-- **[Frontend Setup](/master/luna-frontend)** — frameworks, layouts, Vite, SSR.
-- **[Telegram Mini Apps](/master/luna-tma)** — auth, theme, and native buttons.
+- **[Luna](/v4/luna)** — introduction, installation, and how it works.
+- **[Pages & Props](/v4/luna-pages)** — rendering and data.
+- **[Routing & Visits](/v4/luna-routing)** — navigation.
+- **[Forms](/v4/luna-forms)** — sending data back.
+- **[Frontend Setup](/v4/luna-frontend)** — frameworks, layouts, Vite, SSR.
+- **[Telegram Mini Apps](/v4/luna-tma)** — auth, theme, and native buttons.
 - **Telegram Features** — the device-feature surface (this page).
 
 </div>

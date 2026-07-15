@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-LaraGram is a backend framework that provides all of the features you need to build modern web applications, such as [routing](/master/routing), [validation](/master/validation), [caching](/master/cache), [queues](/master/queues), [file storage](/master/filesystem), and more. However, we believe it's important to offer developers a beautiful full-stack experience, including powerful approaches for building your application's frontend.
+LaraGram is a backend framework that provides all of the features you need to build modern web applications, such as [routing](/v4/routing), [validation](/v4/validation), [caching](/v4/cache), [queues](/v4/queues), [file storage](/v4/filesystem), and more. However, we believe it's important to offer developers a beautiful full-stack experience, including powerful approaches for building your application's frontend.
 
 There are two primary ways to tackle frontend development when building an application with LaraGram, and which approach you choose is determined by whether you would like to build your frontend by leveraging PHP or by using JavaScript frameworks such as React, Svelte, and Vue. We'll discuss both of these options below so that you can make an informed decision regarding the best approach to frontend development for your application.
 
@@ -23,7 +23,7 @@ In the past, most PHP applications rendered HTML to the browser using simple HTM
 </div>
 ```
 
-In LaraGram, this approach to rendering HTML can still be achieved using [views](/master/views) and [Blade](/master/blade). Blade is an extremely light-weight templating language that provides convenient, short syntax for displaying data, iterating over data, and more:
+In LaraGram, this approach to rendering HTML can still be achieved using [views](/v4/views) and [Blade](/v4/blade). Blade is an extremely light-weight templating language that provides convenient, short syntax for displaying data, iterating over data, and more:
 
 ```blade
 <div>
@@ -57,7 +57,7 @@ In addition, developers are left maintaining two separate code repositories, oft
 <a name="luna"></a>
 ### Luna
 
-Thankfully, LaraGram offers the best of both worlds. [Luna](https://laraxgram.github.io/master/luna) bridges the gap between your LaraGram application and your modern React, Svelte, or Vue frontend, allowing you to build full-fledged, modern frontends using React, Svelte, or Vue while leveraging LaraGram routes and controllers for routing, data hydration, and authentication — all within a single code repository. With this approach, you can enjoy the full power of both LaraGram and React / Svelte / Vue without crippling the capabilities of either tool.
+Thankfully, LaraGram offers the best of both worlds. [Luna](https://laraxgram.github.io/v4/luna) bridges the gap between your LaraGram application and your modern React, Svelte, or Vue frontend, allowing you to build full-fledged, modern frontends using React, Svelte, or Vue while leveraging LaraGram routes and controllers for routing, data hydration, and authentication — all within a single code repository. With this approach, you can enjoy the full power of both LaraGram and React / Svelte / Vue without crippling the capabilities of either tool.
 
 After installing Luna into your LaraGram application, you will write routes and controllers like normal. However, instead of returning a Blade template from your controller, you will return an Luna page:
 
@@ -105,21 +105,21 @@ As you can see, Luna allows you to leverage the full power of React, Svelte, or 
 
 #### Server-Side Rendering
 
-If you're concerned about diving into Luna because your application requires server-side rendering, don't worry. Luna offers [server-side rendering support](https://laraxgram.github.io/master/luna#server-side-rendering). And, when deploying your application via [LaraGram Cloud](https://cloud.LaraGram.com) or [LaraGram Forge](https://forge.LaraGram.com), it's a breeze to ensure that Luna's server-side rendering process is always running.
+If you're concerned about diving into Luna because your application requires server-side rendering, don't worry. Luna offers [server-side rendering support](https://laraxgram.github.io/v4/luna#server-side-rendering). And, when deploying your application via [LaraGram Cloud](https://cloud.LaraGram.com) or [LaraGram Forge](https://forge.LaraGram.com), it's a breeze to ensure that Luna's server-side rendering process is always running.
 
 <a name="luna-starter-kits"></a>
 ### Starter Kits
 
-If you would like to build your frontend using Luna and React / Svelte / Vue, you can leverage our [React, Svelte, or Vue application starter kits](/master/starter-kits) to jump-start your application's development. All of these starter kits scaffold your application's backend and frontend authentication flow using Luna, React / Svelte / Vue, [Tailwind](https://tailwindcss.com), and [Vite](https://vitejs.dev) so that you can start building your next big idea.
+If you would like to build your frontend using Luna and React / Svelte / Vue, you can leverage our [React, Svelte, or Vue application starter kits](/v4/starter-kits) to jump-start your application's development. All of these starter kits scaffold your application's backend and frontend authentication flow using Luna, React / Svelte / Vue, [Tailwind](https://tailwindcss.com), and [Vite](https://vitejs.dev) so that you can start building your next big idea.
 
 <a name="bundling-assets"></a>
 ## Bundling Assets
 
 Regardless of whether you choose to develop your frontend using Blade or React / Svelte / Vue and Luna, you will likely need to bundle your application's CSS into production-ready assets. Of course, if you choose to build your application's frontend with React, Svelte, or Vue, you will also need to bundle your components into browser ready JavaScript assets.
 
-By default, LaraGram utilizes [Vite](https://vitejs.dev) to bundle your assets. Vite provides lightning-fast build times and near instantaneous Hot Module Replacement (HMR) during local development. In all new LaraGram applications, including those using our [starter kits](/master/starter-kits), you will find a `vite.config.js` file that loads our light-weight LaraGram Vite plugin that makes Vite a joy to use with LaraGram applications.
+By default, LaraGram utilizes [Vite](https://vitejs.dev) to bundle your assets. Vite provides lightning-fast build times and near instantaneous Hot Module Replacement (HMR) during local development. In all new LaraGram applications, including those using our [starter kits](/v4/starter-kits), you will find a `vite.config.js` file that loads our light-weight LaraGram Vite plugin that makes Vite a joy to use with LaraGram applications.
 
-The fastest way to get started with LaraGram and Vite is by beginning your application's development using [our application starter kits](/master/starter-kits), which jump-starts your application by providing frontend and backend authentication scaffolding.
+The fastest way to get started with LaraGram and Vite is by beginning your application's development using [our application starter kits](/v4/starter-kits), which jump-starts your application by providing frontend and backend authentication scaffolding.
 
 > [!NOTE]
-> For more detailed documentation on utilizing Vite with LaraGram, please see our [dedicated documentation on bundling and compiling your assets](/master/vite).
+> For more detailed documentation on utilizing Vite with LaraGram, please see our [dedicated documentation on bundling and compiling your assets](/v4/vite).

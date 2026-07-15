@@ -3,12 +3,12 @@
 <a name="introduction"></a>
 ## Introduction
 
-In a Luna application there is only *one* router — LaraGram's. You never define client-side routes. Instead, you navigate by telling Luna to *visit* a URL: it issues an XHR, receives the new [page object](/master/luna#the-protocol), swaps the component, and updates the browser history. This chapter covers the two ways to trigger a visit — the `<Link>` component and the programmatic router — plus redirects, prefetching, polling, and history management.
+In a Luna application there is only *one* router — LaraGram's. You never define client-side routes. Instead, you navigate by telling Luna to *visit* a URL: it issues an XHR, receives the new [page object](/v4/luna#the-protocol), swaps the component, and updates the browser history. This chapter covers the two ways to trigger a visit — the `<Link>` component and the programmatic router — plus redirects, prefetching, polling, and history management.
 
 <a name="defining-routes"></a>
 ## Defining Routes
 
-Routes are ordinary LaraGram [routes](/master/routing). Any route whose controller returns a [Luna response](/master/luna-pages#rendering-pages) is a Luna page. For pages that need no controller logic, the `Route::luna()` macro is a shortcut:
+Routes are ordinary LaraGram [routes](/v4/routing). Any route whose controller returns a [Luna response](/v4/luna-pages#rendering-pages) is a Luna page. For pages that need no controller logic, the `Route::luna()` macro is a shortcut:
 
 ```php
 use LaraGram\Support\Facades\Route;
@@ -51,7 +51,7 @@ By default `<Link>` issues a `GET` visit. Change the method and send data for no
 | `href` | The target URL (or a `{ url, method }` pair). |
 | `method` | HTTP verb: `get` (default), `post`, `put`, `patch`, `delete`. |
 | `data` | Data to send with the request. |
-| `only` / `except` | Perform a [partial reload](/master/luna-pages#partial-reloads) of specific props. |
+| `only` / `except` | Perform a [partial reload](/v4/luna-pages#partial-reloads) of specific props. |
 | `preserveScroll` | Keep the current scroll position after the visit. |
 | `preserveState` | Keep the current page component's local state. |
 | `replace` | Replace the current history entry instead of pushing a new one. |
@@ -111,7 +111,7 @@ router.post('/users', data, {
 <a name="reloading"></a>
 ### Reloading the Current Page
 
-`router.reload()` re-requests the current URL — commonly with `only` for a [partial reload](/master/luna-pages#partial-reloads):
+`router.reload()` re-requests the current URL — commonly with `only` for a [partial reload](/v4/luna-pages#partial-reloads):
 
 ```js
 router.reload()
@@ -162,7 +162,7 @@ The `luna_location()` helper is a shorthand for the same thing.
 <a name="the-page-object"></a>
 ## The Page Object
 
-Every page component can read the current [page object](/master/luna#the-protocol) — its props, URL, component name, and version — via `usePage`:
+Every page component can read the current [page object](/v4/luna#the-protocol) — its props, URL, component name, and version — via `usePage`:
 
 ```jsx
 import { usePage } from '@laraxgram/react'
@@ -173,7 +173,7 @@ function Nav() {
 }
 ```
 
-Vue exposes `usePage()` from `@laraxgram/vue3`; Svelte exposes both `usePage()` and a `page` store from `@laraxgram/svelte`. This is how you access [shared props](/master/luna-pages#shared-data) — including the [Telegram context](/master/luna-tma#shared-context) — anywhere in the tree.
+Vue exposes `usePage()` from `@laraxgram/vue3`; Svelte exposes both `usePage()` and a `page` store from `@laraxgram/svelte`. This is how you access [shared props](/v4/luna-pages#shared-data) — including the [Telegram context](/v4/luna-tma#shared-context) — anywhere in the tree.
 
 <a name="prefetching"></a>
 ## Prefetching
@@ -199,7 +199,7 @@ The `usePrefetch()` hook exposes the prefetch state for a given set of options �
 <a name="polling"></a>
 ## Polling
 
-To keep a page fresh, poll the server on an interval. The `usePoll` hook wraps a repeating [partial reload](/master/luna-pages#partial-reloads):
+To keep a page fresh, poll the server on an interval. The `usePoll` hook wraps a repeating [partial reload](/v4/luna-pages#partial-reloads):
 
 ```jsx
 import { usePoll } from '@laraxgram/react'
@@ -213,7 +213,7 @@ Pass `{ keepAlive: true }` to keep polling while the tab is in the background, a
 <a name="infinite-scroll"></a>
 ## Infinite Scroll
 
-The `<InfiniteScroll>` component pairs with [merge props](/master/luna-pages#merging-props) or [scroll props](/master/luna-pages#scroll-props) to load more items as the user reaches the end of a list — no manual page tracking:
+The `<InfiniteScroll>` component pairs with [merge props](/v4/luna-pages#merging-props) or [scroll props](/v4/luna-pages#scroll-props) to load more items as the user reaches the end of a list — no manual page tracking:
 
 ```jsx
 import { InfiniteScroll } from '@laraxgram/react'
@@ -242,7 +242,7 @@ For lower-level control, `router.remember(data, key)` and `router.restore(key)` 
 <a name="events"></a>
 ## Global Events
 
-Subscribe to the visit lifecycle globally — useful for [progress bars](/master/luna-frontend#progress-indicator), analytics, or logging. `router.on()` returns an unsubscribe function:
+Subscribe to the visit lifecycle globally — useful for [progress bars](/v4/luna-frontend#progress-indicator), analytics, or logging. `router.on()` returns an unsubscribe function:
 
 ```js
 const off = router.on('start', (event) => {
@@ -268,9 +268,9 @@ return Luna::render('Account', $props)->encryptHistory();
 Luna::clearHistory();
 ```
 
-Or apply the `luna.encrypt` middleware to a route group. See [config/luna.php](/master/luna#server-side-installation) for the global switch.
+Or apply the `luna.encrypt` middleware to a route group. See [config/luna.php](/v4/luna#server-side-installation) for the global switch.
 
 <a name="next"></a>
 ## Next Steps
 
-With navigation covered, move on to sending data to the server with [Forms](/master/luna-forms), or wiring up your framework and layouts in [Frontend Setup](/master/luna-frontend).
+With navigation covered, move on to sending data to the server with [Forms](/v4/luna-forms), or wiring up your framework and layouts in [Frontend Setup](/v4/luna-frontend).

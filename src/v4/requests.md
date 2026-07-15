@@ -11,7 +11,7 @@ LaraGram's `LaraGram\Request\Request` class provides an object-oriented way to i
 <a name="accessing-the-request"></a>
 ### Accessing the Request
 
-To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/master/container):
+To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/v4/container):
 
 ```php
 <?php
@@ -96,7 +96,7 @@ $scope = $request->scope();
 <a name="inspecting-the-request-listen"></a>
 #### Inspecting the Request Listen
 
-Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/master/listening#named-listens):
+Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/v4/listening#named-listens):
 
 ```php
 if ($request->listenIs('admin.*')) {
@@ -206,7 +206,7 @@ $validated = $request->validate([
 $text = $validated->message->text;
 ```
 
-For more information, check out the complete [validation documentation](/master/validation).
+For more information, check out the complete [validation documentation](/v4/validation).
 
 <a name="merging-additional-input"></a>
 ### Merging Additional Input
@@ -537,7 +537,7 @@ ANTI_FLOOD_STORE=redis
 ```
 
 > [!WARNING]
-> On a webhook bot, each incoming update is handled by a **separate PHP process**. For per-chat pacing to hold across those processes, anti-flood state must live in a **shared** cache store. Use `redis` (or another shared driver) for webhooks. The `array` store is only correct for a single long-running process such as [Surge](/master/surge). Durable stores like `database` and `file` are not recommended for this hot, ephemeral state.
+> On a webhook bot, each incoming update is handled by a **separate PHP process**. For per-chat pacing to hold across those processes, anti-flood state must live in a **shared** cache store. Use `redis` (or another shared driver) for webhooks. The `array` store is only correct for a single long-running process such as [Surge](/v4/surge). Durable stores like `database` and `file` are not recommended for this hot, ephemeral state.
 
 <a name="anti-flood-configuration"></a>
 ### Configuration

@@ -3,12 +3,12 @@
 <a name="introduction"></a>
 ## Introduction
 
-A **Telegram Mini App (TMA)** is a web application that runs inside the Telegram client. It opens in a WebView, can read the user's Telegram identity, adopts Telegram's theme, and drives native UI like the back button and the MainButton. Luna is built to make Mini Apps first-class: a Mini App is a [Luna SPA](/master/luna) that additionally speaks the Telegram WebApp protocol.
+A **Telegram Mini App (TMA)** is a web application that runs inside the Telegram client. It opens in a WebView, can read the user's Telegram identity, adopts Telegram's theme, and drives native UI like the back button and the MainButton. Luna is built to make Mini Apps first-class: a Mini App is a [Luna SPA](/v4/luna) that additionally speaks the Telegram WebApp protocol.
 
-This chapter covers the Mini App essentials — validating who the user is, sharing that identity with the frontend, and wiring the reactive theme, viewport, and native buttons. For the full device-feature surface (CloudStorage, biometrics, location, sensors, popups, sharing, invoices), see [Telegram Features](/master/luna-tma-features).
+This chapter covers the Mini App essentials — validating who the user is, sharing that identity with the frontend, and wiring the reactive theme, viewport, and native buttons. For the full device-feature surface (CloudStorage, biometrics, location, sensors, popups, sharing, invoices), see [Telegram Features](/v4/luna-tma-features).
 
 > [!NOTE]
-> Everything in the SPA chapters ([Pages](/master/luna-pages), [Routing](/master/luna-routing), [Forms](/master/luna-forms), [Frontend](/master/luna-frontend)) applies to Mini Apps unchanged. This chapter only adds the Telegram layer.
+> Everything in the SPA chapters ([Pages](/v4/luna-pages), [Routing](/v4/luna-routing), [Forms](/v4/luna-forms), [Frontend](/v4/luna-frontend)) applies to Mini Apps unchanged. This chapter only adds the Telegram layer.
 
 <a name="how-a-mini-app-works"></a>
 ### How a Mini App Works
@@ -64,7 +64,7 @@ BOT_TOKEN=123456:AA...your-bot-token
 <a name="the-root-template"></a>
 ## The Root Template
 
-A Mini App's [root Blade template](/master/luna#root-template) adds the `@telegramWebApp` directive, which injects `telegram-web-app.js` from the configured `sdk_url`. It must load **before** your app bundle so `window.Telegram.WebApp` exists when the app boots:
+A Mini App's [root Blade template](/v4/luna#root-template) adds the `@telegramWebApp` directive, which injects `telegram-web-app.js` from the configured `sdk_url`. It must load **before** your app bundle so `window.Telegram.WebApp` exists when the app boots:
 
 ```blade
 <!DOCTYPE html>
@@ -161,7 +161,7 @@ telegram()->has();        // was the request authenticated?
 <a name="the-auth-guard"></a>
 ### The `telegram` Auth Guard
 
-Luna registers a `telegram` [authentication guard](/master/authentication) that resolves your application user from the validated Telegram id. Configure it in `config/auth.php`:
+Luna registers a `telegram` [authentication guard](/v4/authentication) that resolves your application user from the validated Telegram id. Configure it in `config/auth.php`:
 
 ```php
 'guards' => [
@@ -184,7 +184,7 @@ Point the guard's user provider at a column that stores the Telegram id (e.g. `t
 <a name="shared-context"></a>
 ## The Shared Telegram Context
 
-When `telegram.share_props` is enabled (the default), the middleware automatically [shares](/master/luna-pages#shared-data) a `telegram` prop on every response, carrying the **server-validated** context:
+When `telegram.share_props` is enabled (the default), the middleware automatically [shares](/v4/luna-pages#shared-data) a `telegram` prop on every response, carrying the **server-validated** context:
 
 ```php
 // Shared automatically — you don't write this:
@@ -318,7 +318,7 @@ Vue and Svelte export `useTelegramBackButton` with the same options, scoped to t
 <a name="main-button-and-forms"></a>
 ## The MainButton & Forms
 
-Telegram's MainButton (and SecondaryButton) is the primary call-to-action at the bottom of a Mini App. Luna binds it directly to a [Luna form](/master/luna-forms): the button submits the form on tap, shows a progress spinner while submitting, and stays disabled until the form is dirty (and valid):
+Telegram's MainButton (and SecondaryButton) is the primary call-to-action at the bottom of a Mini App. Luna binds it directly to a [Luna form](/v4/luna-forms): the button submits the form on tap, shows a progress spinner while submitting, and stays disabled until the form is dirty (and valid):
 
 ```jsx
 import { useForm, useTelegramFormButton } from '@laraxgram/react'
@@ -406,7 +406,7 @@ Luna::setMenuButton(['type' => 'commands']);
 Luna::miniAppMenuButton('Open App', 'https://t.me/yourbot/app');
 ```
 
-`shareMessage` returns a Bot API `PreparedInlineMessage` (with an `id`); hand that id to the client, which calls [`telegramShare`](/master/luna-tma-features#sharing) to open the native share sheet.
+`shareMessage` returns a Bot API `PreparedInlineMessage` (with an `id`); hand that id to the client, which calls [`telegramShare`](/v4/luna-tma-features#sharing) to open the native share sheet.
 
 <a name="js-backends"></a>
 ## JavaScript Backends (tgcloud)
@@ -441,4 +441,4 @@ The core also exports the lower-level `validateInitData()` / `tryValidateInitDat
 <a name="next"></a>
 ## Next Steps
 
-You now have an authenticated, themed, native-integrated Mini App. Add device features — CloudStorage, biometrics, location, sensors, haptics, popups, sharing, invoices, and the test mock — in [Telegram Features](/master/luna-tma-features).
+You now have an authenticated, themed, native-integrated Mini App. Add device features — CloudStorage, biometrics, location, sensors, haptics, popups, sharing, invoices, and the test mock — in [Telegram Features](/v4/luna-tma-features).

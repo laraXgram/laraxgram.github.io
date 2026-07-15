@@ -20,7 +20,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-The MTProto component connects your LaraGram application directly to Telegram's core network protocol — the same protocol the official Telegram apps speak. Where the standard [Bot listener](/master/listening) talks to the Telegram **Bot API** over HTTP, MTProto talks to Telegram's data centers over a raw, encrypted TCP connection. This unlocks the full Telegram surface: logging in as a **real user account** (a "userbot"), downloading any file, managing channels and supergroups, reading dialogs, secret chats, stories, stars, takeout exports, and hundreds of API methods the Bot API never exposes.
+The MTProto component connects your LaraGram application directly to Telegram's core network protocol — the same protocol the official Telegram apps speak. Where the standard [Bot listener](/v4/listening) talks to the Telegram **Bot API** over HTTP, MTProto talks to Telegram's data centers over a raw, encrypted TCP connection. This unlocks the full Telegram surface: logging in as a **real user account** (a "userbot"), downloading any file, managing channels and supergroups, reading dialogs, secret chats, stories, stars, takeout exports, and hundreds of API methods the Bot API never exposes.
 
 The best part is that none of the protocol complexity leaks into your application. You never open a socket, generate an auth key, or serialize a TL object by hand. Everything is expressed through the same LaraGram idioms you already use — facades, a listen file, a `Request` object, and configuration. Authentication is a single Commander command; listening for updates looks exactly like listening for Bot updates; sending messages is one expressive method call.
 
@@ -53,20 +53,20 @@ MTProto supports two kinds of login, and both are driven through the same API:
 
 </div>
 
-You choose which one a session is when you [authenticate](/master/mtproto-authentication) it. The listeners and high-level API you write are identical either way.
+You choose which one a session is when you [authenticate](/v4/mtproto-authentication) it. The listeners and high-level API you write are identical either way.
 
 <a name="feature-overview"></a>
 ### Feature Overview
 
 | Area | Highlights | Reference |
 |------|-----------|-----------|
-| Authentication | Phone, bot token, QR login, 2FA, sign-up; multi-account sessions | [Authentication](/master/mtproto-authentication) |
-| Listening | 200+ update verbs, `incomming()`/`outgoing()`, session scoping, groups, middleware, steps | [Listening](/master/mtproto-listening) |
-| Requests | Send messages, `parse_mode`/entities, rich messages, keyboards, namespaced API | [Requests](/master/mtproto-requests) |
-| Chats | Channel/supergroup management, participants, admin rights, invite links, forums, communities | [Chats & Channels](/master/mtproto-chats) |
-| Media | Upload/download, photos/video/documents/albums, `file_id` reuse, stories | [Media](/master/mtproto-media) |
-| Advanced | Secret chats, takeout export, stars & gifts, reactions, drafts, business | [Features](/master/mtproto-features) |
-| Configuration | Transport, proxy, stores, rate-limit, pacing, device fingerprint, ban-safety | [Configuration](/master/mtproto-configuration) |
+| Authentication | Phone, bot token, QR login, 2FA, sign-up; multi-account sessions | [Authentication](/v4/mtproto-authentication) |
+| Listening | 200+ update verbs, `incomming()`/`outgoing()`, session scoping, groups, middleware, steps | [Listening](/v4/mtproto-listening) |
+| Requests | Send messages, `parse_mode`/entities, rich messages, keyboards, namespaced API | [Requests](/v4/mtproto-requests) |
+| Chats | Channel/supergroup management, participants, admin rights, invite links, forums, communities | [Chats & Channels](/v4/mtproto-chats) |
+| Media | Upload/download, photos/video/documents/albums, `file_id` reuse, stories | [Media](/v4/mtproto-media) |
+| Advanced | Secret chats, takeout export, stars & gifts, reactions, drafts, business | [Features](/v4/mtproto-features) |
+| Configuration | Transport, proxy, stores, rate-limit, pacing, device fingerprint, ban-safety | [Configuration](/v4/mtproto-configuration) |
 
 <a name="installation"></a>
 ## Installation
@@ -101,7 +101,7 @@ Publish the configuration file to `config/mtproto.php` so you can tune it for yo
 php laragram vendor:publish --tag=mtproto-config
 ```
 
-The published file is heavily commented and covers every option — sessions, transport, stores, rate limiting, device fingerprint, and more. See the [Configuration](/master/mtproto-configuration) reference for a full walkthrough. Sensible defaults ship out of the box, so for a first run you only need the `API_ID` and `API_HASH` values above.
+The published file is heavily commented and covers every option — sessions, transport, stores, rate limiting, device fingerprint, and more. See the [Configuration](/v4/mtproto-configuration) reference for a full walkthrough. Sensible defaults ship out of the box, so for a first run you only need the `API_ID` and `API_HASH` values above.
 
 <a name="registering-listen-files"></a>
 ## Registering Listen Files
@@ -149,7 +149,7 @@ Client::onText('hello', function (ClientRequest $request) {
 <a name="binding-a-session-to-a-bot-listen-file"></a>
 ### Binding a Session to a Bot Listen File
 
-The `bot:` slot accepts a `path => name` pair. When the name matches an MTProto **session** (see [multi-account sessions](/master/mtproto-authentication#multi-account-sessions)), that listen file is served by an MTProto **bot** client rather than the HTTP Bot API. The listener code is written identically — with the `Client` facade and a `ClientRequest`:
+The `bot:` slot accepts a `path => name` pair. When the name matches an MTProto **session** (see [multi-account sessions](/v4/mtproto-authentication#multi-account-sessions)), that listen file is served by an MTProto **bot** client rather than the HTTP Bot API. The listener code is written identically — with the `Client` facade and a `ClientRequest`:
 
 ```php
 // listens/mybot.php  (bound as the "bot" MTProto session)
@@ -183,7 +183,7 @@ php laragram client:auth --bot=123456:ABC-DEF...
 php laragram client:auth --qr
 ```
 
-The command creates a **session** on disk (default name: `default`) that stores the auth key so you never have to log in again. See [Authentication](/master/mtproto-authentication) for the full flow, 2FA, and multi-account setups.
+The command creates a **session** on disk (default name: `default`) that stores the auth key so you never have to log in again. See [Authentication](/v4/mtproto-authentication) for the full flow, 2FA, and multi-account setups.
 
 <a name="writing-a-listener"></a>
 ### Writing a Listener
@@ -203,12 +203,12 @@ Client::onCommand('start', function (ClientRequest $request) {
 });
 ```
 
-The complete verb catalog, the `ClientRequest` object, and update scoping live in the [Listening](/master/mtproto-listening) reference.
+The complete verb catalog, the `ClientRequest` object, and update scoping live in the [Listening](/v4/mtproto-listening) reference.
 
 <a name="running-the-client"></a>
 ### Running the Client
 
-In production the client runs **inside** the [Surge](/master/surge) server — booting Surge starts the update pump automatically for every authorized session, with no extra wiring:
+In production the client runs **inside** the [Surge](/v4/surge) server — booting Surge starts the update pump automatically for every authorized session, with no extra wiring:
 
 ```shell
 php laragram surge:start
@@ -230,7 +230,7 @@ php laragram client:start --all
 <a name="architecture-overview"></a>
 ## Architecture Overview
 
-At a high level, an incoming Telegram update flows through the same shape as a Bot update, so everything you know from [Listening](/master/listening) carries over:
+At a high level, an incoming Telegram update flows through the same shape as a Bot update, so everything you know from [Listening](/v4/listening) carries over:
 
 <div class="content-list" markdown="1">
 
@@ -249,12 +249,12 @@ Replies automatically route back to the **session that received the update**, so
 
 <div class="content-list" markdown="1">
 
-- [Authentication](/master/mtproto-authentication) — log in (phone/bot/QR/2FA), multi-account sessions, importing and encrypting sessions.
-- [Listening](/master/mtproto-listening) — every update verb, the `ClientRequest` object, scoping, groups, and middleware.
-- [Requests](/master/mtproto-requests) — sending messages, formatting, keyboards, and the namespaced API.
-- [Chats & Channels](/master/mtproto-chats) — managing groups, channels, participants, forums, and communities.
-- [Media](/master/mtproto-media) — uploading and downloading files, albums, and stories.
-- [Features](/master/mtproto-features) — secret chats, takeout, stars, reactions, and more.
-- [Configuration](/master/mtproto-configuration) — the full config reference and ban-safety guidance.
+- [Authentication](/v4/mtproto-authentication) — log in (phone/bot/QR/2FA), multi-account sessions, importing and encrypting sessions.
+- [Listening](/v4/mtproto-listening) — every update verb, the `ClientRequest` object, scoping, groups, and middleware.
+- [Requests](/v4/mtproto-requests) — sending messages, formatting, keyboards, and the namespaced API.
+- [Chats & Channels](/v4/mtproto-chats) — managing groups, channels, participants, forums, and communities.
+- [Media](/v4/mtproto-media) — uploading and downloading files, albums, and stories.
+- [Features](/v4/mtproto-features) — secret chats, takeout, stars, reactions, and more.
+- [Configuration](/v4/mtproto-configuration) — the full config reference and ban-safety guidance.
 
 </div>

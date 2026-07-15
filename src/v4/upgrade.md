@@ -1,4 +1,96 @@
 # Upgrade Guide
 
+- [Upgrading To 4.0 From 3.x](#upgrade-4.0)
+
+<a name="upgrade-4.0"></a>
+## Upgrading To 4.0 From 3.x
+
+#### Estimated Upgrade Time: 15 Minutes
+
 > [!NOTE]
-> Upgrading from previous versions to version 3 is not recommended. Version 3 includes major changes in structure and features that make upgrading difficult.
+> LaraGram 4 is a largely **additive** release with minimal breaking changes to the bot layer. Most of
+> the new work is in brand-new components (MTProto, Luna, the web layer). Bumping the dependency plus
+> the steps below is usually all that is required.
+
+<a name="php-8.3-required"></a>
+### PHP 8.3 Required
+
+**Likelihood Of Impact: High**
+
+LaraGram 4 requires PHP 8.3 – 8.5. Update your environment before upgrading.
+
+<a name="updating-dependencies"></a>
+### Updating Dependencies
+
+**Likelihood Of Impact: High**
+
+In `composer.json`, set `laraxgram/laragram` to `^4.0` (and update any first-party packages to their
+4.x releases), then run:
+
+```shell
+composer update
+```
+
+<a name="post-upgrade-steps"></a>
+### Post-Upgrade Steps
+
+**Likelihood Of Impact: High**
+
+The new web layer needs a few directories and config files that did not exist in 3.x. Apply the ones
+relevant to your application:
+
+**1. Create the storage cache directories.** Views and templates are compiled to `storage/framework`:
+
+```shell
+mkdir -p storage/framework/{views,templates,sessions}
+```
+
+**2. Enable web routing (if used).** To serve HTTP routes, register them in `bootstrap/app.php`:
+
+```php
+->withRouting(
+    web: __DIR__.'/../routes/web.php',
+    api: __DIR__.'/../routes/api.php',
+)
+```
+
+**3. Add the `routes` and `resources` folders as needed.** Create only what you use — e.g.
+`routes/web.php`, `resources/views`, `resources/css`, `resources/js`.
+
+**4. Publish the new config files** from vendor (for example `session.php`):
+
+```shell
+php commander vendor:publish
+```
+
+**5. Update the LaraGram installer** so `laragram new` scaffolds 4.x projects:
+
+```shell
+composer global require laraxgram/installer
+```
+
+<a name="redirects"></a>
+### Redirects Documentation
+
+**Likelihood Of Impact: Low**
+
+The standalone `redirects` page is merged into [HTTP responses](/v4/http-responses). Documentation
+change only — the helpers are unchanged.
+
+<a name="whats-new"></a>
+## Adopting New Features (Optional)
+
+None of this is required to upgrade:
+
+<div class="content-list" markdown="1">
+
+- [**MTProto & User Clients**](/v4/mtproto) — full Telegram client, no Bot API limits.
+- [**Luna**](/v4/luna) — React / Vue / Svelte frontends and [Mini Apps](/v4/luna-tma).
+- **Web layer** — [routing](/v4/routing), [HTTP requests](/v4/http-requests) /
+  [responses](/v4/http-responses), [HTTP client](/v4/http-client), [Blade](/v4/blade),
+  [views](/v4/views), [Vite](/v4/vite), [sessions](/v4/session).
+- [**Conversations**](/v4/conversations) — declarative multi-step Q&A flows.
+- [**API Resources**](/v4/eloquent-resources), [**pagination**](/v4/pagination),
+  [**Precognition**](/v4/precognition).
+
+</div>

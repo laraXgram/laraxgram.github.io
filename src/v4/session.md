@@ -31,7 +31,7 @@ The session `driver` configuration option defines where session data will be sto
 <a name="database"></a>
 #### Database
 
-When using the `database` session driver, you will need to ensure that you have a database table to contain the session data. Typically, this is included in LaraGram's default `0001_01_01_000000_create_users_table.php` [database migration](/master/migrations); however, if for any reason you do not have a `sessions` table, you may use the `make:session-table` Commander command to generate this migration:
+When using the `database` session driver, you will need to ensure that you have a database table to contain the session data. Typically, this is included in LaraGram's default `0001_01_01_000000_create_users_table.php` [database migration](/v4/migrations); however, if for any reason you do not have a `sessions` table, you may use the `make:session-table` Commander command to generate this migration:
 
 ```shell
 php laragram make:session-table
@@ -42,7 +42,7 @@ php laragram migrate
 <a name="redis"></a>
 #### Redis
 
-Before using Redis sessions with LaraGram, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer. For more information on configuring Redis, consult LaraGram's [Redis documentation](/master/redis#configuration).
+Before using Redis sessions with LaraGram, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer. For more information on configuring Redis, consult LaraGram's [Redis documentation](/v4/redis#configuration).
 
 > [!NOTE]
 > The `SESSION_CONNECTION` environment variable, or the `connection` option in the `session.php` configuration file, may be used to specify which Redis connection is used for session storage.
@@ -53,7 +53,7 @@ Before using Redis sessions with LaraGram, you will need to either install the P
 <a name="retrieving-data"></a>
 ### Retrieving Data
 
-There are two primary ways of working with session data in LaraGram: the global `session` helper and via a `Request` instance. First, let's look at accessing the session via a `Request` instance, which can be type-hinted on a route closure or controller method. Remember, controller method dependencies are automatically injected via the LaraGram [service container](/master/container):
+There are two primary ways of working with session data in LaraGram: the global `session` helper and via a `Request` instance. First, let's look at accessing the session via a `Request` instance, which can be type-hinted on a route closure or controller method. Remember, controller method dependencies are automatically injected via the LaraGram [service container](/v4/container):
 
 ```php
 <?php
@@ -248,7 +248,7 @@ $request->session()->flush();
 
 Regenerating the session ID is often done in order to prevent malicious users from exploiting a [session fixation](https://owasp.org/www-community/attacks/Session_fixation) attack on your application.
 
-LaraGram automatically regenerates the session ID during authentication if you are using one of the LaraGram [application starter kits](/master/starter-kits); however, if you need to manually regenerate the session ID, you may use the `regenerate` method:
+LaraGram automatically regenerates the session ID during authentication if you are using one of the LaraGram [application starter kits](/v4/starter-kits); however, if you need to manually regenerate the session ID, you may use the `regenerate` method:
 
 ```php
 $request->session()->regenerate();
@@ -263,7 +263,7 @@ $request->session()->invalidate();
 <a name="session-cache"></a>
 ## Session Cache
 
-LaraGram's session cache provides a convenient way to cache data that is scoped to an individual user session. Unlike the global application cache, session cache data is automatically isolated per session and is cleaned up when the session expires or is destroyed. The session cache supports all the familiar [LaraGram cache methods](/master/cache) like `get`, `put`, `remember`, `forget`, and more, but scoped to the current session.
+LaraGram's session cache provides a convenient way to cache data that is scoped to an individual user session. Unlike the global application cache, session cache data is automatically isolated per session and is cleaned up when the session expires or is destroyed. The session cache supports all the familiar [LaraGram cache methods](/v4/cache) like `get`, `put`, `remember`, `forget`, and more, but scoped to the current session.
 
 The session cache is perfect for storing temporary, user-specific data that you want to persist across multiple requests within the same session, but don't need to store permanently. This includes things like form data, temporary calculations, API responses, or any other ephemeral data that should be tied to a specific user's session.
 
@@ -277,13 +277,13 @@ $request->session()->cache()->put(
 );
 ```
 
-For more information on LaraGram's cache methods, consult the [cache documentation](/master/cache).
+For more information on LaraGram's cache methods, consult the [cache documentation](/v4/cache).
 
 <a name="session-blocking"></a>
 ## Session Blocking
 
 > [!WARNING]
-> To utilize session blocking, your application must be using a cache driver that supports [atomic locks](/master/cache#atomic-locks). Currently, those cache drivers include the `memcached`, `dynamodb`, `redis`, `mongodb` (included in the official `laraxgram/mongodb` package), `database`, `file`, and `array` drivers. In addition, you may not use the `cookie` session driver.
+> To utilize session blocking, your application must be using a cache driver that supports [atomic locks](/v4/cache#atomic-locks). Currently, those cache drivers include the `memcached`, `dynamodb`, `redis`, `mongodb` (included in the official `laraxgram/mongodb` package), `database`, `file`, and `array` drivers. In addition, you may not use the `cookie` session driver.
 
 By default, LaraGram allows requests using the same session to execute concurrently. So, for example, if you use a JavaScript HTTP library to make two HTTP requests to your application, they will both execute at the same time. For many applications, this is not a problem; however, session data loss can occur in a small subset of applications that make concurrent requests to two different application endpoints which both write data to the session.
 
@@ -353,7 +353,7 @@ Since the purpose of these methods is not readily understandable, here is an ove
 <a name="registering-the-driver"></a>
 ### Registering the Driver
 
-Once your driver has been implemented, you are ready to register it with LaraGram. To add additional drivers to LaraGram's session backend, you may use the `extend` method provided by the `Session` [facade](/master/facades). You should call the `extend` method from the `boot` method of a [service provider](/master/providers). You may do this from the existing `App\Providers\AppServiceProvider` or create an entirely new provider:
+Once your driver has been implemented, you are ready to register it with LaraGram. To add additional drivers to LaraGram's session backend, you may use the `extend` method provided by the `Session` [facade](/v4/facades). You should call the `extend` method from the `boot` method of a [service provider](/v4/providers). You may do this from the existing `App\Providers\AppServiceProvider` or create an entirely new provider:
 
 ```php
 <?php

@@ -12,7 +12,7 @@ On the other hand, other packages are specifically intended for use with LaraGra
 <a name="package-discovery"></a>
 ## Package Discovery
 
-A LaraGram application's `bootstrap/providers.php` file contains the list of service providers that should be loaded by LaraGram. However, instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file so that it is automatically loaded by LaraGram. In addition to service providers, you may also list any [facades](/master/facades) you would like to be registered:
+A LaraGram application's `bootstrap/providers.php` file contains the list of service providers that should be loaded by LaraGram. However, instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file so that it is automatically loaded by LaraGram. In addition to service providers, you may also list any [facades](/v4/facades) you would like to be registered:
 
 ```json
 "extra": {
@@ -59,9 +59,9 @@ You may disable package discovery for all packages using the `*` character insid
 <a name="service-providers"></a>
 ## Service Providers
 
-[Service providers](/master/providers) are the connection point between your package and LaraGram. A service provider is responsible for binding things into LaraGram's [service container](/master/container) and informing LaraGram where to load package resources such as views, configuration, and language files.
+[Service providers](/v4/providers) are the connection point between your package and LaraGram. A service provider is responsible for binding things into LaraGram's [service container](/v4/container) and informing LaraGram where to load package resources such as views, configuration, and language files.
 
-A service provider extends the `LaraGram\Support\ServiceProvider` class and contains two methods: `register` and `boot`. The base `ServiceProvider` class is located in the `laraxgram/support` Composer package, which you should add to your own package's dependencies. To learn more about the structure and purpose of service providers, check out [their documentation](/master/providers).
+A service provider extends the `LaraGram\Support\ServiceProvider` class and contains two methods: `register` and `boot`. The base `ServiceProvider` class is located in the `laraxgram/support` Composer package, which you should add to your own package's dependencies. To learn more about the structure and purpose of service providers, check out [their documentation](/v4/providers).
 
 <a name="resources"></a>
 ## Resources
@@ -132,7 +132,7 @@ public function boot(): void
 <a name="migrations"></a>
 ### Migrations
 
-If your package contains [database migrations](/master/migrations), you may use the `publishesMigrations` method to inform LaraGram that the given directory or file contains migrations. When LaraGram publishes the migrations, it will automatically update the timestamp within their filename to reflect the current date and time:
+If your package contains [database migrations](/v4/migrations), you may use the `publishesMigrations` method to inform LaraGram that the given directory or file contains migrations. When LaraGram publishes the migrations, it will automatically update the timestamp within their filename to reflect the current date and time:
 
 ```php
 /**
@@ -149,7 +149,7 @@ public function boot(): void
 <a name="language-files"></a>
 ### Language Files
 
-If your package contains [language files](/master/localization), you may use the `loadTranslationsFrom` method to inform LaraGram how to load them. For example, if your package is named `courier`, you should add the following to your service provider's `boot` method:
+If your package contains [language files](/v4/localization), you may use the `loadTranslationsFrom` method to inform LaraGram how to load them. For example, if your package is named `courier`, you should add the following to your service provider's `boot` method:
 
 ```php
 /**
@@ -203,7 +203,7 @@ Now, when users of your package execute LaraGram's `vendor:publish` Commander co
 <a name="templates"></a>
 ### Templates
 
-To register your package's [templates](/master/templates) with LaraGram, you need to tell LaraGram where the templates are located. You may do this using the service provider's `loadTemplatesFrom` method. The `loadTemplatesFrom` method accepts two arguments: the path to your templates and your package's name. For example, if your package's name is `surge`, you would add the following to your service provider's `boot` method:
+To register your package's [templates](/v4/templates) with LaraGram, you need to tell LaraGram where the templates are located. You may do this using the service provider's `loadTemplatesFrom` method. The `loadTemplatesFrom` method accepts two arguments: the path to your templates and your package's name. For example, if your package's name is `surge`, you would add the following to your service provider's `boot` method:
 
 ```php
 /**
@@ -328,7 +328,7 @@ public function boot(): void
 <a name="commands"></a>
 ## Commands
 
-To register your package's Commander commands with LaraGram, you may use the `commands` method. This method expects an array of command class names. Once the commands have been registered, you may execute them using the [Commander CLI](/master/commander):
+To register your package's Commander commands with LaraGram, you may use the `commands` method. This method expects an array of command class names. Once the commands have been registered, you may execute them using the [Commander CLI](/v4/commander):
 
 ```php
 use Surge\Console\Commands\InstallCommand;
@@ -349,7 +349,7 @@ public function boot(): void
 <a name="optimize-commands"></a>
 ### Optimize Commands
 
-LaraGram's [optimize command](/master/deployment#optimization) caches the application's configuration, events, listens, and templates. Using the `optimizes` method, you may register your package's own Commander commands that should be invoked when the `optimize` and `optimize:clear` commands are executed:
+LaraGram's [optimize command](/v4/deployment#optimization) caches the application's configuration, events, listens, and templates. Using the `optimizes` method, you may register your package's own Commander commands that should be invoked when the `optimize` and `optimize:clear` commands are executed:
 
 ```php
 /**

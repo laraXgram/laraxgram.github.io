@@ -238,7 +238,7 @@ Supported compression algorithms include: `Redis::COMPRESSION_NONE` (default), `
 <a name="interacting-with-redis"></a>
 ## Interacting With Redis
 
-You may interact with Redis by calling various methods on the `Redis` [facade](/master/facades). The `Redis` facade supports dynamic methods, meaning you may call any [Redis command](https://redis.io/commands) on the facade and the command will be passed directly to Redis. In this example, we will call the Redis `GET` command by calling the `get` method on the `Redis` facade:
+You may interact with Redis by calling various methods on the `Redis` [facade](/v4/facades). The `Redis` facade supports dynamic methods, meaning you may call any [Redis command](https://redis.io/commands) on the facade and the command will be passed directly to Redis. In this example, we will call the Redis `GET` command by calling the `get` method on the `Redis` facade:
 
 ```php
 <?php
@@ -355,7 +355,7 @@ Facades\Redis::pipeline(function (Redis $pipe) {
 
 LaraGram provides a convenient interface to the Redis `publish` and `subscribe` commands. These Redis commands allow you to listen for messages on a given "channel". You may publish messages to the channel from another application, or even using another programming language, allowing easy communication between applications and processes.
 
-First, let's setup a channel listener using the `subscribe` method. We'll place this method call within an [Commander command](/master/commander) since calling the `subscribe` method begins a long-running process:
+First, let's setup a channel listener using the `subscribe` method. We'll place this method call within an [Commander command](/v4/commander) since calling the `subscribe` method begins a long-running process:
 
 ```php
 <?php

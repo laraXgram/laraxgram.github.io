@@ -30,7 +30,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Listening for MTProto updates works exactly like [listening for Bot updates](/master/listening) — you register listeners with a facade and a closure, and each listener receives a `Request` object. The only differences are the facade (`Client` instead of `Bot`), the request type (`ClientRequest`), and a much larger catalog of update verbs, because MTProto exposes hundreds of update types the Bot API never sends.
+Listening for MTProto updates works exactly like [listening for Bot updates](/v4/listening) — you register listeners with a facade and a closure, and each listener receives a `Request` object. The only differences are the facade (`Client` instead of `Bot`), the request type (`ClientRequest`), and a much larger catalog of update verbs, because MTProto exposes hundreds of update types the Bot API never sends.
 
 ```php
 use LaraGram\MTProto\Facades\Client;
@@ -47,7 +47,7 @@ Client::onText('hello', function (ClientRequest $request) {
 <a name="where-listeners-live"></a>
 ### Where Listeners Live
 
-MTProto listeners are defined in listen files registered under the `client:` slot (for user clients) or bound to a session name under the `bot:` slot (for MTProto bots) in your `bootstrap/app.php`. See [Registering Listen Files](/master/mtproto#registering-listen-files) for the wiring.
+MTProto listeners are defined in listen files registered under the `client:` slot (for user clients) or bound to a session name under the `bot:` slot (for MTProto bots) in your `bootstrap/app.php`. See [Registering Listen Files](/v4/mtproto#registering-listen-files) for the wiring.
 
 ```php
 // listens/client.php
@@ -221,7 +221,7 @@ Client::onCommand('echo', function (ClientRequest $request, $args) {
 });
 ```
 
-For the complete pattern syntax — optional parameters, constraints via `where`, and regular expressions — see the [Listening](/master/listening) reference; it applies to MTProto listeners unchanged.
+For the complete pattern syntax — optional parameters, constraints via `where`, and regular expressions — see the [Listening](/v4/listening) reference; it applies to MTProto listeners unchanged.
 
 <a name="scoping-listeners"></a>
 ## Scoping Listeners
@@ -246,7 +246,7 @@ You can also test direction inside a handler with `$request->isOutgoing()`.
 <a name="session-scoping"></a>
 ### Sessions
 
-In a [multi-account](/master/mtproto-authentication#multi-account-sessions) setup, scope listeners to one or more sessions with `forSessions()`. Listeners not scoped run for every session:
+In a [multi-account](/v4/mtproto-authentication#multi-account-sessions) setup, scope listeners to one or more sessions with `forSessions()`. Listeners not scoped run for every session:
 
 ```php
 Client::forSessions('support')->onText('hours', function (ClientRequest $request) {
@@ -271,7 +271,7 @@ Client::forSessions('support')->group([], function () {
 <a name="middleware"></a>
 ## Middleware
 
-MTProto listeners run through the LaraGram [middleware](/master/middleware) pipeline, so everything you know about middleware applies. Attach middleware to a listener or a group with `middleware()`:
+MTProto listeners run through the LaraGram [middleware](/v4/middleware) pipeline, so everything you know about middleware applies. Attach middleware to a listener or a group with `middleware()`:
 
 ```php
 Client::middleware('throttle')->onCommand('report', ReportController::class);
@@ -287,7 +287,7 @@ The `direction:in` / `direction:out` filters used by `incomming()` / `outgoing()
 <a name="conversation-steps"></a>
 ## Conversation Steps
 
-Multi-step conversations are supported through the same [Step](/master/step) system as Bot listeners, via `onStep`:
+Multi-step conversations are supported through the same [Step](/v4/step) system as Bot listeners, via `onStep`:
 
 ```php
 Client::onStep('await_name', function (ClientRequest $request) {
@@ -298,7 +298,7 @@ Client::onStep('await_name', function (ClientRequest $request) {
 <a name="the-client-request"></a>
 ## The Client Request
 
-Every listener receives a `LaraGram\MTProto\Foundation\ClientRequest`. It exposes the update's fields as read-only properties, a set of convenience helpers, and — by forwarding to the underlying client — the entire [high-level API](/master/mtproto-requests) for replying.
+Every listener receives a `LaraGram\MTProto\Foundation\ClientRequest`. It exposes the update's fields as read-only properties, a set of convenience helpers, and — by forwarding to the underlying client — the entire [high-level API](/v4/mtproto-requests) for replying.
 
 <a name="reading-the-update"></a>
 ### Reading the Update
@@ -335,7 +335,7 @@ $request->toArray();       // The whole update as an array
 $request->toJson();        // ...as JSON
 ```
 
-Media helpers download the update's attachment directly (see [Media](/master/mtproto-media)):
+Media helpers download the update's attachment directly (see [Media](/v4/mtproto-media)):
 
 ```php
 $path = $request->download();            // To a temp file, returns the path
@@ -355,7 +355,7 @@ Client::onPhoto(function (ClientRequest $request) {
 });
 ```
 
-You can also reach a specific API namespace through the request — see [Requests](/master/mtproto-requests#the-namespaced-api) for the full high-level catalog:
+You can also reach a specific API namespace through the request — see [Requests](/v4/mtproto-requests#the-namespaced-api) for the full high-level catalog:
 
 ```php
 $request->messages->sendMessage(
@@ -379,4 +379,4 @@ Client::session()->sendMessage(peer: '@durov', message: 'Hello from a job!');
 Client::session('announcer')->sendMessage(peer: -1001234567890, message: 'Daily digest is out.');
 ```
 
-The object returned by `Client::session()` is the live client, exposing the same high-level API documented in [Requests](/master/mtproto-requests), [Chats & Channels](/master/mtproto-chats), and [Media](/master/mtproto-media).
+The object returned by `Client::session()` is the live client, exposing the same high-level API documented in [Requests](/v4/mtproto-requests), [Chats & Channels](/v4/mtproto-chats), and [Media](/v4/mtproto-media).

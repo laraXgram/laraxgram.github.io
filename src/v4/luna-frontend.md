@@ -3,9 +3,9 @@
 <a name="introduction"></a>
 ## Introduction
 
-Luna is framework-agnostic: the same PHP adapter and core runtime power React, Vue 3, and Svelte apps. This chapter covers the client-side setup for each — booting the app, resolving page components, persistent layouts, managing the document `<head>`, code splitting, the [Vite](/master/vite) plugin, progress indicators, asset versioning, and server-side rendering.
+Luna is framework-agnostic: the same PHP adapter and core runtime power React, Vue 3, and Svelte apps. This chapter covers the client-side setup for each — booting the app, resolving page components, persistent layouts, managing the document `<head>`, code splitting, the [Vite](/v4/vite) plugin, progress indicators, asset versioning, and server-side rendering.
 
-Read the [installation section](/master/luna#client-side-installation) of the introduction first for package names.
+Read the [installation section](/v4/luna#client-side-installation) of the introduction first for package names.
 
 <a name="creating-the-app"></a>
 ## Creating the App
@@ -171,7 +171,7 @@ createLunaApp({
 })
 ```
 
-For [server-side rendering](#server-side-rendering) to emit these tags into the initial HTML, keep the `@lunaHead` directive in your [root template](/master/luna#root-template). Vue and Svelte export the same `<Head>` component.
+For [server-side rendering](#server-side-rendering) to emit these tags into the initial HTML, keep the `@lunaHead` directive in your [root template](/v4/luna#root-template). Vue and Svelte export the same `<Head>` component.
 
 <a name="progress-indicator"></a>
 ## Progress Indicator
@@ -189,14 +189,14 @@ createLunaApp({
 })
 ```
 
-For custom indicators, subscribe to the [router's `progress` events](/master/luna-routing#events).
+For custom indicators, subscribe to the [router's `progress` events](/v4/luna-routing#events).
 
 <a name="asset-versioning"></a>
 ## Asset Versioning
 
 When you deploy new frontend assets, browsers with the old bundle cached could render a stale page against new server props. Luna guards against this with an **asset version**: each response carries a version string, and when the client detects a mismatch on a visit, it performs a full page reload to fetch the new assets.
 
-Set the version from a [service provider](/master/providers) — typically a hash of your manifest:
+Set the version from a [service provider](/v4/providers) — typically a hash of your manifest:
 
 ```php
 use LaraGram\Luna\Luna;
@@ -204,7 +204,7 @@ use LaraGram\Luna\Luna;
 Luna::version(fn () => md5_file(public_path('build/manifest.json')));
 ```
 
-The [Vite](/master/vite) integration wires a sensible default, so most apps never set this manually.
+The [Vite](/v4/vite) integration wires a sensible default, so most apps never set this manually.
 
 <a name="server-side-rendering"></a>
 ## Server-Side Rendering
@@ -255,9 +255,9 @@ php laragram luna:check-ssr
 During development the Vite plugin runs an in-process SSR endpoint, so you don't need a separate service — just `npm run dev`. When SSR rendering fails, Luna gracefully falls back to client-side rendering; set `ssr.throw_on_error` to fail loudly in E2E tests, or listen for the `SsrRenderFailed` event.
 
 > [!NOTE]
-> Telegram Mini Apps can use SSR too, but because they only ever run inside the authenticated Telegram client, first-paint SEO is irrelevant — most TMAs leave SSR off. See [Telegram Mini Apps](/master/luna-tma).
+> Telegram Mini Apps can use SSR too, but because they only ever run inside the authenticated Telegram client, first-paint SEO is irrelevant — most TMAs leave SSR off. See [Telegram Mini Apps](/v4/luna-tma).
 
 <a name="next"></a>
 ## Next Steps
 
-Your SPA is fully configured. To build a Telegram Mini App on top of it, continue to [Telegram Mini Apps](/master/luna-tma).
+Your SPA is fully configured. To build a Telegram Mini App on top of it, continue to [Telegram Mini Apps](/v4/luna-tma).

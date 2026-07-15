@@ -5,12 +5,12 @@
 
 The heart of Luna is a simple contract: a controller returns the *name* of a page component and the *props* that component should receive. LaraGram resolves the data on the server; the frontend renders it. This chapter covers how to render pages, how to pass data to them, and the range of prop types Luna offers — from ordinary values to props that load lazily, merge across visits, or persist for a single visit only.
 
-If you haven't yet, read the [Luna introduction](/master/luna) first.
+If you haven't yet, read the [Luna introduction](/v4/luna) first.
 
 <a name="rendering-pages"></a>
 ## Rendering Pages
 
-Return a Luna response from any [controller](/master/controllers) with the `Luna` facade or the `luna()` helper. The first argument is the component name (relative to `resources/js/Pages`, without extension); the second is an array of props:
+Return a Luna response from any [controller](/v4/controllers) with the `Luna` facade or the `luna()` helper. The first argument is the component name (relative to `resources/js/Pages`, without extension); the second is an array of props:
 
 ```php
 use LaraGram\Luna\Luna;
@@ -49,7 +49,7 @@ return Luna::render('Users/Show', ['user' => $user])
 <a name="props"></a>
 ## Props
 
-Any JSON-serializable value can be a prop. [Eloquent models](/master/eloquent), [collections](/master/collections), and [API resources](/master/eloquent-resources) all serialize automatically:
+Any JSON-serializable value can be a prop. [Eloquent models](/v4/eloquent), [collections](/v4/collections), and [API resources](/v4/eloquent-resources) all serialize automatically:
 
 ```php
 return Luna::render('Users/Index', [
@@ -124,7 +124,7 @@ import { Deferred } from '@laraxgram/react'
 <a name="merging-props"></a>
 ### Merging Props
 
-Normally new prop values *replace* the old ones. A **merge** prop instead appends/merges into the existing client value — ideal for "load more" and [infinite scroll](/master/luna-routing#infinite-scroll) patterns where each visit brings the next page of items:
+Normally new prop values *replace* the old ones. A **merge** prop instead appends/merges into the existing client value — ideal for "load more" and [infinite scroll](/v4/luna-routing#infinite-scroll) patterns where each visit brings the next page of items:
 
 ```php
 return Luna::render('Feed', [
@@ -157,7 +157,7 @@ Luna::shareOnce('permissions', fn () => auth()->user()->permissions());
 <a name="scroll-props"></a>
 ### Scroll Props (Paginated Data)
 
-A **scroll** prop wraps paginated data together with the metadata Luna's [infinite scroll](/master/luna-routing#infinite-scroll) needs — page numbers, cursors, and whether more data exists:
+A **scroll** prop wraps paginated data together with the metadata Luna's [infinite scroll](/v4/luna-routing#infinite-scroll) needs — page numbers, cursors, and whether more data exists:
 
 ```php
 return Luna::render('Feed', [
@@ -170,7 +170,7 @@ The `wrapper` names the key that holds the items; Luna manages the surrounding s
 <a name="shared-data"></a>
 ## Shared Data
 
-Often several pages need the same props — the authenticated user, flash messages, unread counts. Rather than repeating them in every controller, **share** them once, typically from a [middleware](/master/middleware) or [service provider](/master/providers). Shared props are merged into every Luna response:
+Often several pages need the same props — the authenticated user, flash messages, unread counts. Rather than repeating them in every controller, **share** them once, typically from a [middleware](/v4/middleware) or [service provider](/v4/providers). Shared props are merged into every Luna response:
 
 ```php
 use LaraGram\Luna\Luna;
@@ -193,17 +193,17 @@ class HandleLunaRequests
 
 `Luna::share()` accepts a key/value pair, an associative array, or an object implementing `ProvidesLunaProperties`. Values may be closures (evaluated lazily per request).
 
-Read shared props back on the server with `Luna::getShared('auth')`, and clear them with `Luna::flushShared()`. On the client, shared props arrive merged into every page's `props` and are accessible via the page object — see [`usePage`](/master/luna-routing#the-page-object).
+Read shared props back on the server with `Luna::getShared('auth')`, and clear them with `Luna::flushShared()`. On the client, shared props arrive merged into every page's `props` and are accessible via the page object — see [`usePage`](/v4/luna-routing#the-page-object).
 
 > [!NOTE]
-> Telegram Mini Apps use exactly this mechanism: the `telegram` middleware shares a validated `telegram` prop on every response. See [Telegram Mini Apps](/master/luna-tma#shared-context).
+> Telegram Mini Apps use exactly this mechanism: the `telegram` middleware shares a validated `telegram` prop on every response. See [Telegram Mini Apps](/v4/luna-tma#shared-context).
 
 <a name="partial-reloads"></a>
 ## Partial Reloads
 
 A **partial reload** re-requests the *current* page but asks the server for only a subset of its props. Because [lazy](#lazy-evaluation) and [optional](#optional-props) props are only evaluated when included, partial reloads are how you selectively refresh data without recomputing everything.
 
-Trigger one from the [router](/master/luna-routing#manual-visits) with `only` or `except`:
+Trigger one from the [router](/v4/luna-routing#manual-visits) with `only` or `except`:
 
 ```js
 import { router } from '@laraxgram/react'
@@ -215,7 +215,7 @@ router.reload({ only: ['stats'] })
 router.reload({ except: ['report'] })
 ```
 
-The `<Link>` component accepts the same `only` / `except` options, and the [`usefetch`/poll](/master/luna-routing#polling) helpers build on partial reloads under the hood.
+The `<Link>` component accepts the same `only` / `except` options, and the [`usefetch`/poll](/v4/luna-routing#polling) helpers build on partial reloads under the hood.
 
 <a name="loading-when-visible"></a>
 ### Loading Props When Visible
@@ -230,7 +230,7 @@ import { WhenVisible } from '@laraxgram/react'
 </WhenVisible>
 ```
 
-Options: `buffer` (pixels before the element enters the viewport to start loading), `as` (the wrapper element/tag), `always` (re-fetch every time it becomes visible, not just once), and `params` (extra [visit options](/master/luna-routing#manual-visits)). Vue and Svelte export the same component.
+Options: `buffer` (pixels before the element enters the viewport to start loading), `as` (the wrapper element/tag), `always` (re-fetch every time it becomes visible, not just once), and `params` (extra [visit options](/v4/luna-routing#manual-visits)). Vue and Svelte export the same component.
 
 <a name="resetting-props"></a>
 ### Resetting Merged Props
@@ -244,4 +244,4 @@ router.reload({ only: ['posts'], reset: ['posts'] })
 <a name="next"></a>
 ## Next Steps
 
-Now that data flows from server to component, learn how to move *between* pages in [Routing & Visits](/master/luna-routing), and how to send data back with [Forms](/master/luna-forms).
+Now that data flows from server to component, learn how to move *between* pages in [Routing & Visits](/v4/luna-routing), and how to send data back with [Forms](/v4/luna-forms).

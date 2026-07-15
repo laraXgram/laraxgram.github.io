@@ -34,7 +34,7 @@ versions [supported by LaraGram](/master/database#introduction).
 | Version | PHP (*)   | Release         | Bug Fixes Until    | Security Fixes Until | Status                                 |
 |---------|-----------|-----------------|--------------------|----------------------|----------------------------------------|
 | 3       | 8.2 - 8.5 | July 17th, 2025 | February 1th, 2027 | July 1th, 2027       | <Badge type="tip" text="Stable" />     |
-| 4       | 8.3 - 8.5 | July 15th, 2026 | February 1th, 2028 | July 1th, 2028       | <Badge type="tip" text="Stable " /> |
+| 4       | 8.3 - 8.5 | July 16th, 2026 | February 1th, 2028 | July 1th, 2028       | <Badge type="tip" text="Stable " />    |
 | 5       | 8.4 - 8.5 | Q2 2027         | Q4 2028            | Q2 2028              | <Badge type="info" text="Upcoming " /> |
 
 </div>
@@ -45,6 +45,122 @@ versions [supported by LaraGram](/master/database#introduction).
 
 ## LaraGram 4
 
-LaraGram 4 continues the improvements made in LaraGram 3.x by updating upstream dependencies.
+LaraGram 4 is the largest release in the framework's history. Where LaraGram 3 focused on being an
+excellent Bot API framework, LaraGram 4 grows into a **full-stack framework**: it keeps everything you
+already use to build Telegram bots and adds a complete web layer, first-class **Telegram Mini App**
+support through **Luna**, and native **MTProto** user-client capabilities — all while preserving a
+familiar, LaraGram-flavored developer experience.
+
+Despite the scope of the new features, LaraGram 4 introduces **minimal breaking changes**. The vast
+majority of the release is additive, so most applications can upgrade with little more than a
+dependency bump. See the [upgrade guide](/master/upgrade) for the full details.
+
+<a name="php-8-3"></a>
+
+### PHP 8.3
+
+LaraGram 4 requires a minimum PHP version of 8.3 (previously 8.2). The supported range for this
+release is PHP 8.3 through 8.5.
+
+<a name="mtproto"></a>
+
+### MTProto & User Clients
+
+The headline feature of LaraGram 4 is native **MTProto** support. MTProto is Telegram's own transport
+and cryptographic protocol; connecting through it (rather than the Bot API) means your application
+*is* a Telegram client, with the same capabilities a phone or desktop app has.
+
+This unlocks an entirely new class of applications:
+
+<div class="content-list" markdown="1">
+
+- **Full account access** — log in with a phone number and act as a user (a "userbot"), not just a bot.
+- **No Bot API limits** — download files larger than 20&nbsp;MB, read full chat history, list every
+  dialog, and call methods the Bot API doesn't offer.
+- **Rich update stream** — receive typing indicators, read receipts, user status, reactions, stories,
+  and hundreds of other update types.
+- **Multiple accounts in one process** — run a fleet of user and bot sessions side by side.
+
+</div>
+
+Both user clients (phone + 2FA / QR login) and bot clients (bot token over MTProto) are driven through
+the same high-level API, so the listeners and requests you write are identical either way. The MTProto
+documentation is split across [Getting Started](/master/mtproto),
+[Authentication](/master/mtproto-authentication), [Listening](/master/mtproto-listening),
+[Requests](/master/mtproto-requests), [Chats](/master/mtproto-chats),
+[Media](/master/mtproto-media), [Features](/master/mtproto-features), and
+[Configuration](/master/mtproto-configuration).
+
+<a name="luna"></a>
+
+### Luna: Full-Stack Frontends & Telegram Mini Apps
+
+**Luna** is the official adapter that lets you build modern, single-page style frontends for your
+LaraGram application using React, Vue, or Svelte — without building an API, without client-side
+routing configuration, and without losing the server-side conveniences you already know (routing,
+controllers, middleware, validation, and authorization). You write your routes and controllers exactly
+as before; instead of returning a Blade view or JSON, a controller returns a Luna *response* naming a
+JavaScript page component and the props it should receive.
+
+Luna also makes **Telegram Mini Apps (TMA)** a first-class citizen. A Mini App is a Luna SPA that
+additionally speaks the Telegram WebApp protocol: it validates signed init data, shares the Telegram
+identity with the frontend, adopts Telegram's theme, and drives native UI such as the back button and
+MainButton. The full device-feature surface — CloudStorage, biometrics, location, sensors, popups,
+sharing, and invoices — is available as well.
+
+Luna is documented across [Luna](/master/luna), [Pages](/master/luna-pages),
+[Routing](/master/luna-routing), [Forms](/master/luna-forms), [Frontend](/master/luna-frontend),
+[Telegram Mini Apps](/master/luna-tma), and [Telegram Features](/master/luna-tma-features).
+
+<a name="web-layer"></a>
+
+### A Complete Web Layer
+
+To support Luna and Mini Apps, LaraGram 4 ships a full HTTP and frontend stack. Much of this will feel
+immediately familiar to LaraGram (and Laravel) developers:
+
+<div class="content-list" markdown="1">
+
+- [**Routing**](/master/routing) and [**URL generation**](/master/urls) for defining and building
+  web endpoints.
+- [**HTTP requests**](/master/http-requests) and [**responses**](/master/http-responses), plus an
+  expressive [**HTTP client**](/master/http-client) built on Guzzle for outgoing requests.
+- [**Blade templates**](/master/blade) and [**views**](/master/views) for server-rendered HTML.
+- [**Asset bundling with Vite**](/master/vite) via an official plugin and Blade directive.
+- [**HTTP sessions**](/master/session) with database, Redis, Memcached, and other backends.
+- A [**Frontend**](/master/frontend) guide tying the PHP and JavaScript approaches together, and
+  [**starter kits**](/master/starter-kits) to scaffold authenticated applications quickly.
+
+</div>
+
+<a name="conversations"></a>
+
+### Conversations
+
+Many bots need to ask a user a series of questions — a registration flow, a support ticket, an order
+form — and remember every answer. The new [**Conversation**](/master/conversations) component gives you
+a clean, declarative way to build these multi-step question-and-answer flows. You declare the
+questions; LaraGram sends them one by one, validates each reply, collects the answers, and hands them
+back when the flow completes. State is persisted automatically between updates, so a conversation
+survives across the many separate requests a webhook bot receives.
+
+<a name="api-resources-pagination"></a>
+
+### API Resources, Pagination & Precognition
+
+LaraGram 4 rounds out the data and validation layer with several additions ported from the wider
+ecosystem:
+
+<div class="content-list" markdown="1">
+
+- [**Eloquent API Resources**](/master/eloquent-resources) provide an expressive transformation layer
+  between your models and JSON responses.
+- [**Pagination**](/master/pagination) integrates with the query builder and Eloquent, with Tailwind
+  and Bootstrap views out of the box.
+- [**Precognition**](/master/precognition) lets you anticipate the outcome of a future HTTP request —
+  most notably to provide live, frontend validation without duplicating your backend rules. Precognition
+  support is built directly into Luna Forms.
+
+</div>
 
 <a name="minimal-breaking-changes"></a>

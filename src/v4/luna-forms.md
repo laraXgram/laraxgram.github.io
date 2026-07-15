@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Forms are where a Luna app sends data *back* to the server. You could do this with a raw [router visit](/master/luna-routing#manual-visits), but Luna gives you two purpose-built tools that handle the tedious parts — tracking field state, submitting, wiring up [validation](/master/validation) errors, showing progress, and resetting:
+Forms are where a Luna app sends data *back* to the server. You could do this with a raw [router visit](/v4/luna-routing#manual-visits), but Luna gives you two purpose-built tools that handle the tedious parts — tracking field state, submitting, wiring up [validation](/v4/validation) errors, showing progress, and resetting:
 
 <div class="content-list" markdown="1">
 
@@ -12,7 +12,7 @@ Forms are where a Luna app sends data *back* to the server. You could do this wi
 
 </div>
 
-Both integrate with LaraGram's server-side [validation](/master/validation) and, optionally, [Precognition](/master/precognition) for live validation.
+Both integrate with LaraGram's server-side [validation](/v4/validation) and, optionally, [Precognition](/v4/precognition) for live validation.
 
 <a name="the-useform-helper"></a>
 ## The useForm Helper
@@ -49,7 +49,7 @@ function CreateUser() {
 }
 ```
 
-You can also pass a method and URL up front so the form knows how to submit itself — useful with the [Telegram MainButton](/master/luna-tma#main-button-and-forms):
+You can also pass a method and URL up front so the form knows how to submit itself — useful with the [Telegram MainButton](/v4/luna-tma#main-button-and-forms):
 
 ```js
 const form = useForm('post', '/users', { name: '', email: '' })
@@ -82,7 +82,7 @@ The form object exposes everything you need to render and control the form:
 <a name="submitting"></a>
 ### Submitting
 
-Each verb accepts a URL and the same [visit options](/master/luna-routing#manual-visits) as the router, including lifecycle callbacks:
+Each verb accepts a URL and the same [visit options](/v4/luna-routing#manual-visits) as the router, including lifecycle callbacks:
 
 ```js
 form.post('/users', {
@@ -108,7 +108,7 @@ form.transform((data) => ({
 <a name="validation-errors"></a>
 ## Validation Errors
 
-Server-side [validation](/master/validation) needs no special handling. Validate in the controller as usual; when validation fails, LaraGram redirects back with the errors, and Luna surfaces them on `form.errors` automatically:
+Server-side [validation](/v4/validation) needs no special handling. Validate in the controller as usual; when validation fails, LaraGram redirects back with the errors, and Luna surfaces them on `form.errors` automatically:
 
 ```php
 public function store(Request $request)
@@ -126,7 +126,7 @@ public function store(Request $request)
 {form.errors.email && <p className="error">{form.errors.email}</p>}
 ```
 
-Errors are also shared globally, so you can read them via the [page object](/master/luna-routing#the-page-object) (`usePage().props.errors`) even outside a `useForm`.
+Errors are also shared globally, so you can read them via the [page object](/v4/luna-routing#the-page-object) (`usePage().props.errors`) even outside a `useForm`.
 
 <a name="file-uploads"></a>
 ## File Uploads
@@ -150,7 +150,7 @@ const form = useForm({
 ```
 
 > [!NOTE]
-> Because HTML forms can't natively send `PUT`/`PATCH`/`DELETE` with files, submit file uploads via `post` and add a `_method` field (`form.setData('_method', 'put')`) for LaraGram's [method spoofing](/master/routing#form-method-spoofing).
+> Because HTML forms can't natively send `PUT`/`PATCH`/`DELETE` with files, submit file uploads via `post` and add a `_method` field (`form.setData('_method', 'put')`) for LaraGram's [method spoofing](/v4/routing#form-method-spoofing).
 
 <a name="the-form-component"></a>
 ## The Form Component
@@ -192,7 +192,7 @@ Access the form context from a nested component with `useFormContext()`. Vue and
 <a name="precognition"></a>
 ## Live Validation with Precognition
 
-Luna's forms integrate with LaraGram [Precognition](/master/precognition) for real-time, server-authoritative validation — validate a field on blur using the *same* rules as your final submit, with no duplicated client logic. The form object gains `validate`, `validating`, `touch`, and `forgetError`:
+Luna's forms integrate with LaraGram [Precognition](/v4/precognition) for real-time, server-authoritative validation — validate a field on blur using the *same* rules as your final submit, with no duplicated client logic. The form object gains `validate`, `validating`, `touch`, and `forgetError`:
 
 ```jsx
 const form = useForm({ email: '' })
@@ -206,9 +206,9 @@ const form = useForm({ email: '' })
 {form.errors.email && <span>{form.errors.email}</span>}
 ```
 
-On the server, add the `Precognition` middleware to the route and use a [form request](/master/precognition); Luna sends a precognitive request that runs validation without executing the controller body. See the [Precognition documentation](/master/precognition) for the full setup.
+On the server, add the `Precognition` middleware to the route and use a [form request](/v4/precognition); Luna sends a precognitive request that runs validation without executing the controller body. See the [Precognition documentation](/v4/precognition) for the full setup.
 
 <a name="next"></a>
 ## Next Steps
 
-Configure your framework, layouts, and build pipeline in [Frontend Setup](/master/luna-frontend), or start building a [Telegram Mini App](/master/luna-tma) — where forms drive the native MainButton.
+Configure your framework, layouts, and build pipeline in [Frontend Setup](/v4/luna-frontend), or start building a [Telegram Mini App](/v4/luna-tma) — where forms drive the native MainButton.
