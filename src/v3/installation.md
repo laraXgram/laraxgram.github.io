@@ -21,7 +21,7 @@ There are a variety of tools and frameworks available to you when building a bot
 
 We like to call LaraGram a "progressive" framework. By that, we mean that LaraGram grows with you. If you're just taking your first steps into bot development, LaraGram's vast library of documentation and guides will help you learn the ropes without becoming overwhelmed.
 
-If you're a senior developer, LaraGram gives you robust tools for [dependency injection](/container.md), [queues](/queues.md), and more. LaraGram is fine-tuned for building professional bot applications and ready to handle enterprise work loads.
+If you're a senior developer, LaraGram gives you robust tools for [dependency injection](/v3/container), [queues](/v3/queues), and more. LaraGram is fine-tuned for building professional bot applications and ready to handle enterprise work loads.
 
 #### A Scalable Framework
 
@@ -94,7 +94,7 @@ Since many of LaraGram's configuration option values may vary depending on wheth
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would be exposed.
 
 > [!NOTE]
-> For more information about the `.env` file and environment based configuration, check out the full [configuration documentation](/configuration.md#environment-configuration).
+> For more information about the `.env` file and environment based configuration, check out the full [configuration documentation](/v3/configuration#environment-configuration).
 
 <a name="config-bot-connections"></a>
 ### Config Bot Connection
@@ -129,16 +129,11 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-If you choose to use a database other than SQLite, you will need to create the database and run your application's [database migrations](/migrations.md):
+If you choose to use a database other than SQLite, you will need to create the database and run your application's [database migrations](/v3/migrations):
 
 ```shell
 php laragram migrate
 ```
-
-<a name="directory-configuration"></a>
-### Directory Configuration
-
-LaraGram should always be served out of the root of the "bot directory" configured for your web server. You should not attempt to serve a LaraGram application out of a subdirectory of the "bot directory". Attempting to do so could expose sensitive files present within your application.
 
 <a name="next-steps"></a>
 ## Next Steps
@@ -147,11 +142,11 @@ Now that you have created your LaraGram application, you may be wondering what t
 
 <div class="content-list" markdown="1">
 
-- [Request Lifecycle](/lifecycle.md)
-- [Configuration](/configuration.md)
-- [Directory Structure](/structure.md)
-- [Service Container](/container.md)
-- [Facades](/facades.md)
+- [Request Lifecycle](/v3/lifecycle)
+- [Configuration](/v3/configuration)
+- [Directory Structure](/v3/structure)
+- [Service Container](/v3/container)
+- [Facades](/v3/facades)
 
 </div>
 

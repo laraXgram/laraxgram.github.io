@@ -11,7 +11,7 @@ LaraGram's `LaraGram\Request\Request` class provides an object-oriented way to i
 <a name="accessing-the-request"></a>
 ### Accessing the Request
 
-To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/container.md):
+To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/v3/container):
 
 ```php
 <?php
@@ -96,7 +96,7 @@ $scope = $request->scope();
 <a name="inspecting-the-request-listen"></a>
 #### Inspecting the Request Listen
 
-Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/listening.md#named-listens):
+Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/v3/listening#named-listens):
 
 ```php
 if ($request->listenIs('admin.*')) {
@@ -206,7 +206,7 @@ $validated = $request->validate([
 $text = $validated->message->text;
 ```
 
-For more information, check out the complete [validation documentation](/validation.md).
+For more information, check out the complete [validation documentation](/v3/validation).
 
 <a name="merging-additional-input"></a>
 ### Merging Additional Input
@@ -264,6 +264,212 @@ $request->mode(64)->sendMessage();
 |--------------------------|------|
 | `Mode::CURL` (default)   | `32` |
 | `Mode::NO_RESPONSE_CURL` | `64` |
+
+### Default API Parameters
+
+LaraGram allows you to specify global default values for optional Telegram Bot API parameters. This eliminates the need to repeatedly pass identical options (such as `parse_mode` or `disable_web_page_preview`) across all your API requests.
+
+These default parameters only apply to optional arguments and are defined under the `default_parameters` array within your `config/laraquest.php` configuration file.
+
+#### Configuring Method Defaults
+
+You can set default parameters for specific methods individually, or define groups to apply defaults to multiple methods simultaneously.
+
+```php
+// config/laraquest.php
+
+return [
+    // ...
+
+    'default_parameters' => [
+        // Set defaults for groups of methods
+        'groups' => [
+            [
+                'methods' => ['sendPhoto', 'sendVideo'],
+                'defaults' => [
+                    'parse_mode' => 'markdown',
+                ]
+            ]
+        ],
+        
+        // Set defaults for specific individual methods
+        'sendMessage' => [
+            'parse_mode' => 'html',
+        ]
+    ]
+];
+```
+
+With the configuration above, any call to `sendMessage` will automatically include `'parse_mode' => 'html'` under the hood, and calls to `sendPhoto` or `sendVideo` will fallback to using `'markdown'` formatting unless you explicitly override them at runtime:
+
+```php
+// Uses HTML parse_mode automatically based on your config
+$request->sendMessage($chatId, 'Hello <b>World</b>');
+
+// Explicitly overrides the default configuration
+$request->sendMessage($chatId, 'Hello *World*', parse_mode: 'markdown');
+```
+
+<a name="file-downloads"></a>
+
+## File Downloads
+
+### Determining If File Is Present
+
+To check if the incoming request contains any downloadable media or files (such as photos, videos, documents, etc.), you can use the `hasFile` method on the `Request` instance:
+
+```php
+Bot::onPhoto(function (Request $request) {
+    if ($request->hasFile()) {
+        // The request contains one or more files...
+    }
+});
+
+```
+
+### Retrieving Files
+
+To retrieve the files attached to the current request, you may use the `file` method. This method returns an instance of `LaraGram\Request\Files\FileBag` if files are present, or `null` if the request contains no media:
+
+```php
+$fileBag = $request->file();
+```
+
+Alternatively, if you want to extract a `FileBag` from a specific Telegram message object manually, you may use the `fileFrom` method:
+
+```php
+$fileBag = $request->fileFrom($request->message);
+```
+
+### Working With File Bags
+
+The `LaraGram\Request\Files\FileBag` class wraps all files associated with a single request or message, allowing you to seamlessly handle albums, various photo sizes, or video qualities.
+
+#### Inspecting the File Bag
+
+The `FileBag` provides several convenient helper methods to inspect the content:
+
+```php
+// Check if the bag is empty or not
+if ($fileBag->isNotEmpty()) {
+    $count = $fileBag->count();
+    $mediaType = $fileBag->type(); // e.g., 'photo', 'video', 'document'
+    $mimeType = $fileBag->mimeType(); // Returns the MIME type of the first file
+}
+
+// Check if the files are part of a media group (album)
+if ($fileBag->isAlbum()) {
+    $albumId = $fileBag->mediaGroupId();
+}
+
+// Check if the files require Telegram Stars (Paid Media)
+if ($fileBag->isPaidMedia()) {
+    // ...
+}
+```
+
+#### Accessing Individual Files
+
+You can easily pull specific files out of the `FileBag`:
+
+```php
+// Get the first file (for photos, this is the smallest available size)
+$smallestFile = $fileBag->first();
+
+// Get the last file (for photos, this is the largest available size)
+$largestFile = $fileBag->last();
+
+// Get all files as an array of MediaFile objects
+$allFiles = $fileBag->all();
+
+// Get a file by its specific index
+$file = $fileBag->get(0);
+```
+
+#### Downloading All Files
+
+The `downloadAll` method downloads all files inside the bag sequentially. You can pass a string directory path (where files will automatically be saved using their `file_unique_id`), or an array of explicit paths mapped to each file index:
+
+```php
+// Download all files to a specific directory automatically using unique IDs
+$fileBag->downloadAll('downloads/photos');
+
+// Download specifying custom names per file index
+$fileBag->downloadAll([
+    0 => 'downloads/thumb.jpg',
+    1 => 'downloads/full.jpg'
+]);
+
+// You can also specify a custom storage disk as the second argument
+$fileBag->downloadAll('downloads/photos', 's3');
+```
+
+### Working With Media Files
+
+Each item inside a `FileBag` is represented by a `LaraGram\Request\Files\MediaFile` instance. This class gives you access to full file metadata and direct actions.
+
+#### Downloading a Single File
+
+To download an individual `MediaFile`, use the `download` method. LaraGram automatically calls Telegram's `getFile` API behind the scenes to resolve the absolute path, downloads the raw stream, and stores it using the integrated `Storage` system:
+
+```php
+// Download to default storage disk
+$file->download('avatars/user_profile.jpg');
+
+// Download to a specific configured storage disk (e.g., public, s3)
+$file->download('avatars/user_profile.jpg', 'public');
+```
+
+If you only need the absolute Telegram download URL (or local server path), you may call the url method:
+
+```php
+$url = $file->url();
+```
+
+#### Retrieving File Metadata
+
+```php
+$fileId = $file->fileId();
+$uniqueId = $file->fileUniqueId();
+$sizeInBytes = $file->fileSize();
+$fileName = $file->fileName(); // Only available for documents
+
+// Dimensions and durations
+$width = $file->width();
+$height = $file->height();
+$duration = $file->duration(); // For video/audio
+```
+
+#### Verifying Media Types
+
+You can evaluate the specific nature of a `MediaFile` using fluent boolean checkers:
+
+```php
+if ($file->isPhoto()) { /* ... */ }
+if ($file->isVideo()) { /* ... */ }
+if ($file->isDocument()) { /* ... */ }
+if ($file->isSticker()) { /* ... */ }
+if ($file->isAudio()) { /* ... */ }
+if ($file->isVoice()) { /* ... */ }
+if ($file->isVideoNote()) { /* ... */ }
+if ($file->isAnimation()) { /* ... */ }
+if ($file->isLivePhoto()) { /* ... */ }
+```
+
+#### Handling Sizes and Qualities
+
+If a file has multiple sizes (like Telegram Photos) or different quality options (like Videos in newer Bot API versions), you can navigate through those variants directly from the file instance:
+
+```php
+if ($file->hasSizes()) {
+    $allVariants = $file->sizes();
+    $lowestQuality = $file->smallest();
+    $highestQuality = $file->largest();
+    
+    // Get variant at specific index
+    $mediumQuality = $file->size(1);
+}
+```
 
 <a name="multi-connections"></a>
 ## Multi connections

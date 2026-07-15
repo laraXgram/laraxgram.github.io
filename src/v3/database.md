@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Almost every modern bot application interacts with a database. LaraGram makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/queries.md), and the [Eloquent ORM](/eloquent.md). Currently, LaraGram provides first-party support for five databases:
+Almost every modern bot application interacts with a database. LaraGram makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/v3/queries), and the [Eloquent ORM](/v3/eloquent). Currently, LaraGram provides first-party support for five databases:
 
 <div class="content-list" markdown="1">
 
@@ -39,7 +39,7 @@ DB_FOREIGN_KEYS=false
 ```
 
 > [!NOTE]
-> If you use the [LaraGram installer](/installation.md#creating-a-laragram-project) to create your LaraGram application and select SQLite as your database, LaraGram will automatically create a `database/database.sqlite` file and run the default [database migrations](/migrations.md) for you.
+> If you use the [LaraGram installer](/v3/installation#creating-a-laragram-project) to create your LaraGram application and select SQLite as your database, LaraGram will automatically create a `database/database.sqlite` file and run the default [database migrations](/v3/migrations) for you.
 
 <a name="mssql-configuration"></a>
 #### Microsoft SQL Server Configuration
@@ -277,7 +277,7 @@ $pdo = DB::connection()->getPdo();
 <a name="listening-for-query-events"></a>
 ### Listening for Query Events
 
-If you would like to specify a closure that is invoked for each SQL query executed by your application, you may use the `DB` facade's `listen` method. This method can be useful for logging queries or debugging. You may register your query listener closure in the `boot` method of a [service provider](/providers.md):
+If you would like to specify a closure that is invoked for each SQL query executed by your application, you may use the `DB` facade's `listen` method. This method can be useful for logging queries or debugging. You may register your query listener closure in the `boot` method of a [service provider](/v3/providers):
 
 ```php
 <?php
@@ -316,7 +316,7 @@ class AppServiceProvider extends ServiceProvider
 <a name="monitoring-cumulative-query-time"></a>
 ### Monitoring Cumulative Query Time
 
-A common performance bottleneck of modern bot applications is the amount of time they spend querying databases. Thankfully, LaraGram can invoke a closure or callback of your choice when it spends too much time querying the database during a single request. To get started, provide a query time threshold (in milliseconds) and closure to the `whenQueryingForLongerThan` method. You may invoke this method in the `boot` method of a [service provider](/providers.md):
+A common performance bottleneck of modern bot applications is the amount of time they spend querying databases. Thankfully, LaraGram can invoke a closure or callback of your choice when it spends too much time querying the database during a single request. To get started, provide a query time threshold (in milliseconds) and closure to the `whenQueryingForLongerThan` method. You may invoke this method in the `boot` method of a [service provider](/v3/providers):
 
 ```php
 <?php
@@ -404,7 +404,7 @@ DB::commit();
 ```
 
 > [!NOTE]
-> The `DB` facade's transaction methods control the transactions for both the [query builder](/queries.md) and [Eloquent ORM](/eloquent.md).
+> The `DB` facade's transaction methods control the transactions for both the [query builder](/v3/queries) and [Eloquent ORM](/v3/eloquent).
 
 <a name="connecting-to-the-database-cli"></a>
 ## Connecting to the Database CLI
@@ -474,7 +474,7 @@ php laragram db:table users
 
 Using the `db:monitor` Commander command, you can instruct LaraGram to dispatch an `LaraGram\Database\Events\DatabaseBusy` event if your database is managing more than a specified number of open connections.
 
-To get started, you should schedule the `db:monitor` command to [run every minute](/scheduling.md). The command accepts the names of the database connection configurations that you wish to monitor as well as the maximum number of open connections that should be tolerated before dispatching an event:
+To get started, you should schedule the `db:monitor` command to [run every minute](/v3/scheduling). The command accepts the names of the database connection configurations that you wish to monitor as well as the maximum number of open connections that should be tolerated before dispatching an event:
 
 ```shell
 php laragram db:monitor --databases=mysql,pgsql --max=100

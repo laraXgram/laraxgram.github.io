@@ -27,7 +27,7 @@ and with the understanding that the parameter names may change in the future.
 
 For all LaraGram releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all
 additional libraries, only the latest major release receives bug fixes. In addition, please review the database
-versions [supported by LaraGram](/database.md#introduction).
+versions [supported by LaraGram](/v3/database#introduction).
 
 <div class="overflow-auto">
 

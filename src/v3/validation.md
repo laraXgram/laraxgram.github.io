@@ -148,7 +148,7 @@ $rules = [
 <a name="quick-displaying-the-validation-errors"></a>
 ### Displaying the Validation Errors
 
-So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, LaraGram will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [putted to the cache](/cache.md#storing-items-in-the-cache).
+So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, LaraGram will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [putted to the cache](/v3/cache#storing-items-in-the-cache).
 
 An `$errors` variable is shared with all of your application's templates, which is provided by the `bot` middleware group. When this middleware is applied an `$errors` variable will always be available in your templates, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `LaraGram\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
 
@@ -175,7 +175,7 @@ LaraGram's built-in validation rules each have an error message that is located 
 
 Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/localization.md).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/v3/localization).
 
 > [!WARNING]
 > By default, the LaraGram application skeleton does not include the `lang` directory. If you would like to customize LaraGram's language files, you may publish them via the `lang:publish` Commander command.
@@ -183,7 +183,7 @@ In addition, you may copy this file to another language directory to translate t
 <a name="the-at-error-directive"></a>
 #### The `@error` Directive
 
-You may use the `@error` [temple8](/temple8.md) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+You may use the `@error` [temple8](/v3/temple8) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
 ```blade
 <!-- /resources/templates/post/create.t8.php -->
@@ -223,7 +223,7 @@ Below, you can review an example of the JSON response format for validation erro
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 
-If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/facades.md). The `make` method on the facade generates a new validator instance:
+If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/v3/facades). The `make` method on the facade generates a new validator instance:
 
 ```php
 <?php
@@ -506,7 +506,7 @@ LaraGram's built-in validation rules each have an error message that is located 
 
 Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/localization.md).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/v3/localization).
 
 > [!WARNING]
 > By default, the LaraGram application skeleton does not include the `lang` directory. If you would like to customize LaraGram's language files, you may publish them via the `lang:publish` Commander command.
@@ -1014,7 +1014,7 @@ Validator::make($data, [
 <a name="rule-current-password"></a>
 #### current_password
 
-The field under validation must match the authenticated user's password. You may specify an [authentication guard](/authentication.md) using the rule's first parameter:
+The field under validation must match the authenticated user's password. You may specify an [authentication guard](/v3/authentication) using the rule's first parameter:
 
 ```php
 'password' => 'current_password:api'
@@ -2399,7 +2399,7 @@ $validator = Validator::make($inputs, [
 
 #### Translating Validation Messages
 
-Instead of providing a literal error message to the `$fail` closure, you may also provide a [translation string key](/localization.md) and instruct LaraGram to translate the error message:
+Instead of providing a literal error message to the `$fail` closure, you may also provide a [translation string key](/v3/localization) and instruct LaraGram to translate the error message:
 
 ```php
 if (strtoupper($value) !== $value) {

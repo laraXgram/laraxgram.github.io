@@ -1,136 +1,39 @@
 import { defineConfig } from 'vitepress'
+import { SearchPlugin } from "vitepress-plugin-search";
 
-const DEFAULT_VERSION = 'v3'
 
-// Base sidebar (relative links)
-const baseSidebar = [
-    {
-        text: 'Prologue', collapsed: true,
-        items: [
-            { text: 'Release Notes', link: 'releases' },
-            { text: 'Upgrade Guide', link: 'upgrade' },
-            { text: 'Contributions Guide', link: 'contributions' },
-        ]
-    },
-    {
-        text: 'Getting Started', collapsed: true,
-        items: [
-            { text: 'Installation', link: 'installation' },
-            { text: 'Configuration', link: 'configuration' },
-            { text: 'Directory Structure', link: 'structure' },
-            { text: 'Deployment', link: 'deployment' },
-        ]
-    },
-    {
-        text: 'Architecture Concepts', collapsed: true,
-        items: [
-            { text: 'Request Lifecycle', link: 'lifecycle' },
-            { text: 'Service Container', link: 'container' },
-            { text: 'Service Providers', link: 'providers' },
-            { text: 'Facades', link: 'facades' },
-        ]
-    },
-    {
-        text: 'The Basics', collapsed: true,
-        items: [
-            { text: 'Listening', link: 'listening' },
-            { text: 'Middleware', link: 'middleware' },
-            { text: 'Controllers', link: 'controllers' },
-            { text: 'Requests', link: 'requests' },
-            { text: 'Keyboard Builder', link: 'keyboards' },
-            { text: 'Templates', link: 'templates' },
-            { text: 'Temple8 Templates', link: 'temple8' },
-            { text: 'Validation', link: 'validation' },
-            { text: 'Error Handling', link: 'errors' },
-            { text: 'Logging', link: 'logging' },
-        ]
-    },
-    {
-        text: 'Digging Deeper', collapsed: true,
-        items: [
-            { text: 'Commander Console', link: 'commander' },
-            { text: 'Cache', link: 'cache' },
-            { text: 'Collections', link: 'collections' },
-            { text: 'Concurrency', link: 'concurrency' },
-            { text: 'Context', link: 'context' },
-            { text: 'Contracts', link: 'contracts' },
-            { text: 'Events', link: 'events' },
-            { text: 'File Storage', link: 'filesystem' },
-            { text: 'Helpers', link: 'helpers' },
-            { text: 'Localization', link: 'localization' },
-            { text: 'Package Development', link: 'packages' },
-            { text: 'Processes', link: 'processes' },
-            { text: 'Queues', link: 'queues' },
-            { text: 'Rate Limiting', link: 'rate-limiting' },
-            { text: 'Redirects', link: 'redirects' },
-            { text: 'Step Manager', link: 'step' },
-            { text: 'Strings', link: 'strings' },
-            { text: 'Task Scheduling', link: 'scheduling' },
-        ]
-    },
-    {
-        text: 'Security', collapsed: true,
-        items: [
-            { text: 'Authentication', link: 'authentication' },
-            { text: 'Authorization', link: 'authorization' },
-            { text: 'Encryption', link: 'encryption' },
-            { text: 'Hashing', link: 'hashing' },
-        ]
-    },
-    {
-        text: 'Database', collapsed: true,
-        items: [
-            { text: 'Getting Started', link: 'database' },
-            { text: 'Query Builder', link: 'queries' },
-            { text: 'Migrations', link: 'migrations' },
-            { text: 'Seeding', link: 'seeding' },
-            { text: 'Redis', link: 'redis' },
-            { text: 'Mongodb', link: 'mongodb' },
-        ]
-    },
-    {
-        text: 'Eloquent ORM', collapsed: true,
-        items: [
-            { text: 'Getting Started', link: 'eloquent' },
-            { text: 'Relationships', link: 'eloquent-relationships' },
-            { text: 'Collections', link: 'eloquent-collections' },
-            { text: 'Mutators / Casts', link: 'eloquent-mutators' },
-            { text: 'Serialization', link: 'eloquent-serialization' },
-            { text: 'Factories', link: 'eloquent-factories' },
-        ]
-    },
-    {
-        text: 'Packages', collapsed: true,
-        items: [
-            { text: 'Surge', link: 'surge' },
-            { text: 'Watchdog', link: 'watchdog' },
-            { text: 'Prompts', link: 'prompts' },
-            { text: 'Tempora', link: 'tempora' },
-        ]
-    },
-]
+import v3Sidebar from './sidebars/v3'
+import v4Sidebar from './sidebars/v4'
+import masterSidebar from './sidebars/master'
 
-// Safe prefixer
-const addPrefix = (items, prefix) =>
-    items.map(item => ({
-        ...item,
-        link: item.link ? `${prefix}${item.link.replace(/^\//, '')}` : undefined,
-        items: item.items ? addPrefix(item.items, prefix) : undefined
-    }))
+const DEFAULT_VERSION = 'v4'
 
 // Versions
 const versions = {
     v3: { text: 'Version 3', path: '/v3/' },
+    v4: { text: 'Version 4', path: '/v4/' },
     master: { text: 'Master', path: '/master/' }
 }
 
-// Create sidebar mapping
-const versionSidebars = Object.fromEntries(
-    Object.values(versions).map(v => [v.path, addPrefix(baseSidebar, v.path)])
-)
+const options = {
+    previewLength: 62,
+    buttonLabel: "Search",
+    placeholder: "Search docs",
+    allow: [],
+    ignore: [],
+};
 
 export default defineConfig({
-    ignoreDeadLinks: true,
+    vite: {
+        plugins: [SearchPlugin(options)],
+    },
+
+    // Known links to concepts LaraGram doesn't document yet (see link-report.md).
+    // Any *new* dead link will still fail the build.
+    ignoreDeadLinks: [
+        '/armada',
+        (url: string) => url.startsWith('http://localhost'),
+    ],
     base: '/',
     title: 'LaraGram',
     description: 'An advanced framework for Telegram Bot development.',
@@ -148,29 +51,20 @@ export default defineConfig({
         logo: '/LaraGram.svg',
         outline: 'deep',
 
-        search: {
-            provider: 'local',
-        },
-
         nav: [
             { text: 'Home', link: '/' },
-            { 
-                text: 'َAnother Products',
+            {
+                text: 'Another Products',
                 items: [{text: "Simula", link: '/simula'}]
             },
             { text: 'Document', link: versions[DEFAULT_VERSION].path + 'installation' },
-            {
-                text: 'Version',
-                items: Object.values(versions).map(v => ({ text: v.text, link: v.path + 'installation' }))
-            }
         ],
 
-        versions: {
-            text: versions[DEFAULT_VERSION].text,
-            items: Object.values(versions).map(v => ({ text: v.text, link: v.path + 'installation' }))
+        sidebar: {
+            '/v3/': v3Sidebar,
+            '/v4/': v4Sidebar,
+            '/master/': masterSidebar
         },
-
-        sidebar: versionSidebars,
 
         socialLinks: [
             { icon: 'github', link: 'https://github.com/laraXgram' },
