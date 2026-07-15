@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /v3/installation
+      link: /v4/installation
     - theme: alt
       text: GitHub
       link: https://github.com/laraXgram
