@@ -27,15 +27,15 @@ and with the understanding that the parameter names may change in the future.
 
 For all LaraGram releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all
 additional libraries, only the latest major release receives bug fixes. In addition, please review the database
-versions [supported by LaraGram](/master/database#introduction).
+versions [supported by LaraGram](/v4/database#introduction).
 
 <div class="overflow-auto">
 
 | Version | PHP (*)   | Release         | Bug Fixes Until    | Security Fixes Until | Status                                 |
 |---------|-----------|-----------------|--------------------|----------------------|----------------------------------------|
 | 3       | 8.2 - 8.5 | July 17th, 2025 | February 1th, 2027 | July 1th, 2027       | <Badge type="tip" text="Stable" />     |
-| 4       | 8.3 - 8.5 | July 16th, 2026 | February 1th, 2028 | July 1th, 2028       | <Badge type="tip" text="Stable " />    |
-| 5       | 8.4 - 8.5 | Q2 2027         | Q4 2028            | Q2 2028              | <Badge type="info" text="Upcoming " /> |
+| 4       | 8.5       | July 16th, 2026 | February 1th, 2028 | July 1th, 2028       | <Badge type="tip" text="Stable " />    |
+| 5       | 8.5       | Q2 2027         | Q4 2028            | Q2 2028              | <Badge type="info" text="Upcoming " /> |
 
 </div>
 
@@ -53,7 +53,7 @@ familiar, LaraGram-flavored developer experience.
 
 Despite the scope of the new features, LaraGram 4 introduces **minimal breaking changes**. The vast
 majority of the release is additive, so most applications can upgrade with little more than a
-dependency bump. See the [upgrade guide](/master/upgrade) for the full details.
+dependency bump. See the [upgrade guide](/v4/upgrade) for the full details.
 
 <a name="php-8-3"></a>
 
@@ -85,11 +85,11 @@ This unlocks an entirely new class of applications:
 
 Both user clients (phone + 2FA / QR login) and bot clients (bot token over MTProto) are driven through
 the same high-level API, so the listeners and requests you write are identical either way. The MTProto
-documentation is split across [Getting Started](/master/mtproto),
-[Authentication](/master/mtproto-authentication), [Listening](/master/mtproto-listening),
-[Requests](/master/mtproto-requests), [Chats](/master/mtproto-chats),
-[Media](/master/mtproto-media), [Features](/master/mtproto-features), and
-[Configuration](/master/mtproto-configuration).
+documentation is split across [Getting Started](/v4/mtproto),
+[Authentication](/v4/mtproto-authentication), [Listening](/v4/mtproto-listening),
+[Requests](/v4/mtproto-requests), [Chats](/v4/mtproto-chats),
+[Media](/v4/mtproto-media), [Features](/v4/mtproto-features), and
+[Configuration](/v4/mtproto-configuration).
 
 <a name="luna"></a>
 
@@ -108,9 +108,9 @@ identity with the frontend, adopts Telegram's theme, and drives native UI such a
 MainButton. The full device-feature surface — CloudStorage, biometrics, location, sensors, popups,
 sharing, and invoices — is available as well.
 
-Luna is documented across [Luna](/master/luna), [Pages](/master/luna-pages),
-[Routing](/master/luna-routing), [Forms](/master/luna-forms), [Frontend](/master/luna-frontend),
-[Telegram Mini Apps](/master/luna-tma), and [Telegram Features](/master/luna-tma-features).
+Luna is documented across [Luna](/v4/luna), [Pages](/v4/luna-pages),
+[Routing](/v4/luna-routing), [Forms](/v4/luna-forms), [Frontend](/v4/luna-frontend),
+[Telegram Mini Apps](/v4/luna-tma), and [Telegram Features](/v4/luna-tma-features).
 
 <a name="web-layer"></a>
 
@@ -121,15 +121,15 @@ immediately familiar to LaraGram (and Laravel) developers:
 
 <div class="content-list" markdown="1">
 
-- [**Routing**](/master/routing) and [**URL generation**](/master/urls) for defining and building
+- [**Routing**](/v4/routing) and [**URL generation**](/v4/urls) for defining and building
   web endpoints.
-- [**HTTP requests**](/master/http-requests) and [**responses**](/master/http-responses), plus an
-  expressive [**HTTP client**](/master/http-client) built on Guzzle for outgoing requests.
-- [**Blade templates**](/master/blade) and [**views**](/master/views) for server-rendered HTML.
-- [**Asset bundling with Vite**](/master/vite) via an official plugin and Blade directive.
-- [**HTTP sessions**](/master/session) with database, Redis, Memcached, and other backends.
-- A [**Frontend**](/master/frontend) guide tying the PHP and JavaScript approaches together, and
-  [**starter kits**](/master/starter-kits) to scaffold authenticated applications quickly.
+- [**HTTP requests**](/v4/http-requests) and [**responses**](/v4/http-responses), plus an
+  expressive [**HTTP client**](/v4/http-client) built on Guzzle for outgoing requests.
+- [**Blade templates**](/v4/blade) and [**views**](/v4/views) for server-rendered HTML.
+- [**Asset bundling with Vite**](/v4/vite) via an official plugin and Blade directive.
+- [**HTTP sessions**](/v4/session) with database, Redis, Memcached, and other backends.
+- A [**Frontend**](/v4/frontend) guide tying the PHP and JavaScript approaches together, and
+  [**starter kits**](/v4/starter-kits) to scaffold authenticated applications quickly.
 
 </div>
 
@@ -138,7 +138,7 @@ immediately familiar to LaraGram (and Laravel) developers:
 ### Conversations
 
 Many bots need to ask a user a series of questions — a registration flow, a support ticket, an order
-form — and remember every answer. The new [**Conversation**](/master/conversations) component gives you
+form — and remember every answer. The new [**Conversation**](/v4/conversations) component gives you
 a clean, declarative way to build these multi-step question-and-answer flows. You declare the
 questions; LaraGram sends them one by one, validates each reply, collects the answers, and hands them
 back when the flow completes. State is persisted automatically between updates, so a conversation
@@ -153,11 +153,11 @@ ecosystem:
 
 <div class="content-list" markdown="1">
 
-- [**Eloquent API Resources**](/master/eloquent-resources) provide an expressive transformation layer
+- [**Eloquent API Resources**](/v4/eloquent-resources) provide an expressive transformation layer
   between your models and JSON responses.
-- [**Pagination**](/master/pagination) integrates with the query builder and Eloquent, with Tailwind
+- [**Pagination**](/v4/pagination) integrates with the query builder and Eloquent, with Tailwind
   and Bootstrap views out of the box.
-- [**Precognition**](/master/precognition) lets you anticipate the outcome of a future HTTP request —
+- [**Precognition**](/v4/precognition) lets you anticipate the outcome of a future HTTP request —
   most notably to provide live, frontend validation without duplicating your backend rules. Precognition
   support is built directly into Luna Forms.
 
