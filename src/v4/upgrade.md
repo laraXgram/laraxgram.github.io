@@ -12,12 +12,12 @@
 > the new work is in brand-new components (MTProto, Luna, the web layer). Bumping the dependency plus
 > the steps below is usually all that is required.
 
-<a name="php-8.3-required"></a>
-### PHP 8.3 Required
+<a name="php-8.5-required"></a>
+### PHP 8.5 Required
 
 **Likelihood Of Impact: High**
 
-LaraGram 4 requires PHP 8.3 – 8.5. Update your environment before upgrading.
+LaraGram 4 requires PHP 8.5. Update your environment before upgrading.
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
@@ -38,6 +38,19 @@ composer update
 
 The new web layer needs a few directories and config files that did not exist in 3.x. Apply the ones
 relevant to your application:
+
+**0. Migrate the `sessions` table:**
+
+```php
+Schema::create('sessions', function (Blueprint $table) {
+    $table->string('id')->primary();
+    $table->foreignId('user_id')->nullable()->index();
+    $table->string('ip_address', 45)->nullable();
+    $table->text('user_agent')->nullable();
+    $table->longText('payload');
+    $table->integer('last_activity')->index();
+});
+```
 
 **1. Create the storage cache directories.** Views and templates are compiled to `storage/framework`:
 

@@ -12,12 +12,12 @@
 > the new work is in brand-new components (MTProto, Luna, the web layer). Bumping the dependency plus
 > the steps below is usually all that is required.
 
-<a name="php-8.3-required"></a>
-### PHP 8.3 Required
+<a name="php-8.5-required"></a>
+### PHP 8.5 Required
 
 **Likelihood Of Impact: High**
 
-LaraGram 4 requires PHP 8.3 – 8.5. Update your environment before upgrading.
+LaraGram 4 requires PHP 8.5. Update your environment before upgrading.
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
@@ -38,6 +38,19 @@ composer update
 
 The new web layer needs a few directories and config files that did not exist in 3.x. Apply the ones
 relevant to your application:
+
+**0. Migrate the `sessions` table:**
+
+```php
+Schema::create('sessions', function (Blueprint $table) {
+    $table->string('id')->primary();
+    $table->foreignId('user_id')->nullable()->index();
+    $table->string('ip_address', 45)->nullable();
+    $table->text('user_agent')->nullable();
+    $table->longText('payload');
+    $table->integer('last_activity')->index();
+});
+```
 
 **1. Create the storage cache directories.** Views and templates are compiled to `storage/framework`:
 
@@ -74,7 +87,7 @@ composer global require laraxgram/installer
 
 **Likelihood Of Impact: Low**
 
-The standalone `redirects` page is merged into [HTTP responses](/master/http-responses). Documentation
+The standalone `redirects` page is merged into [HTTP responses](/v4/http-responses). Documentation
 change only — the helpers are unchanged.
 
 <a name="whats-new"></a>
@@ -84,13 +97,13 @@ None of this is required to upgrade:
 
 <div class="content-list" markdown="1">
 
-- [**MTProto & User Clients**](/master/mtproto) — full Telegram client, no Bot API limits.
-- [**Luna**](/master/luna) — React / Vue / Svelte frontends and [Mini Apps](/master/luna-tma).
-- **Web layer** — [routing](/master/routing), [HTTP requests](/master/http-requests) /
-  [responses](/master/http-responses), [HTTP client](/master/http-client), [Blade](/master/blade),
-  [views](/master/views), [Vite](/master/vite), [sessions](/master/session).
-- [**Conversations**](/master/conversations) — declarative multi-step Q&A flows.
-- [**API Resources**](/master/eloquent-resources), [**pagination**](/master/pagination),
-  [**Precognition**](/master/precognition).
+- [**MTProto & User Clients**](/v4/mtproto) — full Telegram client, no Bot API limits.
+- [**Luna**](/v4/luna) — React / Vue / Svelte frontends and [Mini Apps](/v4/luna-tma).
+- **Web layer** — [routing](/v4/routing), [HTTP requests](/v4/http-requests) /
+  [responses](/v4/http-responses), [HTTP client](/v4/http-client), [Blade](/v4/blade),
+  [views](/v4/views), [Vite](/v4/vite), [sessions](/v4/session).
+- [**Conversations**](/v4/conversations) — declarative multi-step Q&A flows.
+- [**API Resources**](/v4/eloquent-resources), [**pagination**](/v4/pagination),
+  [**Precognition**](/v4/precognition).
 
 </div>
