@@ -52,10 +52,10 @@ Schema::create('sessions', function (Blueprint $table) {
 });
 ```
 
-**1. Create the storage cache directories.** Views and templates are compiled to `storage/framework`:
+**1. Create the storage cache directories.** Views are compiled to `storage/framework` and sessions save to `storage/sessions`:
 
 ```shell
-mkdir -p storage/framework/{views,templates,sessions}
+mkdir -p storage/framework/{views,sessions}
 ```
 
 **2. Enable web routing (if used).** To serve HTTP routes, register them in `bootstrap/app.php`:
@@ -73,7 +73,7 @@ mkdir -p storage/framework/{views,templates,sessions}
 **4. Publish the new config files** from vendor (for example `session.php`):
 
 ```shell
-php commander vendor:publish
+php laragram vendor:publish
 ```
 
 **5. Update the LaraGram installer** so `laragram new` scaffolds 4.x projects:
