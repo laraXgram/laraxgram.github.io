@@ -121,7 +121,7 @@ The sidebar layout includes three different variants: the default sidebar varian
 
 ```text
 <Sidebar collapsible="icon" variant="sidebar"> // [!code --]
-<Sidebar collapsible="icon" variant="inset"> [!code ++]
+<Sidebar collapsible="icon" variant="inset"> // [!code ++]
 ```
 
 <a name="react-authentication-page-layout-variants"></a>
@@ -187,7 +187,7 @@ The sidebar layout includes three different variants: the default sidebar varian
 
 ```text
 <Sidebar collapsible="icon" variant="sidebar"> // [!code --]
-<Sidebar collapsible="icon" variant="inset"> [!code ++]
+<Sidebar collapsible="icon" variant="inset"> // [!code ++]
 ```
 
 <a name="svelte-authentication-page-layout-variants"></a>
@@ -256,7 +256,7 @@ The sidebar layout includes three different variants: the default sidebar varian
 
 ```text
 <Sidebar collapsible="icon" variant="sidebar"> // [!code --]
-<Sidebar collapsible="icon" variant="inset"> [!code ++]
+<Sidebar collapsible="icon" variant="inset"> // [!code ++]
 ```
 
 <a name="vue-authentication-page-layout-variants"></a>

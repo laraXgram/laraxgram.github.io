@@ -1091,8 +1091,8 @@ export default defineConfig({
     server: {  // [!code ++]
         cors: {  // [!code ++]
             origin: [ // [!code ++]
-                // Supports: SCHEME://DOMAIN.laragram[:PORT] [!code ++]
-                /^https?:\/\/.*\.laragram(:\d+)?$/, //[!code ++]
+                // Supports: SCHEME://DOMAIN.laragram[:PORT] // [!code ++]
+                /^https?:\/\/.*\.laragram(:\d+)?$/, // [!code ++]
             ], // [!code ++]
         }, // [!code ++]
     }, // [!code ++]
@@ -1134,5 +1134,5 @@ Now, while Vite is serving Assets, it will output URLs that point to the Vite de
 
 ```html
 - <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- // [!code --] -->
-+ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [!code ++] -->
++ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- // [!code ++] -->
 ```
