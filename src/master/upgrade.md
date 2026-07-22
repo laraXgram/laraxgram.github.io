@@ -39,7 +39,33 @@ composer update
 The new web layer needs a few directories and config files that did not exist in 3.x. Apply the ones
 relevant to your application:
 
-**0. Migrate the `sessions` table:**
+**0. Update** `index.php`. Replace the contents of the `public/index.php` file completely with the following value:
+
+```php
+<?php
+
+$serverPath = __DIR__."/../vendor/laraxgram/core/src/Foundation/resources/server.php";
+
+$rawInput = file_get_contents('php://input');
+$content = json_decode($rawInput, true);
+
+$isBotUpdate = json_last_error() === JSON_ERROR_NONE
+    && is_array($content)
+    && array_key_exists('update_id', $content);
+
+if ($isBotUpdate) {
+    $server = escapeshellarg(json_encode($_SERVER));
+    $inputs = escapeshellarg($rawInput);
+
+    $log = "/dev/null";
+
+    popen("php \"{$serverPath}\" {$inputs} {$server} >> {$log} 2>&1 &", "r");
+} else {
+    require_once $serverPath;
+}
+```
+
+**1. Migrate the `sessions` table:**
 
 ```php
 Schema::create('sessions', function (Blueprint $table) {
@@ -52,13 +78,13 @@ Schema::create('sessions', function (Blueprint $table) {
 });
 ```
 
-**1. Create the storage cache directories.** Views are compiled to `storage/framework` and sessions save to `storage/sessions`:
+**2. Create the storage cache directories.** Views are compiled to `storage/framework` and sessions save to `storage/sessions`:
 
 ```shell
 mkdir -p storage/framework/{views,sessions}
 ```
 
-**2. Enable web routing (if used).** To serve HTTP routes, register them in `bootstrap/app.php`:
+**3. Enable web routing (if used).** To serve HTTP routes, register them in `bootstrap/app.php`:
 
 ```php
 ->withRouting(
@@ -67,16 +93,16 @@ mkdir -p storage/framework/{views,sessions}
 )
 ```
 
-**3. Add the `routes` and `resources` folders as needed.** Create only what you use — e.g.
+**4. Add the `routes` and `resources` folders as needed.** Create only what you use — e.g.
 `routes/web.php`, `resources/views`, `resources/css`, `resources/js`.
 
-**4. Publish the new config files** from vendor (for example `session.php`):
+**5. Publish the new config files** from vendor (for example `session.php`):
 
 ```shell
 php laragram vendor:publish
 ```
 
-**5. Update the LaraGram installer** so `laragram new` scaffolds 4.x projects:
+**6. Update the LaraGram installer** so `laragram new` scaffolds 4.x projects:
 
 ```shell
 composer global require laraxgram/installer
