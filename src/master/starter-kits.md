@@ -10,7 +10,7 @@ While you are welcome to use these starter kits, they are not required. You are 
 <a name="creating-an-application"></a>
 ## Creating an Application Using a Starter Kit
 
-To create a new LaraGram application using one of our starter kits, you should first [install PHP and the LaraGram CLI tool](/master/installation#installing-php). If you already have PHP and Composer installed, you may install the LaraGram installer CLI tool via Composer:
+To create a new LaraGram application using one of our starter kits, you should first [install PHP and the LaraGram CLI tool](/v4/installation#installing-php). If you already have PHP and Composer installed, you may install the LaraGram installer CLI tool via Composer:
 
 ```shell
 composer global require laraxgram/installer
@@ -38,7 +38,7 @@ Once you have started the LaraGram development server, your application will be 
 <a name="react"></a>
 ### React
 
-Our React starter kit provides a robust, modern starting point for building LaraGram applications with a React frontend using [Luna.js](https://laraxgram.github.io/master/luna).
+Our React starter kit provides a robust, modern starting point for building LaraGram applications with a React frontend using [Luna.js](https://laraxgram.github.io/v4/luna).
 
 Luna allows you to build modern, single-page React applications using classic server-side routing and controllers. This lets you enjoy the frontend power of React combined with the incredible backend productivity of LaraGram and lightning-fast Vite compilation.
 
@@ -47,7 +47,7 @@ The React starter kit utilizes React 19, TypeScript, Tailwind, and the [shadcn/u
 <a name="svelte"></a>
 ### Svelte
 
-Our Svelte starter kit provides a robust, modern starting point for building LaraGram applications with a Svelte frontend using [Luna.js](https://laraxgram.github.io/master/luna).
+Our Svelte starter kit provides a robust, modern starting point for building LaraGram applications with a Svelte frontend using [Luna.js](https://laraxgram.github.io/v4/luna).
 
 Luna allows you to build modern, single-page Svelte applications using classic server-side routing and controllers. This lets you enjoy the frontend power of Svelte combined with the incredible backend productivity of LaraGram and lightning-fast Vite compilation.
 
@@ -56,7 +56,7 @@ The Svelte starter kit utilizes Svelte 5, TypeScript, Tailwind, and the [shadcn-
 <a name="vue"></a>
 ### Vue
 
-Our Vue starter kit provides a great starting point for building LaraGram applications with a Vue frontend using [Luna.js](https://laraxgram.github.io/master/luna).
+Our Vue starter kit provides a great starting point for building LaraGram applications with a Vue frontend using [Luna.js](https://laraxgram.github.io/v4/luna).
 
 Luna allows you to build modern, single-page Vue applications using classic server-side routing and controllers. This lets you enjoy the frontend power of Vue combined with the incredible backend productivity of LaraGram and lightning-fast Vite compilation.
 
@@ -110,8 +110,8 @@ export default MyPage;
 The React starter kit includes two different primary layouts for you to choose from: a "sidebar" layout and a "header" layout. The sidebar layout is the default, but you can switch to the header layout by modifying the layout that is imported at the top of your application's `resources/js/layouts/app-layout.tsx` file:
 
 ```js
-import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout'; // [tl! remove]
-import AppLayoutTemplate from '@/layouts/app/app-header-layout'; // [tl! add]
+import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout'; // [!code --]
+import AppLayoutTemplate from '@/layouts/app/app-header-layout'; // [!code ++]
 ```
 
 <a name="react-sidebar-variants"></a>
@@ -120,8 +120,8 @@ import AppLayoutTemplate from '@/layouts/app/app-header-layout'; // [tl! add]
 The sidebar layout includes three different variants: the default sidebar variant, the "inset" variant, and the "floating" variant. You may choose the variant you like best by modifying the `resources/js/components/app-sidebar.tsx` component:
 
 ```text
-<Sidebar collapsible="icon" variant="sidebar"> [tl! remove]
-<Sidebar collapsible="icon" variant="inset"> [tl! add]
+<Sidebar collapsible="icon" variant="sidebar"> // [!code --]
+<Sidebar collapsible="icon" variant="inset"> [!code ++]
 ```
 
 <a name="react-authentication-page-layout-variants"></a>
@@ -132,8 +132,8 @@ The authentication pages included with the React starter kit, such as the login 
 To change your authentication layout, modify the layout that is imported at the top of your application's `resources/js/layouts/auth-layout.tsx` file:
 
 ```js
-import AuthLayoutTemplate from '@/layouts/auth/auth-simple-layout'; // [tl! remove]
-import AuthLayoutTemplate from '@/layouts/auth/auth-split-layout'; // [tl! add]
+import AuthLayoutTemplate from '@/layouts/auth/auth-simple-layout'; // [!code --]
+import AuthLayoutTemplate from '@/layouts/auth/auth-split-layout'; // [!code ++]
 ```
 
 <a name="svelte-customization"></a>
@@ -176,8 +176,8 @@ In this example, the command will publish the Switch component to `resources/js/
 The Svelte starter kit includes two different primary layouts for you to choose from: a "sidebar" layout and a "header" layout. The sidebar layout is the default, but you can switch to the header layout by modifying the layout that is imported at the top of your application's `resources/js/layouts/AppLayout.svelte` file:
 
 ```js
-import AppLayout from '@/layouts/app/AppSidebarLayout.svelte'; // [tl! remove]
-import AppLayout from '@/layouts/app/AppHeaderLayout.svelte'; // [tl! add]
+import AppLayout from '@/layouts/app/AppSidebarLayout.svelte'; // [!code --]
+import AppLayout from '@/layouts/app/AppHeaderLayout.svelte'; // [!code ++]
 ```
 
 <a name="svelte-sidebar-variants"></a>
@@ -186,8 +186,8 @@ import AppLayout from '@/layouts/app/AppHeaderLayout.svelte'; // [tl! add]
 The sidebar layout includes three different variants: the default sidebar variant, the "inset" variant, and the "floating" variant. You may choose the variant you like best by modifying the `resources/js/components/AppSidebar.svelte` component:
 
 ```text
-<Sidebar collapsible="icon" variant="sidebar"> [tl! remove]
-<Sidebar collapsible="icon" variant="inset"> [tl! add]
+<Sidebar collapsible="icon" variant="sidebar"> // [!code --]
+<Sidebar collapsible="icon" variant="inset"> [!code ++]
 ```
 
 <a name="svelte-authentication-page-layout-variants"></a>
@@ -198,8 +198,8 @@ The authentication pages included with the Svelte starter kit, such as the login
 To change your authentication layout, modify the layout that is imported at the top of your application's `resources/js/layouts/AuthLayout.svelte` file:
 
 ```js
-import AuthLayout from '@/layouts/auth/AuthSimpleLayout.svelte'; // [tl! remove]
-import AuthLayout from '@/layouts/auth/AuthSplitLayout.svelte'; // [tl! add]
+import AuthLayout from '@/layouts/auth/AuthSimpleLayout.svelte'; // [!code --]
+import AuthLayout from '@/layouts/auth/AuthSplitLayout.svelte'; // [!code ++]
 ```
 
 <a name="vue-customization"></a>
@@ -245,8 +245,8 @@ import { Switch } from '@/components/ui/switch'
 The Vue starter kit includes two different primary layouts for you to choose from: a "sidebar" layout and a "header" layout. The sidebar layout is the default, but you can switch to the header layout by modifying the layout that is imported at the top of your application's `resources/js/layouts/AppLayout.vue` file:
 
 ```js
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue'; // [tl! remove]
-import AppLayout from '@/layouts/app/AppHeaderLayout.vue'; // [tl! add]
+import AppLayout from '@/layouts/app/AppSidebarLayout.vue'; // [!code --]
+import AppLayout from '@/layouts/app/AppHeaderLayout.vue'; // [!code ++]
 ```
 
 <a name="vue-sidebar-variants"></a>
@@ -255,8 +255,8 @@ import AppLayout from '@/layouts/app/AppHeaderLayout.vue'; // [tl! add]
 The sidebar layout includes three different variants: the default sidebar variant, the "inset" variant, and the "floating" variant. You may choose the variant you like best by modifying the `resources/js/components/AppSidebar.vue` component:
 
 ```text
-<Sidebar collapsible="icon" variant="sidebar"> [tl! remove]
-<Sidebar collapsible="icon" variant="inset"> [tl! add]
+<Sidebar collapsible="icon" variant="sidebar"> // [!code --]
+<Sidebar collapsible="icon" variant="inset"> [!code ++]
 ```
 
 <a name="vue-authentication-page-layout-variants"></a>
@@ -267,52 +267,8 @@ The authentication pages included with the Vue starter kit, such as the login pa
 To change your authentication layout, modify the layout that is imported at the top of your application's `resources/js/layouts/AuthLayout.vue` file:
 
 ```js
-import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue'; // [tl! remove]
-import AuthLayout from '@/layouts/auth/AuthSplitLayout.vue'; // [tl! add]
-```
-
-<a name="livewire-customization"></a>
-### Livewire
-
-Our Livewire starter kit is built with Livewire 4, Tailwind, and [Flux UI](https://fluxui.dev/). As with all of our starter kits, all of the backend and frontend code exists within your application to allow for full customization.
-
-The majority of the frontend code is located in the `resources/views` directory. You are free to modify any of the code to customize the appearance and behavior of your application:
-
-```text
-resources/views
-├── components            # Reusable components
-├── flux                  # Customized Flux components
-├── layouts               # Application layouts
-├── pages                 # Livewire pages
-├── partials              # Reusable Blade partials
-├── dashboard.blade.php   # Authenticated user dashboard
-├── welcome.blade.php     # Guest user welcome page
-```
-
-<a name="livewire-available-layouts"></a>
-#### Available Layouts
-
-The Livewire starter kit includes two different primary layouts for you to choose from: a "sidebar" layout and a "header" layout. The sidebar layout is the default, but you can switch to the header layout by modifying the layout that is used by your application's `resources/views/layouts/app.blade.php` file. In addition, you should add the `container` attribute to the main Flux component:
-
-```blade
-<x-layouts::app.header>
-    <flux:main container>
-        {{ $slot }}
-    </flux:main>
-</x-layouts::app.header>
-```
-
-<a name="livewire-authentication-page-layout-variants"></a>
-#### Authentication Page Layout Variants
-
-The authentication pages included with the Livewire starter kit, such as the login page and registration page, also offer three different layout variants: "simple", "card", and "split".
-
-To change your authentication layout, modify the layout that is used by your application's `resources/views/layouts/auth.blade.php` file:
-
-```blade
-<x-layouts::auth.split>
-    {{ $slot }}
-</x-layouts::auth.split>
+import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue'; // [!code --]
+import AuthLayout from '@/layouts/auth/AuthSplitLayout.vue'; // [!code ++]
 ```
 
 <a name="luna-ssr"></a>

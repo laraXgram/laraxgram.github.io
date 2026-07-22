@@ -69,7 +69,7 @@ import laragram from 'laragram-vite-plugin';
 export default defineConfig({
     plugins: [
         laragram([
-            'resources/css/app.css', // [tl! remove]
+            'resources/css/app.css', // [!code --]
             'resources/js/app.js',
         ]),
     ],
@@ -80,7 +80,7 @@ Instead, you should import your CSS via JavaScript. Typically, this would be don
 
 ```js
 import './bootstrap';
-import '../css/app.css'; // [tl! add]
+import '../css/app.css'; // [!code ++]
 ```
 
 The LaraGram plugin also supports multiple entry points and advanced configuration options such as [SSR entry points](#ssr).
@@ -100,7 +100,7 @@ export default defineConfig({
     plugins: [
         laragram({
             // ...
-            detectTls: 'my-app.test', // [tl! add]
+            detectTls: 'my-app.test', // [!code ++]
         }),
     ],
 });
@@ -110,20 +110,20 @@ When using another web server, you should generate a trusted certificate and man
 
 ```js
 // ...
-import fs from 'fs'; // [tl! add]
+import fs from 'fs'; // [!code ++]
 
-const host = 'my-app.test'; // [tl! add]
+const host = 'my-app.test'; // [!code ++]
 
 export default defineConfig({
     // ...
-    server: { // [tl! add]
-        host, // [tl! add]
-        hmr: { host }, // [tl! add]
-        https: { // [tl! add]
-            key: fs.readFileSync(`/path/to/${host}.key`), // [tl! add]
-            cert: fs.readFileSync(`/path/to/${host}.crt`), // [tl! add]
-        }, // [tl! add]
-    }, // [tl! add]
+    server: { // [!code ++]
+        host, // [!code ++]
+        hmr: { host }, // [!code ++]
+        https: { // [!code ++]
+            key: fs.readFileSync(`/path/to/${host}.key`), // [!code ++]
+            cert: fs.readFileSync(`/path/to/${host}.crt`), // [!code ++]
+        }, // [!code ++]
+    }, // [!code ++]
 });
 ```
 
@@ -606,7 +606,6 @@ export default defineConfig({
 
 When the `refresh` option is `true`, saving files in the following directories will trigger the browser to perform a full page refresh while you are running `npm run dev`:
 
-- `app/Livewire/**`
 - `app/View/Components/**`
 - `lang/**`
 - `resources/lang/**`
@@ -845,8 +844,8 @@ To ensure you don't forget to rebuild the SSR entry point, we recommend augmenti
 ```json
 "scripts": {
      "dev": "vite",
-     "build": "vite build" // [tl! remove]
-     "build": "vite build && vite build --ssr" // [tl! add]
+     "build": "vite build" // [!code --]
+     "build": "vite build && vite build --ssr" // [!code ++]
 }
 ```
 
@@ -930,14 +929,14 @@ You may then enable this plugin in your `vite.config.js` file:
 ```js
 import { defineConfig } from 'vite';
 import laragram from 'laragram-vite-plugin';
-import manifestSRI from 'vite-plugin-manifest-sri';// [tl! add]
+import manifestSRI from 'vite-plugin-manifest-sri';// [!code ++]
 
 export default defineConfig({
     plugins: [
         laragram({
             // ...
         }),
-        manifestSRI(),// [tl! add]
+        manifestSRI(),// [!code ++]
     ],
 });
 ```
@@ -1065,14 +1064,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {  // [tl! add]
-        cors: {  // [tl! add]
-            origin: [  // [tl! add]
-                'https://backend.laragram',  // [tl! add]
-                'http://admin.laragram:8566',  // [tl! add]
-            ],  // [tl! add]
-        },  // [tl! add]
-    },  // [tl! add]
+    server: {  // [!code ++]
+        cors: {  // [!code ++]
+            origin: [  // [!code ++]
+                'https://backend.laragram',  // [!code ++]
+                'http://admin.laragram:8566',  // [!code ++]
+            ],  // [!code ++]
+        },  // [!code ++]
+    },  // [!code ++]
 });
 ```
 
@@ -1089,14 +1088,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {  // [tl! add]
-        cors: {  // [tl! add]
-            origin: [ // [tl! add]
-                // Supports: SCHEME://DOMAIN.laragram[:PORT] [tl! add]
-                /^https?:\/\/.*\.laragram(:\d+)?$/, //[tl! add]
-            ], // [tl! add]
-        }, // [tl! add]
-    }, // [tl! add]
+    server: {  // [!code ++]
+        cors: {  // [!code ++]
+            origin: [ // [!code ++]
+                // Supports: SCHEME://DOMAIN.laragram[:PORT] [!code ++]
+                /^https?:\/\/.*\.laragram(:\d+)?$/, //[!code ++]
+            ], // [!code ++]
+        }, // [!code ++]
+    }, // [!code ++]
 });
 ```
 
@@ -1134,6 +1133,6 @@ export default defineConfig({
 Now, while Vite is serving Assets, it will output URLs that point to the Vite dev server:
 
 ```html
-- <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! remove] -->
-+ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [tl! add] -->
+- <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- // [!code --] -->
++ <img src="http://[::1]:5173/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520"><!-- [!code ++] -->
 ```

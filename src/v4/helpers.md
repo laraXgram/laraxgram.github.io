@@ -627,15 +627,15 @@ The `Arr::join` method joins array elements with a string. Using this method's t
 ```php
 use LaraGram\Support\Arr;
 
-$array = ['Tailwind', 'Alpine', 'LaraGram', 'Livewire'];
+$array = ['Tailwind', 'Alpine', 'LaraGram'];
 
 $joined = Arr::join($array, ', ');
 
-// Tailwind, Alpine, LaraGram, Livewire
+// Tailwind, Alpine, LaraGram
 
 $joined = Arr::join($array, ', ', ', and ');
 
-// Tailwind, Alpine, LaraGram, and Livewire
+// Tailwind, Alpine, and LaraGram
 ```
 
 <a name="method-array-keyby"></a>
