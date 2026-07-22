@@ -18,9 +18,9 @@ Bot::onText('start', function () {
 <a name="how-it-works"></a>
 ### How It Works
 
-A conversation is intercepted by a global [middleware](/master/middleware) that runs on every incoming update *before* your listens are matched. While a conversation is active for a chat, the middleware feeds each update into the current question, validates it, stores the answer, and moves to the next question. When there are no more questions the conversation completes and control returns to your normal listens.
+A conversation is intercepted by a global [middleware](/v4/middleware) that runs on every incoming update *before* your listens are matched. While a conversation is active for a chat, the middleware feeds each update into the current question, validates it, stores the answer, and moves to the next question. When there are no more questions the conversation completes and control returns to your normal listens.
 
-Because only lightweight state is cached (the current question index, the collected answers, attempt counts and timestamps), your question closures are **never serialized**. The conversation file is simply re-required on each update to rebuild the questions. This keeps conversations safe even on long-running [Surge](/master/surge) servers.
+Because only lightweight state is cached (the current question index, the collected answers, attempt counts and timestamps), your question closures are **never serialized**. The conversation file is simply re-required on each update to rebuild the questions. This keeps conversations safe even on long-running [Surge](/v4/surge) servers.
 
 <a name="configuration"></a>
 ## Configuration
@@ -48,7 +48,7 @@ return [
 ```
 
 > [!NOTE]
-> Conversation state is persisted through the [Cache](/master/cache) component. On a webhook bot, set `store` to a shared driver such as `redis` so state is available across the separate processes each update spawns.
+> Conversation state is persisted through the [Cache](/v4/cache) component. On a webhook bot, set `store` to a shared driver such as `redis` so state is available across the separate processes each update spawns.
 
 <a name="creating-conversations"></a>
 ## Creating Conversations
@@ -162,7 +162,7 @@ $questioner->ask('Third?')->name('third');  // stored as "third"
 <a name="validating-answers"></a>
 ### Validating Answers
 
-Attach [validation rules](/master/validation) to a question with `validate`. When an answer fails, the conversation re-asks the same question (up to the allowed number of attempts) and fires the `onInvalid` hook. You may pass custom messages as the second argument:
+Attach [validation rules](/v4/validation) to a question with `validate`. When an answer fails, the conversation re-asks the same question (up to the allowed number of attempts) and fires the `onInvalid` hook. You may pass custom messages as the second argument:
 
 ```php
 $questioner->ask('How old are you?')
@@ -186,7 +186,7 @@ $questioner->ask('Share your location')->name('spot')->type('location');
 <a name="keyboards"></a>
 ### Attaching Keyboards
 
-Send a [keyboard](/master/keyboards) with the prompt using the `keyboard` method. Combine it with a `callback` type to accept inline button presses:
+Send a [keyboard](/v4/keyboards) with the prompt using the `keyboard` method. Combine it with a `callback` type to accept inline button presses:
 
 ```php
 use LaraGram\Keyboard\Keyboard;
@@ -194,11 +194,12 @@ use LaraGram\Keyboard\Keyboard;
 $questioner->ask('Choose a plan')
     ->name('plan')
     ->keyboard(
-        Keyboard::make()->inlineKeyboard()
-            ->row(fn ($row) => $row
-                ->col('Free', 'plan:free')
-                ->col('Pro', 'plan:pro')
+        Keyboard::inlineKeyboardMarkup(
+            Make::row(
+                Make::callbackData("Free", 'plan:free'),
+                Make::callbackData("Pro", 'plan:pro'),
             )
+        )->get()
     );
 ```
 
@@ -409,7 +410,7 @@ When the user goes back, the previous answer is cleared, the `onBack` hook fires
 <a name="priority"></a>
 ## Priority: Listens vs. Conversation
 
-By default, your regular and [step](/master/step) listens take precedence over an active conversation. If a listen matches an incoming update, that listen runs and the active conversation is **interrupted** (cancelled with the reason `"interrupted"`). This lets a user run a command like `/help` in the middle of a flow.
+By default, your regular and [step](/v4/step) listens take precedence over an active conversation. If a listen matches an incoming update, that listen runs and the active conversation is **interrupted** (cancelled with the reason `"interrupted"`). This lets a user run a command like `/help` in the middle of a flow.
 
 The full resolution order is:
 
@@ -483,7 +484,7 @@ The inline builder offers the same settings as a file conversation: `maxAttempts
 <a name="events"></a>
 ## Events
 
-LaraGram dispatches [events](/master/events) throughout a conversation's lifecycle. You may listen for any of them:
+LaraGram dispatches [events](/v4/events) throughout a conversation's lifecycle. You may listen for any of them:
 
 <div class="overflow-auto">
 

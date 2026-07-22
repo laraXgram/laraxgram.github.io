@@ -194,11 +194,12 @@ use LaraGram\Keyboard\Keyboard;
 $questioner->ask('Choose a plan')
     ->name('plan')
     ->keyboard(
-        Keyboard::make()->inlineKeyboard()
-            ->row(fn ($row) => $row
-                ->col('Free', 'plan:free')
-                ->col('Pro', 'plan:pro')
+        Keyboard::inlineKeyboardMarkup(
+            Make::row(
+                Make::callbackData("Free", 'plan:free'),
+                Make::callbackData("Pro", 'plan:pro'),
             )
+        )->get()
     );
 ```
 
