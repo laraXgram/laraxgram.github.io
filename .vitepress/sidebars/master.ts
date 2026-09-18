@@ -37,6 +37,7 @@ export default [
             { text: 'Keyboard Builder', link: '/master/keyboards' },
             { text: 'Templates', link: '/master/templates' },
             { text: 'Temple8 Templates', link: '/master/temple8' },
+            { text: 'Rich Messages', link: '/master/rich-messages' },
             { text: 'Validation', link: '/master/validation' },
             { text: 'Step Manager', link: '/master/step' },
             { text: 'Conversation', link: '/master/conversations' },
@@ -48,6 +49,7 @@ export default [
         text: 'Digging Deeper', collapsed: true,
         items: [
             { text: 'Commander Console', link: '/master/commander' },
+            { text: 'Broadcasting', link: '/master/broadcasting' },
             { text: 'Cache', link: '/master/cache' },
             { text: 'Collections', link: '/master/collections' },
             { text: 'Concurrency', link: '/master/concurrency' },

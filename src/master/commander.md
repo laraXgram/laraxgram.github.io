@@ -24,6 +24,103 @@ If you are using [LaraGram Armada](/armada) as your local development environmen
 ./vendor/bin/armada laragram list
 ```
 
+<a name="probe"></a>
+### Probe (REPL)
+
+[LaraGram Probe](https://github.com/laraxgram/probe) is a powerful REPL for the LaraGram framework. It boots your whole application in the terminal, so you can talk to your bot, your models and your services line by line.
+
+<a name="installation"></a>
+#### Installation
+
+New LaraGram applications include Probe out of the box. If you removed it, bring it back with Composer:
+
+```shell
+composer require laraxgram/probe
+```
+
+<a name="usage"></a>
+#### Usage
+
+To enter the Probe environment, run the `probe` Commander command:
+
+```shell
+php laragram probe
+```
+
+Everything your application can do is one line away — send a message through the [Bot API](/v4/requests), query [Eloquent models](/v4/eloquent), dispatch a [job](/v4/queues), render a [template](/v4/temple8), or count the audience of a [broadcast](/v4/broadcasting):
+
+```php
+>>> Request::connection('main')->sendMessage(123456789, 'Hello from Probe!')->message_id;
+=> 4217
+
+>>> User::where('is_admin', true)->count();
+=> 3
+
+>>> Broadcast::users()->language('fa')->count();
+=> 1204
+
+>>> template('welcome', ['name' => 'Amir'])->render();
+```
+
+You may also run a single expression without entering the shell:
+
+```shell
+php laragram probe --execute="User::count()"
+```
+
+Files may be included before the session starts, which is handy for scratch scripts:
+
+```shell
+php laragram probe scratch.php
+```
+
+You may publish Probe's configuration file using the `vendor:publish` command:
+
+```shell
+php laragram vendor:publish --provider="LaraGram\Probe\ProbeServiceProvider"
+```
+
+> [!WARNING]
+> The `dispatch` helper function and the `dispatch` method of the `Dispatchable` trait rely on garbage collection to place the job on the queue. When working in Probe, dispatch jobs with `Bus::dispatch` or `Queue::push` instead.
+
+> [!NOTE]
+> Probe runs against your real configuration, so a call such as `sendMessage` reaches Telegram for real. Use a development bot connection, while experimenting.
+
+<a name="command-allow-list"></a>
+#### Command Allow List
+
+Probe uses an "allow" list to decide which Commander commands may be run inside its shell. By default you may run the `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `migrate:install`, `optimize`, and `up` commands. To allow more, add them to the `commands` array of your `probe.php` configuration file:
+
+```php
+'commands' => [
+    // App\Console\Commands\ExampleCommand::class,
+],
+```
+
+<a name="classes-that-should-not-be-aliased"></a>
+#### Aliasing Classes
+
+Probe automatically aliases the classes of your application as you interact with them, so `User::count()` works without a `use` statement. Classes in your vendor directory are not aliased; list the ones you want in the `alias` array, and the ones that should never be aliased in `dont_alias`:
+
+```php
+'alias' => [
+    LaraGram\Support\Facades\Broadcast::class,
+],
+
+'dont_alias' => [
+    App\Models\User::class,
+],
+```
+
+<a name="trusting-the-project"></a>
+#### Trusting the Project
+
+Probe loads the local project's autoloader and configuration only in a trusted project. New applications set `PROBE_TRUST_PROJECT=always`; set it to `prompt` to be asked once per project, or `never` to keep the shell restricted:
+
+```php
+'trust_project' => env('PROBE_TRUST_PROJECT', 'always'),
+```
+
 <a name="writing-commands"></a>
 ## Writing Commands
 
@@ -43,7 +140,7 @@ php laragram make:command SendEmails
 
 After generating your command, you should define the command's signature and description using the `Signature` and `Description` attributes. The `Signature` attribute also allows you to define [your command's input expectations](#defining-input-expectations). The `handle` method will be called when your command is executed. You may place your command logic in this method.
 
-Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The LaraGram [service container](/master/container) will automatically inject all dependencies that are type-hinted in this method's signature:
+Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The LaraGram [service container](/v4/container) will automatically inject all dependencies that are type-hinted in this method's signature:
 
 ```php
 <?php
@@ -108,7 +205,7 @@ The closure is bound to the underlying command instance, so you have full access
 <a name="type-hinting-dependencies"></a>
 #### Type-Hinting Dependencies
 
-In addition to receiving your command's arguments and options, command closures may also type-hint additional dependencies that you would like resolved out of the [service container](/master/container):
+In addition to receiving your command's arguments and options, command closures may also type-hint additional dependencies that you would like resolved out of the [service container](/v4/container):
 
 ```php
 use App\Models\User;
@@ -410,7 +507,7 @@ return [
 ```
 
 > [!NOTE]
-The comprehensive [LaraGram Prompts](/master/prompts) documentation includes additional information on the available prompts and their usage.
+The comprehensive [LaraGram Prompts](/v4/prompts) documentation includes additional information on the available prompts and their usage.
 
 If you wish to prompt the user to select or enter [options](#options), you may include prompts in your command's `handle` method. However, if you only wish to prompt the user when they have also been automatically prompted for missing arguments, then you may implement the `afterPromptingForMissingArguments` method:
 
@@ -493,7 +590,7 @@ $queue = $this->input('queue', 'default');
 ### Prompting for Input
 
 > [!NOTE]
-> [LaraGram Prompts](/master/prompts) is a PHP package for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
+> [LaraGram Prompts](/v4/prompts) is a PHP package for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
 
 In addition to displaying output, you may also ask the user to provide input during the execution of your command. The `ask` method will prompt the user with the given question, accept their input, and then return the user's input back to your command:
 
@@ -692,7 +789,7 @@ use App\Domain\Orders\Commands\SendEmails;
 ])
 ```
 
-When Commander boots, all the commands in your application will be resolved by the [service container](/master/container) and registered with Commander.
+When Commander boots, all the commands in your application will be resolved by the [service container](/v4/container) and registered with Commander.
 
 <a name="programmatically-executing-commands"></a>
 ## Programmatically Executing Commands
@@ -748,7 +845,7 @@ $exitCode = Commander::call('migrate:refresh', [
 <a name="queueing-laragram-commands"></a>
 #### Queueing Commander Commands
 
-Using the `queue` method on the `Commander` facade, you may even queue Commander commands so they are processed in the background by your [queue workers](/master/queues). Before using this method, make sure you have configured your queue and are running a queue listener:
+Using the `queue` method on the `Commander` facade, you may even queue Commander commands so they are processed in the background by your [queue workers](/v4/queues). Before using this method, make sure you have configured your queue and are running a queue listener:
 
 ```php
 use LaraGram\Support\Facades\Commander;

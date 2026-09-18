@@ -859,7 +859,7 @@ node bootstrap/ssr/ssr.js
 If you are using SSR with Luna, you may instead use the `luna:start-ssr` Artisan command to start the SSR server:
 
 ```shell
-php artisan luna:start-ssr
+php laragram luna:start-ssr
 ```
 
 > [!NOTE]

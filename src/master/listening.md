@@ -87,6 +87,7 @@ Bot::onInlineQuery($action)
 Bot::onChosenInlineResult($action)
 Bot::onCallbackQuery($action)
 Bot::onCallbackQueryData($pattern, $action)
+Bot::onPaginate($key, $action)
 Bot::onShippingQuery($action)
 Bot::onPreCheckoutQuery($action)
 Bot::onPollAnswer($action)
@@ -174,6 +175,23 @@ Bot::onChatBoost($action)
 Bot::onRemovedChatBoost($action)
 Bot::onManagedBot($action)
 Bot::onPollUpdate($action)
+```
+
+<a name="pagination-listens"></a>
+#### Pagination Listens
+
+The `onPaginate` method registers a listen for the navigation keyboard of a [Telegram paginator](/master/pagination#telegram-bot-pagination). It takes the key the paginator was created with, and hands your handler the page that was tapped:
+
+```php
+use LaraGram\Request\Request;
+
+Bot::onPaginate('users', function (Request $request, int $page) {
+    $request->answerCallbackQuery();
+
+    return template('users', [
+        'paginator' => User::telegramPaginate(10, page: $page, key: 'users'),
+    ]);
+});
 ```
 
 Sometimes you may need to register a listen that responds to multiple Bot verbs. You may do so using the `match` method:

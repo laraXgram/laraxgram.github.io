@@ -27,7 +27,7 @@ and with the understanding that the parameter names may change in the future.
 
 For all LaraGram releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all
 additional libraries, only the latest major release receives bug fixes. In addition, please review the database
-versions [supported by LaraGram](/v4/database#introduction).
+versions [supported by LaraGram](/master/database#introduction).
 
 <div class="overflow-auto">
 
@@ -53,7 +53,7 @@ familiar, LaraGram-flavored developer experience.
 
 Despite the scope of the new features, LaraGram 4 introduces **minimal breaking changes**. The vast
 majority of the release is additive, so most applications can upgrade with little more than a
-dependency bump. See the [upgrade guide](/v4/upgrade) for the full details.
+dependency bump. See the [upgrade guide](/master/upgrade) for the full details.
 
 <a name="php-8-3"></a>
 
@@ -85,11 +85,11 @@ This unlocks an entirely new class of applications:
 
 Both user clients (phone + 2FA / QR login) and bot clients (bot token over MTProto) are driven through
 the same high-level API, so the listeners and requests you write are identical either way. The MTProto
-documentation is split across [Getting Started](/v4/mtproto),
-[Authentication](/v4/mtproto-authentication), [Listening](/v4/mtproto-listening),
-[Requests](/v4/mtproto-requests), [Chats](/v4/mtproto-chats),
-[Media](/v4/mtproto-media), [Features](/v4/mtproto-features), and
-[Configuration](/v4/mtproto-configuration).
+documentation is split across [Getting Started](/master/mtproto),
+[Authentication](/master/mtproto-authentication), [Listening](/master/mtproto-listening),
+[Requests](/master/mtproto-requests), [Chats](/master/mtproto-chats),
+[Media](/master/mtproto-media), [Features](/master/mtproto-features), and
+[Configuration](/master/mtproto-configuration).
 
 <a name="luna"></a>
 
@@ -108,9 +108,9 @@ identity with the frontend, adopts Telegram's theme, and drives native UI such a
 MainButton. The full device-feature surface — CloudStorage, biometrics, location, sensors, popups,
 sharing, and invoices — is available as well.
 
-Luna is documented across [Luna](/v4/luna), [Pages](/v4/luna-pages),
-[Routing](/v4/luna-routing), [Forms](/v4/luna-forms), [Frontend](/v4/luna-frontend),
-[Telegram Mini Apps](/v4/luna-tma), and [Telegram Features](/v4/luna-tma-features).
+Luna is documented across [Luna](/master/luna), [Pages](/master/luna-pages),
+[Routing](/master/luna-routing), [Forms](/master/luna-forms), [Frontend](/master/luna-frontend),
+[Telegram Mini Apps](/master/luna-tma), and [Telegram Features](/master/luna-tma-features).
 
 <a name="web-layer"></a>
 
@@ -121,15 +121,15 @@ immediately familiar to LaraGram (and Laravel) developers:
 
 <div class="content-list" markdown="1">
 
-- [**Routing**](/v4/routing) and [**URL generation**](/v4/urls) for defining and building
+- [**Routing**](/master/routing) and [**URL generation**](/master/urls) for defining and building
   web endpoints.
-- [**HTTP requests**](/v4/http-requests) and [**responses**](/v4/http-responses), plus an
-  expressive [**HTTP client**](/v4/http-client) built on Guzzle for outgoing requests.
-- [**Blade templates**](/v4/blade) and [**views**](/v4/views) for server-rendered HTML.
-- [**Asset bundling with Vite**](/v4/vite) via an official plugin and Blade directive.
-- [**HTTP sessions**](/v4/session) with database, Redis, Memcached, and other backends.
-- A [**Frontend**](/v4/frontend) guide tying the PHP and JavaScript approaches together, and
-  [**starter kits**](/v4/starter-kits) to scaffold authenticated applications quickly.
+- [**HTTP requests**](/master/http-requests) and [**responses**](/master/http-responses), plus an
+  expressive [**HTTP client**](/master/http-client) built on Guzzle for outgoing requests.
+- [**Blade templates**](/master/blade) and [**views**](/master/views) for server-rendered HTML.
+- [**Asset bundling with Vite**](/master/vite) via an official plugin and Blade directive.
+- [**HTTP sessions**](/master/session) with database, Redis, Memcached, and other backends.
+- A [**Frontend**](/master/frontend) guide tying the PHP and JavaScript approaches together, and
+  [**starter kits**](/master/starter-kits) to scaffold authenticated applications quickly.
 
 </div>
 
@@ -138,11 +138,43 @@ immediately familiar to LaraGram (and Laravel) developers:
 ### Conversations
 
 Many bots need to ask a user a series of questions — a registration flow, a support ticket, an order
-form — and remember every answer. The new [**Conversation**](/v4/conversations) component gives you
+form — and remember every answer. The new [**Conversation**](/master/conversations) component gives you
 a clean, declarative way to build these multi-step question-and-answer flows. You declare the
 questions; LaraGram sends them one by one, validates each reply, collects the answers, and hands them
 back when the flow completes. State is persisted automatically between updates, so a conversation
 survives across the many separate requests a webhook bot receives.
+
+<a name="broadcasting"></a>
+
+### Broadcasting
+
+Sending an announcement to every user of a bot used to mean a hand-written loop, a queue, and careful
+error handling. [**Broadcasting**](/master/broadcasting) turns it into one line:
+`Broadcast::users()->sendMessage('Hello!')->queue()`. Any Bot API call or template can be delivered to all users, all
+groups, all channels, or your own audiences. LaraGram records the chats your bot can reach, splits the
+work into queued jobs, paces it with anti-flood, skips chats that blocked the bot, and tracks progress.
+Broadcasts can be filtered by language, activity, tags and group membership, render Temple8 templates
+per recipient in their own language, be scheduled or limited to delivery hours, and be edited or
+recalled after they are sent.
+The same component broadcasts events to Mini Apps and web pages over WebSockets through Redis.
+
+<a name="bot-api-client"></a>
+
+### A Typed Bot API Client
+
+The [Bot API client](/master/requests#methods) is generated from the Bot API itself, and now documents what each call gives back as well as what it takes, so an editor completes both sides of a request. A response reads as the array Telegram sent, as the object the method returns (`$request->getMe()->first_name`) or through its own helpers (`isOk()`, `description()`, `toArray()`). Failures are no longer strings to be parsed: `$request->throw()` raises the exception that matches the failure — a blocked bot, a migrated group, a flood wait with its `retryAfter()` — and every Bot API type has a class with one `init` parameter per field for building payloads, and `from()` for reading them back as objects.
+
+<a name="rich-messages"></a>
+
+### Rich Messages
+
+Telegram's rich messages carry a small HTML document instead of a line of text.
+[**Rich messages**](/master/rich-messages) bring them into Temple8: `@rich` turns simplified markup into a
+`sendRichMessage` call, short tags replace Telegram's verbose ones, `@richPhoto` and friends register
+local files and `file_id`s in the message's media array, and `@richTable`, `@richList` and
+`@richChecklist` build markup from PHP arrays. Loops, conditions, includes, components and layouts all
+work inside a block, the markup is validated against Telegram's tags and limits before it is sent, and
+the same payload can be built from PHP with the `RichMessage` class.
 
 <a name="api-resources-pagination"></a>
 
@@ -153,11 +185,11 @@ ecosystem:
 
 <div class="content-list" markdown="1">
 
-- [**Eloquent API Resources**](/v4/eloquent-resources) provide an expressive transformation layer
+- [**Eloquent API Resources**](/master/eloquent-resources) provide an expressive transformation layer
   between your models and JSON responses.
-- [**Pagination**](/v4/pagination) integrates with the query builder and Eloquent, with Tailwind
+- [**Pagination**](/master/pagination) integrates with the query builder and Eloquent, with Tailwind
   and Bootstrap views out of the box.
-- [**Precognition**](/v4/precognition) lets you anticipate the outcome of a future HTTP request —
+- [**Precognition**](/master/precognition) lets you anticipate the outcome of a future HTTP request —
   most notably to provide live, frontend validation without duplicating your backend rules. Precognition
   support is built directly into Luna Forms.
 
