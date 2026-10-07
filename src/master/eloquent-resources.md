@@ -425,7 +425,7 @@ By default, your outermost resource is wrapped in a `data` key when the resource
 }
 ```
 
-If you would like to disable the wrapping of the outermost resource, you should invoke the `withoutWrapping` method on the base `LaraGram\Http\Resources\Json\JsonResource` class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/master/providers) that is loaded on every request to your application:
+If you would like to disable the wrapping of the outermost resource, you should invoke the `withoutWrapping` method on the base `LaraGram\Http\Resources\Json\JsonResource` class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/v4/providers) that is loaded on every request to your application:
 
 ```php
 <?php
@@ -771,7 +771,7 @@ public function toArray(Request $request): array
 }
 ```
 
-If your relationship is using a [custom intermediate table model](/master/eloquent-relationships#defining-custom-intermediate-table-models), you may pass an instance of the intermediate table model as the first argument to the `whenPivotLoaded` method:
+If your relationship is using a [custom intermediate table model](/v4/eloquent-relationships#defining-custom-intermediate-table-models), you may pass an instance of the intermediate table model as the first argument to the `whenPivotLoaded` method:
 
 ```php
 'expires_at' => $this->whenPivotLoaded(new Membership, function () {

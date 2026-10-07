@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-LaraGram provides an expressive, minimal API around the [Symfony Process component](https://symfony.com/doc/current/components/process.html), allowing you to conveniently invoke external processes from your LaraGram application. LaraGram's process features are focused on the most common use cases and a wonderful developer experience.
+LaraGram provides an expressive, minimal API around PHP's process functions in the `LaraGram\Process` component, allowing you to conveniently invoke external processes from your LaraGram application. LaraGram's process features are focused on the most common use cases and a wonderful developer experience.
 
 <a name="invoking-processes"></a>
 ## Invoking Processes
@@ -304,7 +304,7 @@ while ($process->running()) {
 
 LaraGram also makes it a breeze to manage a pool of concurrent, asynchronous processes, allowing you to easily execute many tasks simultaneously. To get started, invoke the `pool` method, which accepts a closure that receives an instance of `LaraGram\Process\Pool`.
 
-Within this closure, you may define the processes that belong to the pool. Once a process pool is started via the `start` method, you may access the [collection](/master/collections) of running processes via the `running` method:
+Within this closure, you may define the processes that belong to the pool. Once a process pool is started via the `start` method, you may access the [collection](/v4/collections) of running processes via the `running` method:
 
 ```php
 use LaraGram\Process\Pool;

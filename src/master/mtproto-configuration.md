@@ -49,7 +49,7 @@ The file ships with safe defaults and is heavily commented. This reference walks
 ],
 ```
 
-`api_id` / `api_hash` identify your application to Telegram (from [my.telegram.org](https://my.telegram.org)). The `sessions` array declares your accounts; each entry deep-merges over the global options. See [Multi-Account Sessions](/master/mtproto-authentication#multi-account-sessions).
+`api_id` / `api_hash` identify your application to Telegram (from [my.telegram.org](https://my.telegram.org)). The `sessions` array declares your accounts; each entry deep-merges over the global options. See [Multi-Account Sessions](/v4/mtproto-authentication#multi-account-sessions).
 
 The session storage backend and directory are configured separately:
 
@@ -82,7 +82,7 @@ The session storage backend and directory are configured separately:
 'use_pump' => env('CLIENT_USE_PUMP', true),
 ```
 
-- **`driver`** — `swoole` (non-blocking, coroutine-based) or `sync`. Use `swoole` for anything long-running; it is **required** under [Surge](/master/surge).
+- **`driver`** — `swoole` (non-blocking, coroutine-based) or `sync`. Use `swoole` for anything long-running; it is **required** under [Surge](/v4/surge).
 - **`use_pump`** — the single-reader coroutine core that routes every RPC and pushed update through one socket reader so handlers run non-blocking, each in its own coroutine. Requires the `swoole` driver.
 
 > [!WARNING]
@@ -233,7 +233,7 @@ Switching a driver is zero-downtime: the new backend is read-through over the ol
 ],
 ```
 
-Telegram media often lives on a different data center than the account is logged in on. The pool keeps the home connection live and opens secondary connections to other data centers on demand — authorizing each by transferring the home session — then reuses and closes them once idle. This is what lets [downloads](/master/mtproto-media#downloading-media) follow media across data centers transparently.
+Telegram media often lives on a different data center than the account is logged in on. The pool keeps the home connection live and opens secondary connections to other data centers on demand — authorizing each by transferring the home session — then reuses and closes them once idle. This is what lets [downloads](/v4/mtproto-media#downloading-media) follow media across data centers transparently.
 
 Every secondary connection shares the home device fingerprint, rate limiter, and pacer, so a fan of connections never bypasses the global throttle. Keep `max_connections` small — a wide spread of live sockets is itself a signal.
 
@@ -244,7 +244,7 @@ Every secondary connection shares the home device fingerprint, rate limiter, and
 'log_channel' => env('CLIENT_LOG_CHANNEL', 'stack'),
 ```
 
-The [log channel](/master/logging) used for MTProto output. Because handlers run inside the pump, exceptions thrown in a handler are logged here rather than crashing the process — check this channel when a listener seems to do nothing.
+The [log channel](/v4/logging) used for MTProto output. Because handlers run inside the pump, exceptions thrown in a handler are logged here rather than crashing the process — check this channel when a listener seems to do nothing.
 
 <a name="api-layer"></a>
 ## API Layer
@@ -261,7 +261,7 @@ The Telegram API layer version. It **must** match the compiled TL schema and gen
 <a name="surge-pump"></a>
 ### The Surge-Hosted Pump
 
-In production the update pump runs **inside** the [Surge](/master/surge) server. Booting Surge starts the HTTP surface and the MTProto pump together — the app is booted once, non-blocking, with no manual wiring:
+In production the update pump runs **inside** the [Surge](/v4/surge) server. Booting Surge starts the HTTP surface and the MTProto pump together — the app is booted once, non-blocking, with no manual wiring:
 
 ```shell
 php laragram surge:start
@@ -294,4 +294,4 @@ php laragram client:start --all
 
 This starts one reader per session and blocks, dispatching updates to your listen files until interrupted. It requires the `swoole` [driver](#driver-pump).
 
-That completes the MTProto reference. Head back to [Getting Started](/master/mtproto) for the overview, or jump to [Listening](/master/mtproto-listening) and [Requests](/master/mtproto-requests) to build.
+That completes the MTProto reference. Head back to [Getting Started](/v4/mtproto) for the overview, or jump to [Listening](/v4/mtproto-listening) and [Requests](/v4/mtproto-requests) to build.

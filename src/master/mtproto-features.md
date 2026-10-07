@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Beyond messaging and chat management, MTProto exposes the account-level features that make Telegram Telegram — reactions, secret chats, data export, stars, and more. Each is a high-level method on the `ClientRequest` handed to your [listeners](/master/mtproto-listening) and controllers, so you use them the same expressive way as everything else.
+Beyond messaging and chat management, MTProto exposes the account-level features that make Telegram Telegram — reactions, secret chats, data export, stars, and more. Each is a high-level method on the `ClientRequest` handed to your [listeners](/v4/mtproto-listening) and controllers, so you use them the same expressive way as everything else.
 
 ```php
 use LaraGram\MTProto\Facades\Client;
@@ -41,7 +41,7 @@ $reactions = $request->getMessageReactions(peer: $chatId, ids: 500);
 $who       = $request->getMessageReactionsList(peer: $chatId, msgId: 500);
 ```
 
-React to incoming messages from a handler with the [`onReactions`](/master/mtproto-listening#reaction-verbs) verb.
+React to incoming messages from a handler with the [`onReactions`](/v4/mtproto-listening#reaction-verbs) verb.
 
 <a name="polls"></a>
 ## Polls
@@ -161,7 +161,7 @@ $request->deleteEphemeral(/* ... */);
 <a name="bot-controls"></a>
 ## Bot Controls
 
-When a session is a [bot](/master/mtproto-authentication#bot-login), the bot-management surface is available:
+When a session is a [bot](/v4/mtproto-authentication#bot-login), the bot-management surface is available:
 
 ```php
 $request->setBotCommands(
@@ -176,7 +176,7 @@ $request->setBotInfo(params: ['name' => 'My Bot', 'about' => 'Built with LaraGra
 $request->setDefaultAdminRights(rights: ['delete_messages' => true]);
 ```
 
-Answer callback and inline queries with [`answerCallback` / `answerInlineQuery`](/master/mtproto-requests#answering-queries).
+Answer callback and inline queries with [`answerCallback` / `answerInlineQuery`](/v4/mtproto-requests#answering-queries).
 
 <a name="business-messages"></a>
 ## Business Messages
@@ -196,4 +196,4 @@ Client::onBusinessConnect(function (ClientRequest $request) {
 });
 ```
 
-Next: tune transport, stores, rate limiting, and ban-safety in the [Configuration](/master/mtproto-configuration) reference.
+Next: tune transport, stores, rate limiting, and ban-safety in the [Configuration](/v4/mtproto-configuration) reference.

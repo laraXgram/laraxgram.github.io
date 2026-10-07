@@ -23,12 +23,12 @@ Route::get('/', function () {
 ```
 
 > [!NOTE]
-> Did you know you can also return [Eloquent collections](/master/eloquent-collections) from your routes or controllers? They will automatically be converted to JSON. Give it a shot!
+> Did you know you can also return [Eloquent collections](/v4/eloquent-collections) from your routes or controllers? They will automatically be converted to JSON. Give it a shot!
 
 <a name="response-objects"></a>
 #### Response Objects
 
-Typically, you won't just be returning simple strings or arrays from your route actions. Instead, you will be returning full `LaraGram\Http\Response` instances or [views](/master/views).
+Typically, you won't just be returning simple strings or arrays from your route actions. Instead, you will be returning full `LaraGram\Http\Response` instances or [views](/v4/views).
 
 Returning a full `Response` instance allows you to customize the response's HTTP status code and headers. A `Response` instance inherits from the `LaraGram\Htto\BaseResponse` class, which provides a variety of methods for building HTTP responses:
 
@@ -42,7 +42,7 @@ Route::get('/home', function () {
 <a name="eloquent-models-and-collections"></a>
 #### Eloquent Models and Collections
 
-You may also return [Eloquent ORM](/master/eloquent) models and collections directly from your routes and controllers. When you do, LaraGram will automatically convert the models and collections to JSON responses while respecting the model's [hidden attributes](/master/eloquent-serialization#hiding-attributes-from-json):
+You may also return [Eloquent ORM](/v4/eloquent) models and collections directly from your routes and controllers. When you do, LaraGram will automatically convert the models and collections to JSON responses while respecting the model's [hidden attributes](/v4/eloquent-serialization#hiding-attributes-from-json):
 
 ```php
 use App\Models\User;
@@ -180,7 +180,7 @@ Route::get('/dashboard', function () {
 });
 ```
 
-Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/master/session), make sure the route calling the `back` function is using the `web` middleware group:
+Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/v4/session), make sure the route calling the `back` function is using the `web` middleware group:
 
 ```php
 Route::post('/user/profile', function () {
@@ -233,7 +233,7 @@ public function getRouteKey(): mixed
 <a name="redirecting-controller-actions"></a>
 ### Redirecting to Controller Actions
 
-You may also generate redirects to [controller actions](/master/controllers). To do so, pass the controller and action name to the `action` method:
+You may also generate redirects to [controller actions](/v4/controllers). To do so, pass the controller and action name to the `action` method:
 
 ```php
 use App\Http\Controllers\UserController;
@@ -261,7 +261,7 @@ return redirect()->away('https://www.google.com');
 <a name="redirecting-with-flashed-session-data"></a>
 ### Redirecting With Flashed Session Data
 
-Redirecting to a new URL and [flashing data to the session](/master/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
+Redirecting to a new URL and [flashing data to the session](/v4/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
 
 ```php
 Route::post('/user/profile', function () {
@@ -271,7 +271,7 @@ Route::post('/user/profile', function () {
 });
 ```
 
-After the user is redirected, you may display the flashed message from the [session](/master/session). For example, using [Blade syntax](/master/blade):
+After the user is redirected, you may display the flashed message from the [session](/v4/session). For example, using [Blade syntax](/v4/blade):
 
 ```blade
 @if (session('status'))
@@ -284,7 +284,7 @@ After the user is redirected, you may display the flashed message from the [sess
 <a name="redirecting-with-input"></a>
 #### Redirecting With Input
 
-You may use the `withInput` method provided by the `RedirectResponse` instance to flash the current request's input data to the session before redirecting the user to a new location. This is typically done if the user has encountered a validation error. Once the input has been flashed to the session, you may easily [retrieve it](/master/requests#retrieving-old-input) during the next request to repopulate the form:
+You may use the `withInput` method provided by the `RedirectResponse` instance to flash the current request's input data to the session before redirecting the user to a new location. This is typically done if the user has encountered a validation error. Once the input has been flashed to the session, you may easily [retrieve it](/v4/requests#retrieving-old-input) during the next request to repopulate the form:
 
 ```php
 return back()->withInput();
@@ -293,12 +293,12 @@ return back()->withInput();
 <a name="other-response-types"></a>
 ## Other Response Types
 
-The `response` helper may be used to generate other types of response instances. When the `response` helper is called without arguments, an implementation of the `LaraGram\Contracts\Routing\ResponseFactory` [contract](/master/contracts) is returned. This contract provides several helpful methods for generating responses.
+The `response` helper may be used to generate other types of response instances. When the `response` helper is called without arguments, an implementation of the `LaraGram\Contracts\Routing\ResponseFactory` [contract](/v4/contracts) is returned. This contract provides several helpful methods for generating responses.
 
 <a name="view-responses"></a>
 ### View Responses
 
-If you need control over the response's status and headers but also need to return a [view](/master/views) as the response's content, you should use the `view` method:
+If you need control over the response's status and headers but also need to return a [view](/v4/views) as the response's content, you should use the `view` method:
 
 ```php
 return response()
@@ -428,7 +428,7 @@ return response()->streamDownload(function () {
 <a name="response-macros"></a>
 ## Response Macros
 
-If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the `macro` method on the `Response` facade. Typically, you should call this method from the `boot` method of one of your application's [service providers](/master/providers), such as the `App\Providers\AppServiceProvider` service provider:
+If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the `macro` method on the `Response` facade. Typically, you should call this method from the `boot` method of one of your application's [service providers](/v4/providers), such as the `App\Providers\AppServiceProvider` service provider:
 
 ```php
 <?php

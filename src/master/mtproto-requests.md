@@ -55,7 +55,7 @@ $client->sendMessage(peer: 'me', message: 'Note to self');
 ```
 
 > [!NOTE]
-> The first time you address a peer by username or id, LaraGram resolves it and caches the access hash, so subsequent calls are instant. Peer caching is backed by the configurable [peer store](/master/mtproto-configuration#state-stores).
+> The first time you address a peer by username or id, LaraGram resolves it and caches the access hash, so subsequent calls are instant. Peer caching is backed by the configurable [peer store](/v4/mtproto-configuration#state-stores).
 
 <a name="sending-messages"></a>
 ## Sending Messages
@@ -126,7 +126,7 @@ $client->sendMessage(
 <a name="keyboards"></a>
 ## Keyboards
 
-Attach a keyboard by passing `reply_markup`. It accepts the exact same array shape produced by LaraGram's [Keyboard Builder](/master/keyboards), so you build keyboards the way you already do for bots:
+Attach a keyboard by passing `reply_markup`. It accepts the exact same array shape produced by LaraGram's [Keyboard Builder](/v4/keyboards), so you build keyboards the way you already do for bots:
 
 ```php
 use LaraGram\Support\Facades\Keyboard;
@@ -149,7 +149,7 @@ $client->sendMessage(
 );
 ```
 
-Reply keyboards, force-reply, and remove-keyboard markups are all supported the same way — build them with the [Keyboard Builder](/master/keyboards) and pass the result as `reply_markup`. Handle button presses with [`onCallbackQuery` / `onCallbackQueryData`](/master/mtproto-listening#callback-inline-verbs) and answer them with [`answerCallback`](#answering-queries).
+Reply keyboards, force-reply, and remove-keyboard markups are all supported the same way — build them with the [Keyboard Builder](/v4/keyboards) and pass the result as `reply_markup`. Handle button presses with [`onCallbackQuery` / `onCallbackQueryData`](/v4/mtproto-listening#callback-inline-verbs) and answer them with [`answerCallback`](#answering-queries).
 
 <a name="editing-forwarding"></a>
 ## Editing, Forwarding & Copying
@@ -224,7 +224,7 @@ Client::onInlineQuery(function (ClientRequest $request) {
 });
 ```
 
-Bot management (`setBotCommands`, `setBotMenuButton`, `setBotInfo`, `setDefaultAdminRights`) is available on the same client — see the [Chats & Channels](/master/mtproto-chats) and [Features](/master/mtproto-features) references for related surfaces.
+Bot management (`setBotCommands`, `setBotMenuButton`, `setBotInfo`, `setDefaultAdminRights`) is available on the same client — see the [Chats & Channels](/v4/mtproto-chats) and [Features](/v4/mtproto-features) references for related surfaces.
 
 <a name="the-namespaced-api"></a>
 ## The Namespaced API

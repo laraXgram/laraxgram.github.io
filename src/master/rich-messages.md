@@ -5,7 +5,7 @@
 
 Telegram's `sendRichMessage` method accepts a small HTML document instead of a line of text, so a single message may contain headings, tables, lists, quotations, collapsible sections, formulas, maps, media and buttons. Writing that document by hand is tedious: media has to be registered in a separate array and referenced by a `tg://` link, captions need a five tag sandwich, and every button carries a `type` attribute that repeats what its other attributes already say.
 
-LaraGram gives you a simplified markup for rich messages that you write directly in a [Temple8 template](/master/temple8):
+LaraGram gives you a simplified markup for rich messages that you write directly in a [Temple8 template](/v4/temple8):
 
 ```blade
 @rich
@@ -385,7 +385,7 @@ The rich directives may be used in a loop or a condition as well. Each pass writ
 <a name="rich-message-partials"></a>
 ### Partials, Components and Layouts
 
-A rich message may be assembled from more than one file. An `@include`, a [component](/master/temple8#components) and a [layout](/master/temple8#building-layouts) each render in a scope of their own, and their output is placed into the message where they were written — including any rich directives they use:
+A rich message may be assembled from more than one file. An `@include`, a [component](/v4/temple8#components) and a [layout](/v4/temple8#building-layouts) each render in a scope of their own, and their output is placed into the message where they were written — including any rich directives they use:
 
 ```blade
 {{-- app/templates/report.t8.php --}}
@@ -412,7 +412,7 @@ Two rules keep this predictable:
 
 <div class="content-list" markdown="1">
 
-- Every template that is included by another one must begin with the `<!-- !component! -->` marker, so it contributes markup instead of sending a message of its own. See [disable request](/master/temple8#disable-request).
+- Every template that is included by another one must begin with the `<!-- !component! -->` marker, so it contributes markup instead of sending a message of its own. See [disable request](/v4/temple8#disable-request).
 - The `@rich` block itself belongs to the template that sends the message. A partial only writes markup and rich directives; it does not open a block of its own.
 
 </div>
@@ -524,7 +524,7 @@ $request->sendRichMessage($chatId, $message->toArray());
 <a name="broadcasting-rich-messages"></a>
 ## Broadcasting Rich Messages
 
-A template that builds a rich message may be [broadcast](/master/broadcasting#templates) to an entire audience, and it is rendered once per recipient, so loops, conditions, components and translations all see that recipient:
+A template that builds a rich message may be [broadcast](/v4/broadcasting#templates) to an entire audience, and it is rendered once per recipient, so loops, conditions, components and translations all see that recipient:
 
 ```php
 use LaraGram\Support\Facades\Broadcast;

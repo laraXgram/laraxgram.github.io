@@ -61,7 +61,7 @@ You can run several accounts — any mix of user clients and bots — from a sin
 ],
 ```
 
-Anything you omit falls back to the global value. Listen files are bound to a session name in `bootstrap/app.php` (see [Registering Listen Files](/master/mtproto#registering-listen-files)), and replies automatically route back to the session that received the update — you never have to track which account a message belongs to.
+Anything you omit falls back to the global value. Listen files are bound to a session name in `bootstrap/app.php` (see [Registering Listen Files](/v4/mtproto#registering-listen-files)), and replies automatically route back to the session that received the update — you never have to track which account a message belongs to.
 
 > [!NOTE]
 > When a listen file is bound to a session name under the `bot:` slot, that file is served by an MTProto client instead of the HTTP Bot API. This lets a bot access MTProto-only capabilities while keeping bot semantics.
@@ -199,4 +199,4 @@ php laragram session:decrypt --session=default --key=base64:...
 
 Store the encryption key outside the repository (for example in a secret manager or an environment variable), never alongside the encrypted files.
 
-Next, learn how to react to updates in the [Listening](/master/mtproto-listening) reference.
+Next, learn how to react to updates in the [Listening](/v4/mtproto-listening) reference.

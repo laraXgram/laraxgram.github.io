@@ -5,7 +5,7 @@
 
 Template is the simple, yet powerful templating engine that is included with LaraGram. Unlike some PHP templating engines, Template does not restrict you from using plain PHP code in your templates. In fact, all Template templates are compiled into plain PHP code and cached until they are modified, meaning Template adds essentially zero overhead to your application. Template template files use the `.t8.php` file extension and are typically stored in the `app/templates` directory.
 
-Template templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/master/templates), data may be passed to the Template template using the `template` helper's second argument:
+Template templates may be returned from listens or controllers using the global `template` helper. Of course, as mentioned in the documentation on [templates](/v4/templates), data may be passed to the Template template using the `template` helper's second argument:
 
 ```php
 Bot::onText('hi', function () {
@@ -51,7 +51,7 @@ Hello, {{{ $name }}}.
 `{!! $name !!}` is accepted as well and, like <code v-pre>{{ }}</code>, echoes the value unescaped.
 
 > [!NOTE]
-> Escaping with <code v-pre>{{{ }}}</code> produces HTML entities, which suits `@parse_mode(html)` and [rich messages](/master/rich-messages). When a message uses MarkdownV2, escape the value for Markdown instead.
+> Escaping with <code v-pre>{{{ }}}</code> produces HTML entities, which suits `@parse_mode(html)` and [rich messages](/v4/rich-messages). When a message uses MarkdownV2, escape the value for Markdown instead.
 
 <a name="temple8-directives"></a>
 ## Template Directives
@@ -76,7 +76,7 @@ Hello
 The `chat_id` input is optional. if not defined, it will default to the `chat_id` from the current request.
 
 > [!TIP]
-> Templates can also be sent to many chats at once with [Telegram broadcasts](/master/broadcasting#templates): `Broadcast::users()->template('welcome')->queue()` renders the template (file, inline, rich message, components…) for every recipient, with `chat()` and `user()` pointing to that recipient.
+> Templates can also be sent to many chats at once with [Telegram broadcasts](/v4/broadcasting#templates): `Broadcast::users()->template('welcome')->queue()` renders the template (file, inline, rich message, components…) for every recipient, with `chat()` and `user()` pointing to that recipient.
 
 <a name="method-field"></a>
 ### Method Field
@@ -185,7 +185,7 @@ The directive accepts `rtl`, `ltr`, or an expression that evaluates to a boolean
 <a name="pagination-directive"></a>
 ### Pagination
 
-The `@paginate` directive turns a [Telegram paginator](/master/pagination#telegram-bot-pagination) into the parts of the message that navigate it: the inline keyboard, the method that keeps the screen in place while the reader moves between pages, and the message being edited:
+The `@paginate` directive turns a [Telegram paginator](/v4/pagination#telegram-bot-pagination) into the parts of the message that navigate it: the inline keyboard, the method that keeps the screen in place while the reader moves between pages, and the message being edited:
 
 ```blade
 @text
@@ -214,7 +214,7 @@ Telegram's rich messages are written with the `@rich` directive, which turns a s
 @endrich
 ```
 
-Everything on this page works inside a rich block, including loops, conditions, includes, components and layouts. Rich messages have a documentation page of their own; see [rich messages](/master/rich-messages).
+Everything on this page works inside a rich block, including loops, conditions, includes, components and layouts. Rich messages have a documentation page of their own; see [rich messages](/v4/rich-messages).
 
 <a name="if-statements"></a>
 ### If Statements
@@ -300,7 +300,7 @@ You may use the `sectionMissing` directive to determine if a section does not ha
 <a name="context-directives"></a>
 #### Context Directives
 
-The `@context` directive may be used to determine if a [context](/master/context) value exists. If the context value exists, the template contents within the `@context` and `@endcontext` directives will be evaluated. Within the `@context` directive's contents, you may echo the `$value` variable to display the context value:
+The `@context` directive may be used to determine if a [context](/v4/context) value exists. If the context value exists, the template contents within the `@context` and `@endcontext` directives will be evaluated. Within the `@context` directive's contents, you may echo the `$value` variable to display the context value:
 
 ```blade
 @context('canonical')
@@ -816,7 +816,7 @@ You also use colon-prefixed attributes, you may use a double colon (`::`) prefix
 <a name="additional-dependencies"></a>
 #### Additional Dependencies
 
-If your component requires dependencies from LaraGram's [service container](/master/container), you may list them before any of the component's data attributes and they will automatically be injected by the container:
+If your component requires dependencies from LaraGram's [service container](/v4/container), you may list them before any of the component's data attributes and they will automatically be injected by the container:
 
 ```php
 use App\Services\AlertCreator;
@@ -1167,7 +1167,7 @@ Thankfully, Template allows you to place a file matching the component's directo
 
 As previously discussed, anonymous components are typically defined by placing a Template template within your `app/templates/components` directory. However, you may occasionally want to register other anonymous component paths with LaraGram in addition to the default path.
 
-The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/master/providers):
+The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/v4/providers):
 
 ```php
 /**
@@ -1298,7 +1298,7 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 <a name="validation-errors"></a>
 ### Validation Errors
 
-The `@error` directive may be used to quickly check if [validation error messages](/master/validation#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+The `@error` directive may be used to quickly check if [validation error messages](/v4/validation#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
 ```blade
 <!-- /app/templates/post/create.t8.php -->
@@ -1310,7 +1310,7 @@ The `@error` directive may be used to quickly check if [validation error message
 
 Since the `@error` directive compiles to an "if" statement, you may use the `@else` directive to render content when there is not an error for an attribute.
 
-You may pass [the name of a specific error bag](/master/validation#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
+You may pass [the name of a specific error bag](/v4/validation#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
 
 ```blade
 <!-- /app/templates/auth.t8.php -->
@@ -1362,7 +1362,7 @@ If you would like to prepend content onto the beginning of a stack, you should u
 <a name="service-injection"></a>
 ## Service Injection
 
-The `@inject` directive may be used to retrieve a service from the LaraGram [service container](/master/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
+The `@inject` directive may be used to retrieve a service from the LaraGram [service container](/v4/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
 
 ```blade
 @inject('metrics', 'App\Services\MetricsService')

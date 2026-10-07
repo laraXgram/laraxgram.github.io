@@ -148,7 +148,7 @@ $rules = [
 <a name="quick-displaying-the-validation-errors"></a>
 ### Displaying the Validation Errors
 
-So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, LaraGram will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [putted to the cache](/master/cache#storing-items-in-the-cache).
+So, what if the incoming request fields do not pass the given validation rules? As mentioned previously, LaraGram will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [putted to the cache](/v4/cache#storing-items-in-the-cache).
 
 An `$errors` variable is shared with all of your application's templates, which is provided by the `bot` middleware group. When this middleware is applied an `$errors` variable will always be available in your templates, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. The `$errors` variable will be an instance of `LaraGram\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
 
@@ -175,7 +175,7 @@ LaraGram's built-in validation rules each have an error message that is located 
 
 Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/master/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/v4/localization).
 
 > [!WARNING]
 > By default, the LaraGram application skeleton does not include the `lang` directory. If you would like to customize LaraGram's language files, you may publish them via the `lang:publish` Commander command.
@@ -183,7 +183,7 @@ In addition, you may copy this file to another language directory to translate t
 <a name="the-at-error-directive"></a>
 #### The `@error` Directive
 
-You may use the `@error` [temple8](/master/temple8) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+You may use the `@error` [temple8](/v4/temple8) directive to quickly determine if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
 ```blade
 <!-- /resources/templates/post/create.t8.php -->
@@ -220,10 +220,257 @@ Below, you can review an example of the JSON response format for validation erro
 }
 ```
 
+<a name="form-request-validation"></a>
+## Form Request Validation
+
+On the [web side](/v4/routing) of your application — a dashboard, a webhook of your own, a [Mini App](/v4/luna-tma) form — validation rules are better kept out of the controller. A **form request** is a request class that carries its own rules and authorization, and validates itself before your controller method runs.
+
+<a name="creating-form-requests"></a>
+### Creating Form Requests
+
+Generate one with the `make:request` Commander command. Form requests are stored in the `app/Http/Requests` directory:
+
+```shell
+php laragram make:request StorePostRequest
+```
+
+The generated class has two methods: `authorize` and `rules`:
+
+```php
+<?php
+
+namespace App\Http\Requests;
+
+use LaraGram\Foundation\Http\FormRequest;
+
+class StorePostRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return $this->user()->can('create', Post::class);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \LaraGram\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string'],
+        ];
+    }
+}
+```
+
+Type-hint it on the controller method, and it is validated before the method body is reached. A failed validation sends the user back with the errors in the [session](/v4/session); an XHR request receives a 422 response with the error messages as JSON:
+
+```php
+use App\Http\Requests\StorePostRequest;
+
+public function store(StorePostRequest $request): RedirectResponse
+{
+    // The request is valid...
+
+    $post = Post::create($request->validated());
+
+    return redirect()->route('posts.show', $post);
+}
+```
+
+Only the validated input is worth trusting, and `validated`, `safe`, `only` and `except` hand it over:
+
+```php
+$validated = $request->validated();
+
+$validated = $request->safe()->only(['title', 'body']);
+
+$validated = $request->safe()->except(['token']);
+```
+
+<a name="performing-additional-validation-on-form-requests"></a>
+### Performing Additional Validation
+
+When a rule needs to look at the input as a whole, add an `after` method returning the callables that run once the rules have passed:
+
+```php
+use LaraGram\Validation\Validator;
+
+/**
+ * Get the "after" validation callables for the request.
+ */
+public function after(): array
+{
+    return [
+        function (Validator $validator) {
+            if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+            }
+        },
+    ];
+}
+```
+
+The validator instance itself may also be reached with a `withValidator` method, which is the place for conditional rules and `sometimes`:
+
+```php
+use LaraGram\Validation\Validator;
+
+/**
+ * Configure the validator instance.
+ */
+public function withValidator(Validator $validator): void
+{
+    $validator->sometimes('channel', 'required', fn ($input) => $input->type === 'channel');
+}
+```
+
+<a name="stopping-on-the-first-validation-failure"></a>
+### Stopping on the First Validation Failure
+
+By default every rule of every field is evaluated, so the user sees all of their mistakes at once. To stop at the first failure, add the `StopOnFirstFailure` attribute to the request:
+
+```php
+use LaraGram\Foundation\Http\Attributes\StopOnFirstFailure;
+use LaraGram\Foundation\Http\FormRequest;
+
+#[StopOnFirstFailure]
+class StorePostRequest extends FormRequest
+{
+    // ...
+}
+```
+
+<a name="failing-on-unknown-fields"></a>
+### Failing on Unknown Fields
+
+A request that carries fields nothing validates is usually a mistake, or an attempt at one. The `FailOnUnknownFields` attribute rejects such a request:
+
+```php
+use LaraGram\Foundation\Http\Attributes\FailOnUnknownFields;
+
+#[FailOnUnknownFields]
+class StorePostRequest extends FormRequest
+{
+    // ...
+}
+```
+
+To do this for every form request, call `FormRequest::failOnUnknownFields()` from the `boot` method of your `App\Providers\AppServiceProvider`, and opt a single request out with `#[FailOnUnknownFields(false)]`:
+
+```php
+use LaraGram\Foundation\Http\FormRequest;
+
+public function boot(): void
+{
+    FormRequest::failOnUnknownFields();
+}
+```
+
+<a name="customizing-the-redirect-location"></a>
+### Customizing the Redirect Location
+
+A failed form request sends the user back to where they came from. The `RedirectTo` and `RedirectToRoute` attributes send them somewhere else, and `ErrorBag` names the [error bag](#named-error-bags) the messages land in:
+
+```php
+use LaraGram\Foundation\Http\Attributes\ErrorBag;
+use LaraGram\Foundation\Http\Attributes\RedirectToRoute;
+
+#[RedirectToRoute('dashboard')]
+#[ErrorBag('post')]
+class StorePostRequest extends FormRequest
+{
+    // ...
+}
+```
+
+<a name="authorizing-form-requests"></a>
+### Authorizing Form Requests
+
+The `authorize` method is where [authorization](/v4/authorization) belongs, so the controller never has to repeat it. It may use the route's bound models and the authenticated user:
+
+```php
+use App\Models\Post;
+
+public function authorize(): bool
+{
+    $post = Post::find($this->route('post'));
+
+    return $post && $this->user()->can('update', $post);
+}
+```
+
+Returning `false` aborts the request with a 403 response. A request that needs no check at all may leave the method out entirely.
+
+<a name="customizing-form-request-error-messages"></a>
+### Customizing the Error Messages
+
+Override the `messages` method to replace the messages, and `attributes` to give the fields the names the user knows them by:
+
+```php
+/**
+ * Get the error messages for the defined validation rules.
+ *
+ * @return array<string, string>
+ */
+public function messages(): array
+{
+    return [
+        'title.required' => 'A title is required',
+        'body.required' => 'A message is required',
+    ];
+}
+
+/**
+ * Get custom attributes for validator errors.
+ *
+ * @return array<string, string>
+ */
+public function attributes(): array
+{
+    return [
+        'body' => 'message body',
+    ];
+}
+```
+
+<a name="preparing-input-for-validation"></a>
+### Preparing Input for Validation
+
+To normalize the input before the rules see it — trim a username, strip a `@`, turn a Telegram id into an integer — add a `prepareForValidation` method. A `passedValidation` method runs after the rules have passed:
+
+```php
+use LaraGram\Support\Str;
+
+/**
+ * Prepare the data for validation.
+ */
+protected function prepareForValidation(): void
+{
+    $this->merge([
+        'username' => ltrim((string) $this->input('username'), '@'),
+        'slug' => Str::slug($this->input('title')),
+    ]);
+}
+
+/**
+ * Handle a passed validation attempt.
+ */
+protected function passedValidation(): void
+{
+    $this->replace(['name' => 'Taylor']);
+}
+```
+
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 
-If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/master/facades). The `make` method on the facade generates a new validator instance:
+If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/v4/facades). The `make` method on the facade generates a new validator instance:
 
 ```php
 <?php
@@ -506,7 +753,7 @@ LaraGram's built-in validation rules each have an error message that is located 
 
 Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
-In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/master/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about LaraGram localization, check out the complete [localization documentation](/v4/localization).
 
 > [!WARNING]
 > By default, the LaraGram application skeleton does not include the `lang` directory. If you would like to customize LaraGram's language files, you may publish them via the `lang:publish` Commander command.
@@ -1014,7 +1261,7 @@ Validator::make($data, [
 <a name="rule-current-password"></a>
 #### current_password
 
-The field under validation must match the authenticated user's password. You may specify an [authentication guard](/master/authentication) using the rule's first parameter:
+The field under validation must match the authenticated user's password. You may specify an [authentication guard](/v4/authentication) using the rule's first parameter:
 
 ```php
 'password' => 'current_password:api'
@@ -2399,7 +2646,7 @@ $validator = Validator::make($inputs, [
 
 #### Translating Validation Messages
 
-Instead of providing a literal error message to the `$fail` closure, you may also provide a [translation string key](/master/localization) and instruct LaraGram to translate the error message:
+Instead of providing a literal error message to the `$fail` closure, you may also provide a [translation string key](/v4/localization) and instruct LaraGram to translate the error message:
 
 ```php
 if (strtoupper($value) !== $value) {

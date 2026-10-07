@@ -12,6 +12,7 @@ export default [
         items: [
             { text: 'Installation', link: '/master/installation' },
             { text: 'Configuration', link: '/master/configuration' },
+            { text: 'Agentic Development', link: '/master/ai' },
             { text: 'Directory Structure', link: '/master/structure' },
             { text: 'Frontend and TMAs', link: '/master/frontend' },
             { text: 'Starter Kits', link: '/master/starter-kits' },
@@ -59,6 +60,7 @@ export default [
             { text: 'File Storage', link: '/master/filesystem' },
             { text: 'Helpers', link: '/master/helpers' },
             { text: 'HTTP Client', link: '/master/http-client' },
+            { text: 'Image', link: '/master/images' },
             { text: 'Localization', link: '/master/localization' },
             { text: 'Package Development', link: '/master/packages' },
             { text: 'Processes', link: '/master/processes' },
@@ -105,6 +107,7 @@ export default [
             { text: 'Asset Bundling', link: '/master/vite' },
             { text: 'URL Generation', link: '/master/urls' },
             { text: 'Session', link: '/master/session' },
+            { text: 'CSRF Protection', link: '/master/csrf' },
         ]
     },
     {
@@ -141,9 +144,19 @@ export default [
         ]
     },
     {
+        text: 'AI', collapsed: true,
+        items: [
+            // { text: 'AI SDK', link: '/master/ai-sdk' },
+            { text: 'MCP', link: '/master/mcp' },
+            { text: 'Brain', link: '/master/brain' },
+        ]
+    },
+    {
         text: 'Packages', collapsed: true,
         items: [
+            { text: 'Precognition', link: '/master/precognition' },
             { text: 'Prompts', link: '/master/prompts' },
+            { text: 'Sentinel', link: '/master/sentinel' },
             { text: 'Surge', link: '/master/surge' },
             { text: 'Tempora', link: '/master/tempora' },
             { text: 'Watchdog', link: '/master/watchdog' },

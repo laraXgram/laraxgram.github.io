@@ -80,7 +80,7 @@ use LaraGram\Support\Facades\DB;
 ], timeout: 30);
 ```
 
-You may also provide a `CarbonInterval` instance if you prefer a more expressive timeout definition:
+You may also provide a `TemporaInterval` instance if you prefer a more expressive timeout definition:
 
 ```php
 use LaraGram\Support\Facades\Concurrency;

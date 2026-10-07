@@ -6,11 +6,11 @@
 LaraGram gives you the tools to authenticate users in two settings from a single, unified system:
 
 - **Bot updates**, where a user is identified by their Telegram `user_id` on every incoming update — no password, no login form.
-- **[Web](/master/routing) requests**, where users log in through a browser using credentials, and their state is kept in the [session](/master/session).
+- **[Web](/v4/routing) requests**, where users log in through a browser using credentials, and their state is kept in the [session](/v4/session).
 
 At its core, LaraGram's authentication facilities are made up of "guards" and "providers". Guards define how users are authenticated for each request. LaraGram ships with a `bot` guard, which identifies the user from the incoming Telegram update, and a `session` guard, which maintains state for web requests using session storage and cookies.
 
-Providers define how users are retrieved from your persistent storage. LaraGram ships with support for retrieving users using [Eloquent](/master/eloquent) and the database query builder. However, you are free to define additional providers as needed for your application.
+Providers define how users are retrieved from your persistent storage. LaraGram ships with support for retrieving users using [Eloquent](/v4/eloquent) and the database query builder. However, you are free to define additional providers as needed for your application.
 
 Your application's authentication configuration file is located at `config/auth.php`. This file contains several well-documented options for tweaking the behavior of LaraGram's authentication services, including the default guards and providers:
 
@@ -39,17 +39,17 @@ Your application's authentication configuration file is located at `config/auth.
 Notice the provider's `column` option: it tells LaraGram which column on the users table holds the Telegram user id used by the `bot` guard.
 
 > [!NOTE]
-> Guards and providers should not be confused with "roles" and "permissions". To learn more about authorizing user actions via permissions, please refer to the [authorization](/master/authorization) documentation.
+> Guards and providers should not be confused with "roles" and "permissions". To learn more about authorizing user actions via permissions, please refer to the [authorization](/v4/authorization) documentation.
 
 <a name="starter-kits"></a>
 ### Starter Kits
 
-Want to get started fast? Install a [LaraGram application starter kit](/master/starter-kits) in a fresh LaraGram application. The starter kits take care of scaffolding your entire authentication system, so you can examine the generated controllers, routes, and views to learn how LaraGram's authentication features fit together.
+Want to get started fast? Install a [LaraGram application starter kit](/v4/starter-kits) in a fresh LaraGram application. The starter kits take care of scaffolding your entire authentication system, so you can examine the generated controllers, routes, and views to learn how LaraGram's authentication features fit together.
 
 <a name="introduction-database-considerations"></a>
 ### Database Considerations
 
-By default, LaraGram includes an `App\Models\User` [Eloquent model](/master/eloquent) in your `app/Models` directory. This model may be used with the default Eloquent authentication driver.
+By default, LaraGram includes an `App\Models\User` [Eloquent model](/v4/eloquent) in your `app/Models` directory. This model may be used with the default Eloquent authentication driver.
 
 The `users` table stores each user's Telegram `user_id`, which the `bot` guard uses to identify the authenticated user on incoming updates.
 
@@ -57,7 +57,7 @@ If you also authenticate users through the web, make sure the `password` column 
 
 You should also verify that your `users` table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
 
-If your application resolves Telegram chat-member status (used by [authorization](/master/authorization) helpers such as `->can('administrator')`) from the database, make sure the `status` column is at least 15 characters in length.
+If your application resolves Telegram chat-member status (used by [authorization](/v4/authorization) helpers such as `->can('administrator')`) from the database, make sure the `status` column is at least 15 characters in length.
 
 If your application is not using Eloquent, you may use the `database` authentication provider which uses the LaraGram query builder.
 
@@ -85,7 +85,7 @@ Because the `bot` guard is the default guard while handling updates, `Auth::user
 ## Authentication Quickstart
 
 > [!WARNING]
-> The remainder of this documentation covers **web** authentication — logging users in through a browser via credentials. This applies to the [Web](/master/routing) side of your LaraGram application. If you only build bot listens, the [Bot Authentication](#bot-authentication) section above is all you need.
+> The remainder of this documentation covers **web** authentication — logging users in through a browser via credentials. This applies to the [Web](/v4/routing) side of your LaraGram application. If you only build bot listens, the [Bot Authentication](#bot-authentication) section above is all you need.
 
 <a name="retrieving-the-authenticated-user"></a>
 ### Retrieving the Authenticated User
@@ -147,7 +147,7 @@ if (Auth::check()) {
 <a name="protecting-routes"></a>
 ### Protecting Routes
 
-[Route middleware](/master/middleware) can be used to only allow authenticated users to access a given route. LaraGram ships with an `auth` middleware, which is a middleware alias for the `LaraGram\Auth\Middleware\Authenticate` class. Since this middleware is already aliased internally by LaraGram, all you need to do is attach the middleware to a route definition:
+[Route middleware](/v4/middleware) can be used to only allow authenticated users to access a given route. LaraGram ships with an `auth` middleware, which is a middleware alias for the `LaraGram\Auth\Middleware\Authenticate` class. Since this middleware is already aliased internally by LaraGram, all you need to do is attach the middleware to a route definition:
 
 ```php
 Route::get('/flights', function () {
@@ -158,7 +158,7 @@ Route::get('/flights', function () {
 <a name="redirecting-unauthenticated-users"></a>
 #### Redirecting Unauthenticated Users
 
-When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/master/routing#named-routes). You may modify this behavior using the `redirectGuestsTo` method within your application's `bootstrap/app.php` file:
+When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/v4/routing#named-routes). You may modify this behavior using the `redirectGuestsTo` method within your application's `bootstrap/app.php` file:
 
 ```php
 use LaraGram\Request\Request;
@@ -185,17 +185,17 @@ Route::get('/flights', function () {
 <a name="login-throttling"></a>
 ### Login Throttling
 
-If you are using one of our [application starter kits](/master/starter-kits), rate limiting will automatically be applied to login attempts. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / email address and their IP address.
+If you are using one of our [application starter kits](/v4/starter-kits), rate limiting will automatically be applied to login attempts. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / email address and their IP address.
 
 > [!NOTE]
-> If you would like to rate limit other routes in your application, check out the [rate limiting documentation](/master/rate-limiting).
+> If you would like to rate limit other routes in your application, check out the [rate limiting documentation](/v4/rate-limiting).
 
 <a name="authenticating-users"></a>
 ## Manually Authenticating Users
 
-You are not required to use the authentication scaffolding included with LaraGram's [application starter kits](/master/starter-kits). If you choose not to use this scaffolding, you will need to manage user authentication using the LaraGram authentication classes directly.
+You are not required to use the authentication scaffolding included with LaraGram's [application starter kits](/v4/starter-kits). If you choose not to use this scaffolding, you will need to manage user authentication using the LaraGram authentication classes directly.
 
-We will access LaraGram's authentication services via the `Auth` [facade](/master/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method. The `attempt` method is normally used to handle authentication attempts from your application's "login" form. If authentication is successful, you should regenerate the user's [session](/master/session) to prevent [session fixation](https://en.wikipedia.org/wiki/Session_fixation):
+We will access LaraGram's authentication services via the `Auth` [facade](/v4/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method. The `attempt` method is normally used to handle authentication attempts from your application's "login" form. If authentication is successful, you should regenerate the user's [session](/v4/session) to prevent [session fixation](https://en.wikipedia.org/wiki/Session_fixation):
 
 ```php
 <?php
@@ -324,7 +324,7 @@ if (Auth::viaRemember()) {
 <a name="authenticate-a-user-instance"></a>
 #### Authenticate a User Instance
 
-If you need to set an existing user instance as the currently authenticated user, you may pass the user instance to the `Auth` facade's `login` method. The given user instance must be an implementation of the `LaraGram\Contracts\Auth\Authenticatable` [contract](/master/contracts). The `App\Models\User` model included with LaraGram already implements this interface. This method of authentication is useful when you already have a valid user instance, such as directly after a user registers with your application:
+If you need to set an existing user instance as the currently authenticated user, you may pass the user instance to the `Auth` facade's `login` method. The given user instance must be an implementation of the `LaraGram\Contracts\Auth\Authenticatable` [contract](/v4/contracts). The `App\Models\User` model included with LaraGram already implements this interface. This method of authentication is useful when you already have a valid user instance, such as directly after a user registers with your application:
 
 ```php
 use LaraGram\Support\Facades\Auth;
@@ -373,7 +373,7 @@ if (Auth::once($credentials)) {
 <a name="http-basic-authentication"></a>
 ## HTTP Basic Authentication
 
-[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/master/middleware) to a route. The `auth.basic` middleware is included with the LaraGram framework, so you do not need to define it:
+[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/v4/middleware) to a route. The `auth.basic` middleware is included with the LaraGram framework, so you do not need to define it:
 
 ```php
 Route::get('/profile', function () {
@@ -386,7 +386,7 @@ Once the middleware has been attached to the route, you will automatically be pr
 <a name="stateless-http-basic-authentication"></a>
 ### Stateless HTTP Basic Authentication
 
-You may also use HTTP Basic Authentication without setting a user identifier cookie in the session. This is primarily helpful if you choose to use HTTP Authentication to authenticate requests to your application's API. To accomplish this, [define a middleware](/master/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
+You may also use HTTP Basic Authentication without setting a user identifier cookie in the session. This is primarily helpful if you choose to use HTTP Authentication to authenticate requests to your application's API. To accomplish this, [define a middleware](/v4/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
 
 ```php
 <?php
@@ -476,7 +476,7 @@ When the `logoutOtherDevices` method is invoked, the user's other sessions will 
 While building your application, you may occasionally have actions that should require the user to confirm their password before the action is performed or before the user is redirected to a sensitive area of the application. LaraGram includes built-in middleware to make this process a breeze. Implementing this feature will require you to define two routes: one route to display a view asking the user to confirm their password and another route to confirm that the password is valid and redirect the user to their intended destination.
 
 > [!NOTE]
-> The following documentation discusses how to integrate with LaraGram's password confirmation features directly; however, if you would like to get started more quickly, the [LaraGram application starter kits](/master/starter-kits) include support for this feature!
+> The following documentation discusses how to integrate with LaraGram's password confirmation features directly; however, if you would like to get started more quickly, the [LaraGram application starter kits](/v4/starter-kits) include support for this feature!
 
 <a name="password-confirmation-configuration"></a>
 ### Configuration
@@ -526,7 +526,7 @@ Before moving on, let's examine this route in more detail. First, the request's 
 <a name="password-confirmation-protecting-routes"></a>
 ### Protecting Routes
 
-You should ensure that any route that performs an action which requires recent password confirmation is assigned the `password.confirm` middleware. This middleware is included with the default installation of LaraGram and will automatically store the user's intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user's intended destination in the session, the middleware will redirect the user to the `password.confirm` [named route](/master/routing#named-routes):
+You should ensure that any route that performs an action which requires recent password confirmation is assigned the `password.confirm` middleware. This middleware is included with the default installation of LaraGram and will automatically store the user's intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user's intended destination in the session, the middleware will redirect the user to the `password.confirm` [named route](/v4/routing#named-routes):
 
 ```php
 Route::get('/settings', function () {
@@ -541,7 +541,7 @@ Route::post('/settings', function () {
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards
 
-You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place your call to the `extend` method within a [service provider](/master/providers). Since LaraGram already ships with an `AppServiceProvider`, we can place the code in that provider:
+You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place your call to the `extend` method within a [service provider](/v4/providers). Since LaraGram already ships with an `AppServiceProvider`, we can place the code in that provider:
 
 ```php
 <?php
@@ -777,7 +777,7 @@ Once the configuration file has been published, you may set the `rehash_on_login
 <a name="events"></a>
 ## Events
 
-LaraGram dispatches a variety of [events](/master/events) during the authentication process. You may [define listeners](/master/events) for any of the following events:
+LaraGram dispatches a variety of [events](/v4/events) during the authentication process. You may [define listeners](/v4/events) for any of the following events:
 
 <div class="overflow-auto">
 

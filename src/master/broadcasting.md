@@ -5,9 +5,9 @@
 
 Sooner or later, every bot needs to reach many chats at once. You may want to announce a new feature to all of your users, pin a message in every group your bot manages, remind the members of a community about an upcoming event, or change the permissions of dozens of supergroups. Sending these messages from a `foreach` loop quickly becomes a problem: Telegram limits how fast a bot may send, users block the bot, groups are upgraded to supergroups, and a webhook request is not the place to spend minutes calling the Bot API.
 
-To assist you in building these features, LaraGram makes it easy to "broadcast" [Bot API](/master/requests) calls and [templates](/master/temple8) to an audience of chats. LaraGram records the chats your bot can reach, lets you filter them, splits the audience into [queued jobs](/master/queues), paces the calls, retries rate limited ones, skips chats that blocked the bot, tracks the progress of each broadcast, and can even edit or delete what was sent.
+To assist you in building these features, LaraGram makes it easy to "broadcast" [Bot API](/v4/requests) calls and [templates](/v4/temple8) to an audience of chats. LaraGram records the chats your bot can reach, lets you filter them, splits the audience into [queued jobs](/v4/queues), paces the calls, retries rate limited ones, skips chats that blocked the bot, tracks the progress of each broadcast, and can even edit or delete what was sent.
 
-In addition, LaraGram can broadcast your server-side [events](/master/events) over a WebSocket connection to your Telegram Mini Apps and web pages, allowing you to share the same event names and data between your LaraGram application and your client-side JavaScript application.
+In addition, LaraGram can broadcast your server-side [events](/v4/events) over a WebSocket connection to your Telegram Mini Apps and web pages, allowing you to share the same event names and data between your LaraGram application and your client-side JavaScript application.
 
 <a name="supported-drivers"></a>
 #### Supported Drivers
@@ -15,7 +15,7 @@ In addition, LaraGram can broadcast your server-side [events](/master/events) ov
 By default, LaraGram includes the following broadcasting drivers: `telegram`, which delivers Bot API calls to Telegram chats, and `redis`, which publishes events for a WebSocket server. A `log` driver is included for local development and debugging, and a `null` driver allows you to disable broadcasting.
 
 > [!NOTE]
-> Before diving into broadcasting, make sure you have read LaraGram's documentation on [queues](/master/queues) and [events and listeners](/master/events).
+> Before diving into broadcasting, make sure you have read LaraGram's documentation on [queues](/v4/queues) and [events and listeners](/v4/events).
 
 <a name="quickstart"></a>
 ## Quickstart
@@ -50,7 +50,7 @@ Broadcast::users()->sendMessage('We have just released version 2! 🎉')->queue(
 Once you have enabled broadcasting, you're ready to learn more about [choosing recipients](#choosing-recipients), [broadcast content](#broadcast-content), and [sending broadcasts](#sending-broadcasts). If you would like to push events to a Mini App instead, continue with [defining broadcast events](#defining-broadcast-events).
 
 > [!NOTE]
-> Before broadcasting, you should first configure and run a [queue worker](/master/queues#running-the-queue-worker). Broadcasts are delivered by queued jobs so that the response time of your bot is not affected by the number of chats you are messaging.
+> Before broadcasting, you should first configure and run a [queue worker](/v4/queues#running-the-queue-worker). Broadcasts are delivered by queued jobs so that the response time of your bot is not affected by the number of chats you are messaging.
 
 <a name="server-side-installation"></a>
 ## Server Side Installation
@@ -168,7 +168,7 @@ The `users` method selects every private chat recorded by the [TrackChats](#trac
 <a name="example-application-the-template"></a>
 #### The Template
 
-The template is a regular [Temple8](/master/temple8) template. Within a broadcast template, `chat()` and `user()` return the recipient, so the template is written exactly like a reply to an update:
+The template is a regular [Temple8](/v4/temple8) template. Within a broadcast template, `chat()` and `user()` return the recipient, so the template is written exactly like a reply to an update:
 
 ```blade
 @text()
@@ -369,7 +369,7 @@ Broadcast::audience('city.{city}', function (string $bot, string $city) {
 Broadcast::to('city.tehran')->sendMessage('Our Tehran meetup is on Friday!')->queue();
 ```
 
-If your audience resolver is more complex, you may register a class instead of a closure. The class will be resolved by the [service container](/master/container), and its `resolve` or `__invoke` method will be called. You may list your application's audiences using the `channel:list` Commander command:
+If your audience resolver is more complex, you may register a class instead of a closure. The class will be resolved by the [service container](/v4/container), and its `resolve` or `__invoke` method will be called. You may list your application's audiences using the `channel:list` Commander command:
 
 ```shell
 php laragram channel:list --count
@@ -381,7 +381,7 @@ php laragram channel:list --count
 <a name="bot-api-methods"></a>
 ### Bot API Methods
 
-Every Bot API method that targets a chat or a user is available on the recipients. The methods accept the same parameters, in the same order, as the methods of the [request](/master/requests#methods), except for the recipient parameter, which LaraGram fills in for each recipient. So, you may send a photo to every user just like you would reply with one:
+Every Bot API method that targets a chat or a user is available on the recipients. The methods accept the same parameters, in the same order, as the methods of the [request](/v4/requests#methods), except for the recipient parameter, which LaraGram fills in for each recipient. So, you may send a photo to every user just like you would reply with one:
 
 ```php
 Broadcast::users()->sendPhoto($fileId, 'Our new logo')->queue();
@@ -411,7 +411,7 @@ If you need the recipient to be passed as another parameter, you may specify it 
 Broadcast::to('premium')->sendGift($giftId)->target('user_id')->queue();
 ```
 
-The broadcast methods are generated from the Bot API schema that [Laraquest](/master/requests) keeps in its `src/Schema/api.php` file. When Laraquest updates this schema, for example after running `composer update`, LaraGram regenerates the broadcast methods the first time broadcasting is used, so they always match the methods of the request.
+The broadcast methods are generated from the Bot API schema that [Laraquest](/v4/requests) keeps in its `src/Schema/api.php` file. When Laraquest updates this schema, for example after running `composer update`, LaraGram regenerates the broadcast methods the first time broadcasting is used, so they always match the methods of the request.
 
 > [!WARNING]
 > Broadcasts are serialized when they are queued. Instead of passing a local file, you should upload the file once and broadcast its `file_id`, or use a URL. Templates may use local files, since they are rendered while the broadcast is being delivered.
@@ -419,7 +419,7 @@ The broadcast methods are generated from the Bot API schema that [Laraquest](/ma
 <a name="templates"></a>
 ### Templates
 
-The `template` method allows you to broadcast [Temple8 templates](/master/temple8). A template is rendered for each recipient, and the Bot API calls it makes are delivered by the broadcast instead of being sent right away. Every feature of the template engine is available, including inputs, `@method`, keyboards, [rich messages](/master/rich-messages), components, layouts, includes, and translations:
+The `template` method allows you to broadcast [Temple8 templates](/v4/temple8). A template is rendered for each recipient, and the Bot API calls it makes are delivered by the broadcast instead of being sent right away. Every feature of the template engine is available, including inputs, `@method`, keyboards, [rich messages](/v4/rich-messages), components, layouts, includes, and translations:
 
 ```php
 Broadcast::users()->template('promotions.spring', ['discount' => 30])->queue();
@@ -542,7 +542,7 @@ Broadcast::users()
 <a name="recurring-broadcasts"></a>
 #### Recurring Broadcasts
 
-To broadcast on a schedule, you may use the `broadcast` method of the [task scheduler](/master/scheduling) in your application's `listens/console.php` file. The given closure should return a broadcast, which will be queued every time the task runs:
+To broadcast on a schedule, you may use the `broadcast` method of the [task scheduler](/v4/scheduling) in your application's `listens/console.php` file. The given closure should return a broadcast, which will be queued every time the task runs:
 
 ```php
 use LaraGram\Support\Facades\Broadcast;
@@ -579,7 +579,7 @@ Broadcast::users()
     ->queue();
 ```
 
-If your application serves [multiple bots](/master/requests#multi-connections), you may specify the bot connection that should send the broadcast using the `bot` method. When broadcasting outside of an update, such as from a command, you should always specify the bot connection:
+If your application serves [multiple bots](/v4/requests#multi-connections), you may specify the bot connection that should send the broadcast using the `bot` method. When broadcasting outside of an update, such as from a command, you should always specify the bot connection:
 
 ```php
 Broadcast::users()->sendMessage('Hello!')->bot('shop')->queue();
@@ -592,7 +592,7 @@ The following delivery options are also available:
 - `onConnection($connection)` specifies the queue connection of the broadcast's jobs.
 - `chunk($size)` specifies how many recipients each queued job delivers to.
 - `perSecond($rate)` limits the number of recipients each queue worker delivers to per second.
-- `antiFlood($scope)` specifies the [anti-flood](/master/requests#smart-anti-flood) scope pacing the calls.
+- `antiFlood($scope)` specifies the [anti-flood](/v4/requests#smart-anti-flood) scope pacing the calls.
 - `identifiedBy($id)` uses your own identifier instead of a generated one.
 - `via($connection)` specifies the broadcast connection that should be used.
 - `recallable()` remembers the broadcast so it may be [edited or undone later](#editing-and-recalling-broadcasts).
@@ -617,7 +617,7 @@ $broadcast->queue();
 <a name="rate-limits-and-failures"></a>
 ### Rate Limits and Failures
 
-Telegram allows a bot to send about 30 messages per second. When [Smart Anti-Flood](/master/requests#smart-anti-flood) is enabled, every broadcast call is paced by the `broadcast` scope of your `config/bot.php` file, so a broadcast never floods. When anti-flood is disabled, broadcasts are paced using the `rate` option of the `telegram` broadcast connection.
+Telegram allows a bot to send about 30 messages per second. When [Smart Anti-Flood](/v4/requests#smart-anti-flood) is enabled, every broadcast call is paced by the `broadcast` scope of your `config/bot.php` file, so a broadcast never floods. When anti-flood is disabled, broadcasts are paced using the `rate` option of the `telegram` broadcast connection.
 
 When Telegram asks the bot to slow down, the call is retried after the requested delay. When a chat blocked the bot, was deleted, or no longer exists, the chat is marked as unreachable and skipped by future broadcasts. When a group was upgraded to a supergroup, the recorded chat is moved to its new identifier and the call is retried.
 
@@ -662,7 +662,7 @@ php laragram broadcast:cancel 01J8Z6A0Q7P5TRN0YQ3M2W4C9D
 <a name="broadcast-events"></a>
 ### Broadcast Events
 
-LaraGram dispatches several [events](/master/events) while delivering a broadcast. You may listen for these events to store the results of your broadcasts or to react to unreachable chats:
+LaraGram dispatches several [events](/v4/events) while delivering a broadcast. You may listen for these events to store the results of your broadcasts or to react to unreachable chats:
 
 <div class="content-list" markdown="1">
 
@@ -758,7 +758,7 @@ Some calls cannot be undone, either because their previous state is unknown, suc
 Broadcast::recall($id, partial: true);
 ```
 
-Alternatively, you may teach LaraGram how to undo a call using the `recallUsing` method, typically in the `boot` method of a [service provider](/master/providers). The callback receives the action that was broadcast and returns the action that undoes it, or `null` when there is nothing to undo:
+Alternatively, you may teach LaraGram how to undo a call using the `recallUsing` method, typically in the `boot` method of a [service provider](/v4/providers). The callback receives the action that was broadcast and returns the action that undoes it, or `null` when there is nothing to undo:
 
 ```php
 use LaraGram\Broadcasting\Telegram\Action;
@@ -781,7 +781,7 @@ php laragram broadcast:recall 01J8Z6A0Q7P5TRN0YQ3M2W4C9D
 <a name="telegram-broadcast-events"></a>
 ## Telegram Broadcast Events
 
-Instead of building a broadcast where it is sent, you may describe it using an [event](/master/events) class. For example, let's assume a `ProductLaunched` event is dispatched when a new product is launched:
+Instead of building a broadcast where it is sent, you may describe it using an [event](/v4/events) class. For example, let's assume a `ProductLaunched` event is dispatched when a new product is launched:
 
 ```php
 use App\Events\ProductLaunched;
@@ -911,7 +911,7 @@ class OrderShipmentStatusUpdated implements ShouldBroadcast
 }
 ```
 
-After implementing the `ShouldBroadcast` interface, you only need to [fire the event](/master/events) as you normally would. Once the event has been fired, a [queued job](/master/queues) will automatically broadcast the event using your specified broadcast driver.
+After implementing the `ShouldBroadcast` interface, you only need to [fire the event](/v4/events) as you normally would. Once the event has been fired, a [queued job](/v4/queues) will automatically broadcast the event using your specified broadcast driver.
 
 <a name="broadcast-name"></a>
 ### Broadcast Name
@@ -1038,7 +1038,7 @@ All authorization callbacks receive the currently authenticated user as their fi
 <a name="authorization-callback-model-binding"></a>
 #### Authorization Callback Model Binding
 
-Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/master/routing#route-model-binding). For example, instead of receiving a string or numeric order ID, you may request an actual `Order` model instance:
+Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/v4/routing#route-model-binding). For example, instead of receiving a string or numeric order ID, you may request an actual `Order` model instance:
 
 ```php
 use App\Models\Order;
@@ -1177,7 +1177,7 @@ Broadcast::private('orders.'.$order->id)->send();
 Broadcast::presence('channels.'.$channel->id)->send();
 ```
 
-Broadcasting an anonymous event using the `send` method dispatches the event to your application's [queue](/master/queues) for processing. However, if you would like to broadcast the event immediately, you may use the `sendNow` method:
+Broadcasting an anonymous event using the `send` method dispatches the event to your application's [queue](/v4/queues) for processing. However, if you would like to broadcast the event immediately, you may use the `sendNow` method:
 
 ```php
 Broadcast::on('orders.'.$order->id)->sendNow();
@@ -1240,7 +1240,7 @@ public function broadcastOn(): array
 <a name="model-broadcasting"></a>
 ## Model Broadcasting
 
-It is common to broadcast events when your application's [Eloquent models](/master/eloquent) are created, updated, or deleted. However, it can be cumbersome to create event classes for the sole purpose of broadcasting them. To remedy this, LaraGram allows you to indicate that an Eloquent model should automatically broadcast its state changes.
+It is common to broadcast events when your application's [Eloquent models](/v4/eloquent) are created, updated, or deleted. However, it can be cumbersome to create event classes for the sole purpose of broadcasting them. To remedy this, LaraGram allows you to indicate that an Eloquent model should automatically broadcast its state changes.
 
 To get started, your Eloquent model should use the `LaraGram\Database\Eloquent\BroadcastsEvents` trait. In addition, the model should define a `broadcastOn` method, which will return an array of channels that the model's events should broadcast on:
 
@@ -1288,7 +1288,7 @@ Model::withoutBroadcasting(function () {
 <a name="custom-drivers"></a>
 ## Custom Drivers
 
-If none of the included drivers fit your needs, you may register your own broadcaster using the `extend` method of the `Broadcast` facade, typically within the `boot` method of one of your application's [service providers](/master/providers). The callback should return an implementation of `LaraGram\Contracts\Broadcasting\Broadcaster`:
+If none of the included drivers fit your needs, you may register your own broadcaster using the `extend` method of the `Broadcast` facade, typically within the `boot` method of one of your application's [service providers](/v4/providers). The callback should return an implementation of `LaraGram\Contracts\Broadcasting\Broadcaster`:
 
 ```php
 use LaraGram\Support\Facades\Broadcast;

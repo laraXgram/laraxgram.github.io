@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Accessors, mutators, and attribute casting allow you to transform Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the [LaraGram encrypter](/master/encryption) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model. Or, you may want to convert a JSON string that is stored in your database to an array when it is accessed via your Eloquent model.
+Accessors, mutators, and attribute casting allow you to transform Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the [LaraGram encrypter](/v4/encryption) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model. Or, you may want to convert a JSON string that is stored in your database to an array when it is accessed via your Eloquent model.
 
 <a name="accessors-and-mutators"></a>
 ## Accessors and Mutators
@@ -50,7 +50,7 @@ $firstName = $user->first_name;
 ```
 
 > [!NOTE]
-> If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/master/eloquent-serialization#appending-values-to-json).
+> If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/v4/eloquent-serialization#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### Building Value Objects From Multiple Attributes
@@ -271,7 +271,7 @@ $user->mergeCasts([
 <a name="stringable-casting"></a>
 #### Stringable Casting
 
-You may use the `LaraGram\Database\Eloquent\Casts\AsStringable` cast class to cast a model attribute to a [fluent LaraGram\Support\Stringable object](/master/strings#fluent-strings-method-list):
+You may use the `LaraGram\Database\Eloquent\Casts\AsStringable` cast class to cast a model attribute to a [fluent LaraGram\Support\Stringable object](/v4/strings#fluent-strings-method-list):
 
 ```php
 <?php
@@ -341,7 +341,7 @@ $user->options = $options;
 $user->save();
 ```
 
-To update a single field of a JSON attribute with a more terse syntax, you may [make the attribute mass assignable](/master/eloquent#mass-assignment-json-columns) and use the `->` operator when calling the `update` method:
+To update a single field of a JSON attribute with a more terse syntax, you may [make the attribute mass assignable](/v4/eloquent#mass-assignment-json-columns) and use the `->` operator when calling the `update` method:
 
 ```php
 $user = User::find(1);
@@ -397,7 +397,7 @@ protected function casts(): array
 }
 ```
 
-Similarly, LaraGram offers an `AsCollection` cast that casts your JSON attribute to a LaraGram [Collection](/master/collections) instance:
+Similarly, LaraGram offers an `AsCollection` cast that casts your JSON attribute to a LaraGram [Collection](/v4/collections) instance:
 
 ```php
 use LaraGram\Database\Eloquent\Casts\AsCollection;
@@ -434,7 +434,7 @@ protected function casts(): array
 }
 ```
 
-The `of` method may be used to indicate collection items should be mapped into a given class via the collection's [mapInto method](/master/collections#method-mapinto):
+The `of` method may be used to indicate collection items should be mapped into a given class via the collection's [mapInto method](/v4/collections#method-mapinto):
 
 ```php
 use App\ValueObjects\Option;
@@ -508,7 +508,7 @@ class Option implements Arrayable, JsonSerializable
 <a name="binary-casting"></a>
 ### Binary Casting
 
-If your Eloquent model has a [binary type](/master/migrations#column-method-binary) `uuid` or `ulid` column in addition to your model's auto-incrementing ID column, you may use the `AsBinary` cast to automatically cast the value to and from its binary representation:
+If your Eloquent model has a [binary type](/v4/migrations#column-method-binary) `uuid` or `ulid` column in addition to your model's auto-incrementing ID column, you may use the `AsBinary` cast to automatically cast the value to and from its binary representation:
 
 ```php
 use LaraGram\Database\Eloquent\Casts\AsBinary;
@@ -542,9 +542,9 @@ return $user->uuid;
 <a name="date-casting"></a>
 ### Date Casting
 
-By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `casts` method. Typically, dates should be cast using the `datetime` or `immutable_datetime` cast types.
+By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Tempora](/v4/tempora), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `casts` method. Typically, dates should be cast using the `datetime` or `immutable_datetime` cast types.
 
-When defining a `date` or `datetime` cast, you may also specify the date's format. This format will be used when the [model is serialized to an array or JSON](/master/eloquent-serialization):
+When defining a `date` or `datetime` cast, you may also specify the date's format. This format will be used when the [model is serialized to an array or JSON](/v4/eloquent-serialization):
 
 ```php
 /**
@@ -560,7 +560,7 @@ protected function casts(): array
 }
 ```
 
-When a column is cast as a date, you may set the corresponding model attribute value to a UNIX timestamp, date string (`Y-m-d`), date-time string, or a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database.
+When a column is cast as a date, you may set the corresponding model attribute value to a UNIX timestamp, date string (`Y-m-d`), date-time string, or a `DateTime` / `Tempora` instance. The date's value will be correctly converted and stored in your database.
 
 You may customize the default serialization format for all of your model's dates by defining a `serializeDate` method on your model. This method does not affect how your dates are formatted for storage in the database:
 
@@ -591,7 +591,7 @@ class Flight extends Model
 
 By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`YYYY-MM-DDTHH:MM:SS.uuuuuuZ`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
 
-If a custom format is applied to the `date` or `datetime` cast, such as `datetime:Y-m-d H:i:s`, the inner timezone of the Carbon instance will be used during date serialization. Typically, this will be the timezone specified in your application's `timezone` configuration option. However, it's important to note that `timestamp` columns such as `created_at` and `updated_at` are exempt from this behavior and are always formatted in UTC, regardless of the application's timezone setting.
+If a custom format is applied to the `date` or `datetime` cast, such as `datetime:Y-m-d H:i:s`, the inner timezone of the Tempora instance will be used during date serialization. Typically, this will be the timezone specified in your application's `timezone` configuration option. However, it's important to note that `timestamp` columns such as `created_at` and `updated_at` are exempt from this behavior and are always formatted in UTC, regardless of the application's timezone setting.
 
 <a name="enum-casting"></a>
 ### Enum Casting
@@ -649,14 +649,14 @@ protected function casts(): array
 <a name="encrypted-casting"></a>
 ### Encrypted Casting
 
-The `encrypted` cast will encrypt a model's attribute value using LaraGram's built-in [encryption](/master/encryption) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
+The `encrypted` cast will encrypt a model's attribute value using LaraGram's built-in [encryption](/v4/encryption) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
 
 As the final length of the encrypted text is not predictable and is longer than its plain text counterpart, make sure the associated database column is of `TEXT` type or larger. In addition, since the values are encrypted in the database, you will not be able to query or search encrypted attribute values.
 
 <a name="key-rotation"></a>
 #### Key Rotation
 
-As you may know, LaraGram encrypts strings using the `key` configuration value specified in your application's `app` configuration file. Typically, this value corresponds to the value of the `APP_KEY` environment variable. If you need to rotate your application's encryption key, you may [gracefully do so](/master/encryption#gracefully-rotating-encryption-keys).
+As you may know, LaraGram encrypts strings using the `key` configuration value specified in your application's `app` configuration file. Typically, this value corresponds to the value of the `APP_KEY` environment variable. If you need to rotate your application's encryption key, you may [gracefully do so](/v4/encryption#gracefully-rotating-encryption-keys).
 
 <a name="query-time-casting"></a>
 ### Query Time Casting

@@ -19,7 +19,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Because MTProto talks to Telegram's data centers directly, it has no Bot-API file-size ceiling — you can upload and download large files, and downloads transparently follow media to whatever data center it lives on via the [connection pool](/master/mtproto-configuration#connection-pool). Every method here is called on the `ClientRequest` handed to your [listeners](/master/mtproto-listening) and controllers.
+Because MTProto talks to Telegram's data centers directly, it has no Bot-API file-size ceiling — you can upload and download large files, and downloads transparently follow media to whatever data center it lives on via the [connection pool](/v4/mtproto-configuration#connection-pool). Every method here is called on the `ClientRequest` handed to your [listeners](/v4/mtproto-listening) and controllers.
 
 ```php
 use LaraGram\MTProto\Facades\Client;
@@ -197,6 +197,6 @@ $peerStories = $request->getPeerStories(peer: '@durov');
 $request->readStories(peer: '@durov', maxId: 999999);
 ```
 
-To download a story's media, use `downloadStory(peerOrStory, id, path)` or react to the [`onStory`](/master/mtproto-listening#other-verbs) verb.
+To download a story's media, use `downloadStory(peerOrStory, id, path)` or react to the [`onStory`](/v4/mtproto-listening#other-verbs) verb.
 
-Next: secret chats, takeout, stars, and more in the [Features](/master/mtproto-features) reference.
+Next: secret chats, takeout, stars, and more in the [Features](/v4/mtproto-features) reference.

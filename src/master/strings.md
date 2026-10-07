@@ -251,7 +251,7 @@ LaraGram includes a variety of functions for manipulating string values. Many of
 <a name="method-__"></a>
 #### `__()` {.collection-method}
 
-The `__` function translates the given translation string or translation key using your [language files](/master/localization):
+The `__` function translates the given translation string or translation key using your [language files](/v4/localization):
 
 ```php
 echo __('Welcome to our application');
@@ -1146,7 +1146,7 @@ $password = Str::password(12);
 <a name="method-str-plural"></a>
 #### `Str::plural()` {.collection-method}
 
-The `Str::plural` method converts a singular word string to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/master/localization#pluralization-language):
+The `Str::plural` method converts a singular word string to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/v4/localization#pluralization-language):
 
 ```php
 use LaraGram\Support\Str;
@@ -1177,7 +1177,7 @@ $singular = Str::plural('child', 1);
 <a name="method-str-plural-studly"></a>
 #### `Str::pluralStudly()` {.collection-method}
 
-The `Str::pluralStudly` method converts a singular word string formatted in studly caps case to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/master/localization#pluralization-language):
+The `Str::pluralStudly` method converts a singular word string formatted in studly caps case to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/v4/localization#pluralization-language):
 
 ```php
 use LaraGram\Support\Str;
@@ -1427,7 +1427,7 @@ $reversed = Str::reverse('Hello World');
 <a name="method-str-singular"></a>
 #### `Str::singular()` {.collection-method}
 
-The `Str::singular` method converts a string to its singular form. This function supports [any of the languages support by LaraGram's pluralizer](/master/localization#pluralization-language):
+The `Str::singular` method converts a string to its singular form. This function supports [any of the languages support by LaraGram's pluralizer](/v4/localization#pluralization-language):
 
 ```php
 use LaraGram\Support\Str;
@@ -1735,13 +1735,13 @@ return (string) Str::ulid();
 // 01gd6r360bp37zj17nxb55yv40
 ```
 
-If you would like to retrieve a `LaraGram\Support\Carbon` date instance representing the date and time that a given ULID was created, you may use the `createFromId` method provided by LaraGram's Carbon integration:
+If you would like to retrieve a `LaraGram\Support\Tempora` date instance representing the date and time that a given ULID was created, you may use the `createFromId` method provided by LaraGram's date integration:
 
 ```php
-use LaraGram\Support\Carbon;
+use LaraGram\Support\Tempora;
 use LaraGram\Support\Str;
 
-$date = Carbon::createFromId((string) Str::ulid());
+$date = Tempora::createFromId((string) Str::ulid());
 ```
 
 During testing, it may be useful to "fake" the value that is returned by the `Str::ulid` method. To accomplish this, you may use the `createUlidsUsing` method:
@@ -1791,7 +1791,7 @@ return (string) Str::uuid();
 During testing, it may be useful to "fake" the value that is returned by the `Str::uuid` method. To accomplish this, you may use the `createUuidsUsing` method:
 
 ```php
-use Ramsey\Uuid\Uuid;
+use LaraGram\Support\String\Uid\Uuid;
 
 Str::createUuidsUsing(function () {
     return Uuid::fromString('eadbfeac-5258-45c2-bab7-ccb9b5ef74f9');
@@ -1903,7 +1903,7 @@ $snake = str()->snake('FooBar');
 <a name="method-trans"></a>
 #### `trans()` {.collection-method}
 
-The `trans` function translates the given translation key using your [language files](/master/localization):
+The `trans` function translates the given translation key using your [language files](/v4/localization):
 
 ```php
 echo trans('messages.welcome');
@@ -2211,7 +2211,7 @@ $containsAll = Str::of('This is my name')->containsAll(['MY', 'NAME'], ignoreCas
 <a name="method-fluent-str-decrypt"></a>
 #### `decrypt` {.collection-method}
 
-The `decrypt` method [decrypts](/master/encryption) the encrypted string:
+The `decrypt` method [decrypts](/v4/encryption) the encrypted string:
 
 ```php
 use LaraGram\Support\Str;
@@ -2322,7 +2322,7 @@ $result = Str::of('This is my name')->doesntStartWith(['What', 'That', 'There'])
 <a name="method-fluent-str-encrypt"></a>
 #### `encrypt` {.collection-method}
 
-The `encrypt` method [encrypts](/master/encryption) the string:
+The `encrypt` method [encrypts](/v4/encryption) the string:
 
 ```php
 use LaraGram\Support\Str;
@@ -2936,7 +2936,7 @@ $closure = Str::of('foo')->pipe(function (Stringable $str) {
 <a name="method-fluent-str-plural"></a>
 #### `plural` {.collection-method}
 
-The `plural` method converts a singular word string to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/master/localization#pluralization-language):
+The `plural` method converts a singular word string to its plural form. This function supports [any of the languages support by LaraGram's pluralizer](/v4/localization#pluralization-language):
 
 ```php
 use LaraGram\Support\Str;
@@ -3159,7 +3159,7 @@ $collection = Str::of('filename.jpg')->scan('%[^.].%s');
 <a name="method-fluent-str-singular"></a>
 #### `singular` {.collection-method}
 
-The `singular` method converts a string to its singular form. This function supports [any of the languages support by LaraGram's pluralizer](/master/localization#pluralization-language):
+The `singular` method converts a string to its singular form. This function supports [any of the languages support by LaraGram's pluralizer](/v4/localization#pluralization-language):
 
 ```php
 use LaraGram\Support\Str;
@@ -3421,7 +3421,7 @@ $htmlString = Str::of('Nuno Maduro')->toHtmlString();
 <a name="method-fluent-str-to-uri"></a>
 #### `toUri` {.collection-method}
 
-The `toUri` method converts the given string to an instance of [LaraGram\Support\Uri](/master/helpers#uri):
+The `toUri` method converts the given string to an instance of [LaraGram\Support\Uri](/v4/helpers#uri):
 
 ```php
 use LaraGram\Support\Str;

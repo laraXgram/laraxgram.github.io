@@ -11,7 +11,7 @@ LaraGram's `LaraGram\Request\Request` class provides an object-oriented way to i
 <a name="accessing-the-request"></a>
 ### Accessing the Request
 
-To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/master/container):
+To obtain an instance of the current Bot request via dependency injection, you should type-hint the `LaraGram\Request\Request` class on your listen closure or controller method. The incoming request instance will automatically be injected by the LaraGram [service container](/v4/container):
 
 ```php
 <?php
@@ -96,7 +96,7 @@ $scope = $request->scope();
 <a name="inspecting-the-request-listen"></a>
 #### Inspecting the Request Listen
 
-Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/master/listening#named-listens):
+Using the `listenIs` method, you may determine if the incoming request has matched a [named listen](/v4/listening#named-listens):
 
 ```php
 if ($request->listenIs('admin.*')) {
@@ -138,6 +138,43 @@ Access updates using dynamic properties on the `LaraGram\Request\Request` instan
 $text = $request->message->text;
 ```
 You can receive all updates according to the official Telegram documentation, with full support for syntax highlighting in your editor or IDE.
+
+<a name="update-helpers"></a>
+#### Update Helpers
+
+LaraGram provides global helpers that read the common parts of any update, whatever its type:
+
+<div class="overflow-auto">
+
+| Helper | Returns |
+| --- | --- |
+| `chat()` | The chat the update happened in. |
+| `user()` | The user who caused the update. `null` for channel posts and anonymous reactions or poll votes. |
+| `sender()` | The actual sender: a user, or the chat a message was sent on behalf of. |
+| `message()` | The message of the update. For a callback query, the message its button is attached to, which is `null` for inline-mode messages. |
+| `text()` | The text of the message, or the caption of a media message. |
+| `bot_connection()` | The name of the bot connection handling the update. |
+
+</div>
+
+Each helper returns `null` when the current update does not carry that value, so fields Telegram marks as optional never cause an error:
+
+```php
+$request->sendMessage(chat()->id, 'Hello '.(user()?->first_name ?? 'there'));
+```
+
+A message may be sent on behalf of a chat: a post in a channel, a message from an anonymous group admin, or a channel post automatically forwarded to its discussion group. Telegram then puts the real sender in `sender_chat`, leaves `from` empty in channels, and fills `from` with a placeholder user in groups. The `sender` helper returns the sender chat for these messages, as well as the `actor_chat` of an anonymous reaction and the `voter_chat` of an anonymous poll vote:
+
+```php
+$sender = sender();
+
+if (isset($sender->title)) {
+    // Sent on behalf of a chat...
+}
+```
+
+> [!WARNING]
+> Never authorize an action by `user()->id` for messages sent on behalf of a chat, since every such message shares the same placeholder user. Check `sender()` instead.
 
 <a name="retrieving-all-input-data"></a>
 ### Retrieving All Input Data
@@ -206,7 +243,7 @@ $validated = $request->validate([
 $text = $validated->message->text;
 ```
 
-For more information, check out the complete [validation documentation](/master/validation).
+For more information, check out the complete [validation documentation](/v4/validation).
 
 <a name="merging-additional-input"></a>
 ### Merging Additional Input
@@ -263,6 +300,7 @@ Reading a field as a property reaches into the result, so `$request->getMe()->fi
 - `retryAfter()` and `migrateToChatId()` — the extras Telegram attaches to a failure.
 - `toArray()` and `toJson()` — the result; pass `true` for the whole response, envelope included.
 - `throw()` — raise the exception matching a failure, and do nothing otherwise.
+- `error_code()`, `retry_after()` and `migrate_to_chat_id()` — the same three values under the names Telegram uses, if you prefer them.
 
 </div>
 
@@ -345,7 +383,7 @@ Every exception extends `LaraGram\Laraquest\Exceptions\TelegramApiException` and
 </div>
 
 > [!NOTE]
-> [Broadcasts](/master/broadcasting) and [anti-flood](#smart-anti-flood) keep working the same way whether calls throw or not: a 429 is still retried, a blocked chat is still marked unreachable, and a migrated group is still followed.
+> [Broadcasts](/v4/broadcasting) and [anti-flood](#smart-anti-flood) keep working the same way whether calls throw or not: a 429 is still retried, a blocked chat is still marked unreachable, and a migrated group is still followed.
 
 <a name="update-objects"></a>
 ### Update Objects
@@ -363,7 +401,7 @@ $request->sendMessage($chatId, 'Have a look at this',
 ```
 
 > [!NOTE]
-> Keyboards are the exception: build them with the [keyboard builder](/master/keyboards) (`Keyboard::inlineKeyboardMarkup(Make::row(...))`), which is shorter, validates the buttons, and handles right-to-left layouts for you.
+> Keyboards are the exception: build them with the [keyboard builder](/v4/keyboards) (`Keyboard::inlineKeyboardMarkup(Make::row(...))`), which is shorter, validates the buttons, and handles right-to-left layouts for you.
 
 The same classes read what Telegram sent. `from` accepts an array, a decoded object or a JSON string, and every field that is an object of its own comes back as one:
 
@@ -570,6 +608,14 @@ If you only need the absolute Telegram download URL (or local server path), you 
 $url = $file->url();
 ```
 
+To resize, convert, or otherwise process an image file before storing or sending it, you may call the `image` method, which returns a lazily downloaded `LaraGram\Image\Image` instance. The `image` method of the request returns the largest size of the current update's photo, or an image document. For more information, consult the [image manipulation documentation](/v4/images):
+
+```php
+$path = $request->image()?->cover(400, 400)->toWebp()->store('avatars');
+
+$image = $file->image();
+```
+
 #### Retrieving File Metadata
 
 ```php
@@ -639,27 +685,72 @@ Bot::connection('connection_name')->group(function (){
 <a name="receiving-updates-from-multiple-bots"></a>
 ### Receiving Updates From Multiple Bots
 
-Sometimes you want a single application to receive updates from several different bots at once. To do this, give each connection its own `secret_token` in the `config/bot.php` file and set the `default` connection to `auto`:
+Sometimes you want a single application to receive updates from several different bots at once. To do this, set the `default` connection to `auto` in the `config/bot.php` file and give each connection its own `secret_token`:
 
 ```php
 'default' => 'auto',
 
 'connections' => [
     'first' => [
-        'token' => '',
-        'secret_token' => "AAA",
+        'token' => env('FIRST_BOT_TOKEN'),
+        'url' => 'https://example.com/webhook',
+        'secret_token' => 'first-bot-secret',
     ],
     'second' => [
-        'token' => '',
-        'secret_token' => "BBB",
+        'token' => env('SECOND_BOT_TOKEN'),
+        'url' => 'https://example.com/webhook',
+        'secret_token' => 'second-bot-secret',
     ],
 ],
 ```
 
-When the `default` connection is set to `auto`, LaraGram inspects the secret token sent with each incoming update and automatically determines which connection it belongs to. The matching connection is then set as the current, active connection for that request, so any request you send back—as well as features like the `connection` method—will use the correct bot without any manual configuration.
+Then register the webhook of every bot, so Telegram sends its secret token with each update:
+
+```shell
+php laragram webhook:set --connection=first
+php laragram webhook:set --connection=second
+```
+
+When the `default` connection is `auto`, LaraGram detects which connection every incoming update belongs to **before** any middleware runs or any listener is matched. The detected connection is bound to that update's request only, so every call you send back uses the correct bot, listeners limited with `forConnections` only match their own bot, and updates of different bots never affect each other—even when a long-running server such as Surge handles many updates in one process.
+
+The connection is detected from, in order:
+
+<div class="content-list" markdown="1">
+
+- The `LARAGRAM_BOT_CONNECTION` server variable, when the web server or the process feeding the update sets it.
+- The webhook secret token. A connection with a `secret_token` only claims updates that carry that exact token, and a connection without one only claims updates that carry no token.
+- The webhook `url`. If several connections are still candidates, the update is claimed by the connection whose `url` path (and query string) matches the requested URI—for example `https://example.com/webhook?bot=first` and `https://example.com/webhook?bot=second`.
+
+</div>
+
+An application with a single connection always uses it. If no single connection can be told apart, the update is not handled and an `UnresolvableConnectionException` is reported, rather than risking a reply from the wrong bot.
 
 > [!NOTE]
-> The `secret_token` of each connection must be unique. It is the value LaraGram uses to identify which bot an incoming update came from. The same token must also be configured as the webhook secret token of the corresponding bot.
+> The `secret_token` (or `url`) of each connection must be unique. After changing a secret token, run `webhook:set` again for that connection so Telegram starts sending the new token.
+
+You may retrieve the connection handling the current update using the `botConnection` method or the `bot_connection` helper:
+
+```php
+$connection = $request->botConnection();
+
+$connection = bot_connection();
+```
+
+Steps and conversations are stored per bot when the `default` connection is `auto`, so a user talking to two of your bots keeps a separate step and conversation in each.
+
+<a name="custom-connection-detection"></a>
+#### Custom Connection Detection
+
+If your bots need a different way to be told apart, register a resolver in the `boot` method of your `AppServiceProvider`. It receives the request and the configured connections, and returns the connection name. Returning `null` falls back to the built-in detection:
+
+```php
+use LaraGram\Request\ConnectionResolver;
+use LaraGram\Request\Request;
+
+ConnectionResolver::resolveUsing(function (Request $request, array $connections) {
+    return $request->server()->get('HTTP_X_BOT_NAME');
+});
+```
 
 <a name="smart-anti-flood"></a>
 ## Smart Anti-Flood
@@ -681,7 +772,7 @@ ANTI_FLOOD_STORE=redis
 ```
 
 > [!WARNING]
-> On a webhook bot, each incoming update is handled by a **separate PHP process**. For per-chat pacing to hold across those processes, anti-flood state must live in a **shared** cache store. Use `redis` (or another shared driver) for webhooks. The `array` store is only correct for a single long-running process such as [Surge](/master/surge). Durable stores like `database` and `file` are not recommended for this hot, ephemeral state.
+> On a webhook bot, each incoming update is handled by a **separate PHP process**. For per-chat pacing to hold across those processes, anti-flood state must live in a **shared** cache store. Use `redis` (or another shared driver) for webhooks. The `array` store is only correct for a single long-running process such as [Surge](/v4/surge). Durable stores like `database` and `file` are not recommended for this hot, ephemeral state.
 
 <a name="anti-flood-configuration"></a>
 ### Configuration
@@ -779,7 +870,7 @@ foreach ($chatIds as $chatId) {
 ```
 
 > [!TIP]
-> To message all of your users or groups, prefer [Telegram broadcasts](/master/broadcasting#telegram-broadcasts). They use this scope automatically and also queue the work, skip chats that blocked the bot, retry rate limited calls, and track progress.
+> To message all of your users or groups, prefer [Telegram broadcasts](/v4/broadcasting#telegram-broadcasts). They use this scope automatically and also queue the work, skip chats that blocked the bot, retry rate limited calls, and track progress.
 
 <a name="anti-flood-eta"></a>
 ### Inspecting the Delay

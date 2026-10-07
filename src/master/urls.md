@@ -66,7 +66,7 @@ echo url()->current();
 echo url()->full();
 ```
 
-Each of these methods may also be accessed via the `URL` [facade](/master/facades):
+Each of these methods may also be accessed via the `URL` [facade](/v4/facades):
 
 ```php
 use LaraGram\Support\Facades\URL;
@@ -87,7 +87,7 @@ echo url()->previous();
 echo url()->previousPath();
 ```
 
-Or, via the [session](/master/session), you may access the previous URL as a [fluent URI](#fluent-uri-objects) instance:
+Or, via the [session](/v4/session), you may access the previous URL as a [fluent URI](#fluent-uri-objects) instance:
 
 ```php
 use LaraGram\Http\Request;
@@ -108,7 +108,7 @@ $previousRoute = $request->session()->previousRoute();
 <a name="urls-for-named-routes"></a>
 ## URLs for Named Routes
 
-The `route` helper may be used to generate URLs to [named routes](/master/routing#named-routes). Named routes allow you to generate URLs without being coupled to the actual URL defined on the route. Therefore, if the route's URL changes, no changes need to be made to your calls to the `route` function. For example, imagine your application contains a route defined like the following:
+The `route` helper may be used to generate URLs to [named routes](/v4/routing#named-routes). Named routes allow you to generate URLs without being coupled to the actual URL defined on the route. Therefore, if the route's URL changes, no changes need to be made to your calls to the `route` function. For example, imagine your application contains a route defined like the following:
 
 ```php
 Route::get('/post/{post}', function (Post $post) {
@@ -147,7 +147,7 @@ echo route('post.show', ['post' => 1, 'search' => 'rocket']);
 <a name="eloquent-models"></a>
 #### Eloquent Models
 
-You will often be generating URLs using the route key (typically the primary key) of [Eloquent models](/master/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's route key:
+You will often be generating URLs using the route key (typically the primary key) of [Eloquent models](/v4/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's route key:
 
 ```php
 echo route('post.show', ['post' => $post]);
@@ -207,7 +207,7 @@ if (! $request->hasValidSignatureWhileIgnoring(['page', 'order'])) {
 }
 ```
 
-Instead of validating signed URLs using the incoming request instance, you may assign the `signed` (`LaraGram\Routing\Middleware\ValidateSignature`) [middleware](/master/middleware) to the route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` HTTP response:
+Instead of validating signed URLs using the incoming request instance, you may assign the `signed` (`LaraGram\Routing\Middleware\ValidateSignature`) [middleware](/v4/middleware) to the route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` HTTP response:
 
 ```php
 Route::post('/unsubscribe/{user}', function (Request $request) {
@@ -297,7 +297,7 @@ $uri = Uri::of('https://example.com')
     ->withFragment('section-1');
 ```
 
-For more information on working with fluent URI objects, consult the [URI documentation](/master/helpers#uri).
+For more information on working with fluent URI objects, consult the [URI documentation](/v4/helpers#uri).
 
 <a name="default-values"></a>
 ## Default Values
@@ -310,7 +310,7 @@ Route::get('/{locale}/posts', function () {
 })->name('post.index');
 ```
 
-It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/master/middleware#assigning-middleware-to-routes) so that you have access to the current request:
+It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/v4/middleware#assigning-middleware-to-routes) so that you have access to the current request:
 
 ```php
 <?php
@@ -343,7 +343,7 @@ Once the default value for the `locale` parameter has been set, you are no longe
 <a name="url-defaults-middleware-priority"></a>
 #### URL Defaults and Middleware Priority
 
-Setting URL default values can interfere with LaraGram's handling of implicit model bindings. Therefore, you should [prioritize your middleware](/master/middleware#sorting-middleware) that set URL defaults to be executed before LaraGram's own `SubstituteBindings` middleware. You can accomplish this using the `priority` middleware method in your application's `bootstrap/app.php` file:
+Setting URL default values can interfere with LaraGram's handling of implicit model bindings. Therefore, you should [prioritize your middleware](/v4/middleware#sorting-middleware) that set URL defaults to be executed before LaraGram's own `SubstituteBindings` middleware. You can accomplish this using the `priority` middleware method in your application's `bootstrap/app.php` file:
 
 ```php
 ->withMiddleware(function (Middleware $middleware): void {

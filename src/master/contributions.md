@@ -58,7 +58,7 @@ If you discover a security vulnerability within LaraGram, please send an email t
 <a name="coding-style"></a>
 ## Coding Style
 
-LaraGram follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading standard.
+LaraGram follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/v4/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/v4/accepted/PSR-4-autoloader.md) autoloading standard.
 
 <a name="phpdoc"></a>
 ### PHPDoc

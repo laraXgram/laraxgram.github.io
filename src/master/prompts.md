@@ -8,7 +8,7 @@ LaraGram Prompts is a PHP package for adding beautiful and user-friendly forms t
 > [!NOTE]
 > This package is a rewritten and optimized version of Laravel Prompts, tailored specifically for LaraGram.
 
-LaraGram Prompts is perfect for accepting user input in your [Commander console commands](/master/commander#writing-commands), but it may also be used in any command-line PHP project.
+LaraGram Prompts is perfect for accepting user input in your [Commander console commands](/v4/commander#writing-commands), but it may also be used in any command-line PHP project.
 
 > [!NOTE]
 > LaraGram Prompts supports macOS, Linux, and Windows with WSL. For more information, please see our documentation on [unsupported environments & fallbacks](#fallbacks).
@@ -77,7 +77,7 @@ $name = text(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/master/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/v4/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $name = text(
@@ -146,12 +146,53 @@ $story = textarea(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/master/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/v4/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $story = textarea(
     label: 'Tell me a story.',
     validate: ['story' => 'required|max:10000']
+);
+```
+
+<a name="number"></a>
+### Number
+
+The `number` prompt asks for a number, and keeps the answer within the bounds you give it. The arrow keys step the value up and down:
+
+```php
+use function LaraGram\Console\Prompts\number;
+
+$seats = number('How many seats?');
+```
+
+It accepts a placeholder, a default value, an informational hint, and the range it allows:
+
+```php
+$seats = number(
+    label: 'How many seats?',
+    placeholder: 'E.g. 10',
+    default: 1,
+    hint: 'You may add more seats later.',
+    min: 1,
+    max: 100,
+    step: 1,
+);
+```
+
+<a name="number-required"></a>
+#### Required Values and Validation
+
+As with the other prompts, `required` refuses an empty answer and `validate` checks the one that was given:
+
+```php
+$seats = number(
+    label: 'How many seats?',
+    required: 'A number of seats is required.',
+    validate: fn (int $value) => match (true) {
+        $value % 5 !== 0 => 'Seats are sold in packs of five.',
+        default => null,
+    },
 );
 ```
 
@@ -214,7 +255,7 @@ $password = password(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/master/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/v4/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $password = password(
@@ -510,13 +551,50 @@ $name = suggest(
 
 The closure will receive the value that has been entered and may return an error message, or `null` if the validation passes.
 
-Alternatively, you may leverage the power of LaraGram's [validator](/master/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+Alternatively, you may leverage the power of LaraGram's [validator](/v4/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
 
 ```php
 $name = suggest(
     label: 'What is your name?',
     options: ['Taylor', 'Dayle'],
     validate: ['name' => 'required|min:3|max:255']
+);
+```
+
+<a name="autocomplete"></a>
+### Autocomplete
+
+Where `suggest` hints at options while the user types freely, `autocomplete` completes the answer inline — the first matching option is shown ahead of the cursor and accepted with the arrow key:
+
+```php
+use function LaraGram\Console\Prompts\autocomplete;
+
+$connection = autocomplete('Which bot connection?', ['main', 'support', 'news']);
+```
+
+<a name="autocomplete-dynamic-options"></a>
+#### Dynamic Options
+
+Passing a closure as the options builds them while the user types. The closure receives what has been typed so far:
+
+```php
+$chat = autocomplete(
+    label: 'Which chat?',
+    options: fn (string $value) => Chat::where('title', 'like', "%{$value}%")
+        ->pluck('title')
+        ->all(),
+    placeholder: 'Start typing a title...',
+    hint: 'Only the chats your bot has seen are listed.',
+);
+```
+
+An answer may also be reshaped before it is validated with the `transform` argument:
+
+```php
+$username = autocomplete(
+    label: 'Which username?',
+    options: $usernames,
+    transform: fn (string $value) => ltrim($value, '@'),
 );
 ```
 
@@ -802,6 +880,22 @@ use function LaraGram\Console\Prompts\info;
 info('Package installed successfully.');
 ```
 
+<a name="callouts"></a>
+### Callouts
+
+A callout gives a message a label and a box of its own, which suits the summary at the end of a command — what was created, what to do next:
+
+```php
+use function LaraGram\Console\Prompts\callout;
+
+callout('Webhook set', [
+    'URL: https://bot.example.com/webhook',
+    'Allowed updates: message, callback_query',
+], type: 'success', info: 'php laragram webhook:info');
+```
+
+The content may be a single string or a list of lines, and `type` picks the colour of the box, the same way `note` does.
+
 <a name="tables"></a>
 ## Tables
 
@@ -914,7 +1008,7 @@ For any prompts that accept the `scroll` argument, the configured value will aut
 
 LaraGram Prompts supports macOS, Linux, and Windows with WSL. Due to limitations in the Windows version of PHP, it is not currently possible to use LaraGram Prompts on Windows outside of WSL.
 
-For this reason, LaraGram Prompts supports falling back to an alternative implementation such as the [Symfony Console Question Helper](https://symfony.com/doc/current/components/console/helpers/questionhelper.html).
+For this reason, LaraGram Prompts supports falling back to an alternative implementation such as the question helpers on LaraGram's own console output style.
 
 > [!NOTE]
 > When using LaraGram Prompts with the LaraGram framework, fallbacks for each prompt have been configured for you and will be automatically enabled in unsupported environments.
@@ -940,7 +1034,7 @@ If you are not using LaraGram or need to customize the fallback behavior, you ma
 ```php
 use LaraGram\Console\Prompts\TextPrompt;
 use LaraGram\Console\Question\Question;
-use LaraGram\Console\Style\SymfonyStyle;
+use LaraGram\Console\Style\Style;
 
 TextPrompt::fallbackUsing(function (TextPrompt $prompt) use ($input, $output) {
     $question = (new Question($prompt->label, $prompt->default ?: null))
@@ -962,7 +1056,7 @@ TextPrompt::fallbackUsing(function (TextPrompt $prompt) use ($input, $output) {
             return $answer;
         });
 
-    return (new SymfonyStyle($input, $output))
+    return (new Style($input, $output))
         ->askQuestion($question);
 });
 ```

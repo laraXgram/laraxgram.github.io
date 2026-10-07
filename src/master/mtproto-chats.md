@@ -20,7 +20,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-MTProto exposes the full account surface for managing groups, supergroups, and channels — far beyond what the Bot API allows. Every method here is called on the `ClientRequest` handed to your [listeners](/master/mtproto-listening) and controllers, and each accepts [peer values](/master/mtproto-requests#addressing-peers) in the convenient forms (`'@username'`, id, `'me'`, or a peer object). Replies route back to the originating session automatically.
+MTProto exposes the full account surface for managing groups, supergroups, and channels — far beyond what the Bot API allows. Every method here is called on the `ClientRequest` handed to your [listeners](/v4/mtproto-listening) and controllers, and each accepts [peer values](/v4/mtproto-requests#addressing-peers) in the convenient forms (`'@username'`, id, `'me'`, or a peer object). Replies route back to the originating session automatically.
 
 Inside a listener closure:
 
@@ -237,4 +237,4 @@ $mine    = $request->getMyBoosts();
 $applied = $request->getUserBoosts(peer: '@channel', user: '@durov');
 ```
 
-Next: uploading and downloading files in the [Media](/master/mtproto-media) reference.
+Next: uploading and downloading files in the [Media](/v4/mtproto-media) reference.
