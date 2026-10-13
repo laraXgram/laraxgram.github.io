@@ -111,6 +111,8 @@ php laragram sentinel:flush --seconds=0
 
 The driver never loses data to a Redis outage: when the list cannot be reached, the batch is written to the database directly. If the flusher stops running, the list keeps only the newest `SENTINEL_REDIS_MAX_BATCHES` batches instead of filling Redis. [Playground](#the-playground) runs and replays are always written directly, because the dashboard reads them back as soon as they finish.
 
+Entries are inserted in batches of at most 1MB (`storage.database.chunk_bytes`), so one statement stays under MySQL and MariaDB's `max_allowed_packet`. An entry larger than 256KB (`storage.database.entry_bytes`) has its long strings cut. If it is still too large, only its size is stored. Queries that touch Sentinel's own tables, such as the deletes `sentinel:prune` runs, are never recorded.
+
 > [!NOTE]
 > If you published `config/sentinel.php` before the `redis` driver existed, copy the `storage` section from the package's config into yours. A published config replaces the whole `storage` array, so new keys are not picked up otherwise.
 
