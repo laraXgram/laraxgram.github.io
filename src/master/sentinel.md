@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
     - [Configuration](#configuration)
+    - [Storage Drivers](#storage-drivers)
     - [Data Retention](#data-retention)
     - [Keeping Sentinel Running](#keeping-sentinel-running)
 - [Dashboard Authorization](#dashboard-authorization)
@@ -70,6 +71,7 @@ SENTINEL_ENABLED=true
 SENTINEL_PATH=sentinel
 SENTINEL_DOMAIN=
 SENTINEL_DB_CONNECTION=            # keep monitoring writes off your bot's database
+SENTINEL_STORAGE_DRIVER=database   # or "redis" to buffer writes, see "Storage Drivers"
 
 SENTINEL_UPDATE_SAMPLE_RATE=1      # 0.1 keeps 10% of update entries; metrics stay complete
 
@@ -79,6 +81,38 @@ SENTINEL_WEBHOOK_CHANGES=true      # allow setting / deleting webhooks from the 
 ```
 
 Pointing `SENTINEL_DB_CONNECTION` at a second [database connection](/v4/database) is recommended in production: monitoring writes then never compete with your bot's own queries.
+
+<a name="storage-drivers"></a>
+### Storage Drivers
+
+Entries and metrics always end up in the database. The storage driver decides how they get there.
+
+With the `database` driver (the default), every update writes its batch when its process terminates. That is the simplest setup and fine for most bots. Under a burst, though, such as thousands of users pressing `/start` at the same moment, hundreds of processes write to the same metric rows at once and the database spends its time waiting on locks. Sentinel writes those rows in a fixed order and retries a write that loses a deadlock or a lock wait, so nothing breaks, but the database is still busy with monitoring when your bot needs it most.
+
+The `redis` driver takes those writes out of the update. Each update pushes its batch to a Redis list, which is a single command that never waits on a lock, and the `sentinel:flush` command writes the buffered batches to the database together:
+
+```ini
+SENTINEL_STORAGE_DRIVER=redis
+SENTINEL_REDIS_CONNECTION=default   # a connection from config/database.php "redis"
+SENTINEL_REDIS_MAX_BATCHES=100000   # older batches are dropped past this many
+```
+
+`sentinel:flush` is added to your [scheduler](/v4/scheduling) automatically and runs every minute, but it keeps flushing for most of that minute, so the dashboard stays only a few seconds behind. All you need is the scheduler's cron entry. To run the flusher under Supervisor instead, turn the schedule off and keep it running:
+
+```ini
+SENTINEL_REDIS_SCHEDULE=false
+```
+
+```shell
+php laragram sentinel:flush --seconds=0
+```
+
+`sentinel:flush --once` writes whatever is buffered and exits.
+
+The driver never loses data to a Redis outage: when the list cannot be reached, the batch is written to the database directly. If the flusher stops running, the list keeps only the newest `SENTINEL_REDIS_MAX_BATCHES` batches instead of filling Redis. [Playground](#the-playground) runs and replays are always written directly, because the dashboard reads them back as soon as they finish.
+
+> [!NOTE]
+> If you published `config/sentinel.php` before the `redis` driver existed, copy the `storage` section from the package's config into yours. A published config replaces the whole `storage` array, so new keys are not picked up otherwise.
 
 <a name="data-retention"></a>
 ### Data Retention
@@ -323,6 +357,8 @@ SENTINEL_ALERTS_CONNECTION=bot
 ## Sampling and Performance
 
 Each webhook delivery is handled in its own process, so Sentinel buffers what happens while an update is handled and writes it in a single batch when the process terminates — it adds almost nothing to your bot's response time. Long-running processes ([queue workers](/v4/queues), [Surge](/v4/surge)) flush after every job or request.
+
+If your bot gets bursts of updates, use the [`redis` storage driver](#storage-drivers): the batch then costs each update one Redis command instead of database writes.
 
 On a busy bot, keep every metric but only a slice of the entries:
 
