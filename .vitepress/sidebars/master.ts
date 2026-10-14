@@ -154,6 +154,7 @@ export default [
     {
         text: 'Packages', collapsed: true,
         items: [
+            { text: 'API Server', link: '/master/apiserver' },
             { text: 'Precognition', link: '/master/precognition' },
             { text: 'Prompts', link: '/master/prompts' },
             { text: 'Sentinel', link: '/master/sentinel' },

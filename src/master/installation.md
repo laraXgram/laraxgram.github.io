@@ -111,6 +111,8 @@ Or, by setting `api_id` and `api_hash`, you can start your own API server by run
 php laragram start:apiserver
 ```
 
+The command runs the official `telegram-bot-api` binary by default. You may also use the [LaraGram API Server](/master/apiserver) by setting the `API_BINARY` environment variable to `laragram-server`.
+
 <a name="databases-and-migrations"></a>
 ### Databases and Migrations
 
