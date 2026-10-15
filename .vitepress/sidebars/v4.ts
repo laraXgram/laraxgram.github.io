@@ -146,7 +146,7 @@ export default [
     {
         text: 'AI', collapsed: true,
         items: [
-            // { text: 'AI SDK', link: '/v4/ai-sdk' },
+            { text: 'AI SDK', link: '/v4/ai-sdk' },
             { text: 'MCP', link: '/v4/mcp' },
             { text: 'Brain', link: '/v4/brain' },
         ]
