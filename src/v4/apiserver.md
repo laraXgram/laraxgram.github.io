@@ -240,6 +240,9 @@ API_BINARY=vendor/bin/laragram-server
 
 The `endpoint` option is the base URL that your application sends its Bot API requests to, so once it points at your server, every request of your bot goes through it. Remember to [log the bot out](#switching-from-the-cloud-bot-api) of the cloud Bot API first.
 
+> [!NOTE]
+> When you create your application using the [LaraGram installer](/v4/installation#creating-an-application), you may select **Local Bot API server** and choose the LaraGram API Server. The installer requires the package in your project and writes all of these environment variables for you.
+
 <div class="overflow-auto">
 
 | Key | Description |
@@ -272,6 +275,8 @@ php laragram start:apiserver --binary=laragram-server --host=127.0.0.1 --port=80
 ```
 
 The output of the server is shown in your console, and pressing `Ctrl+C` stops it.
+
+During development, the [`dev`](/v4/commander#the-dev-command) command starts the server together with the rest of your application whenever `API_ENDPOINT` points to `localhost` and your API credentials are set, so you rarely need to start it yourself.
 
 <a name="storage"></a>
 ## Storage
