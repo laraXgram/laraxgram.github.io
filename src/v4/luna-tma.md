@@ -107,7 +107,7 @@ A Mini App's [root Blade template](/v4/luna#root-template) adds the `@telegramWe
 <a name="the-telegram-middleware"></a>
 ### The `telegram` Middleware
 
-Apply the `telegram` middleware to every Mini App route. It reads the init data (from the `X-Telegram-Init-Data` header on visits, or the `tgWebAppData` parameter on the initial load), validates it, and populates the request-scoped Telegram context — **failing closed** on tampered or expired data:
+Apply the `telegram` middleware to every Mini App route. It reads the init data (from the `X-Telegram-Init-Data` header the Luna client sends on every visit and `http` request, or a `tgWebAppData` query or body parameter), validates it, and populates the request-scoped Telegram context — **failing closed** on tampered or expired data:
 
 ```php
 use LaraGram\Support\Facades\Route;
@@ -128,6 +128,35 @@ Two modes:
 </div>
 
 In both modes, tampered data (`403`) and expired data (`401`) are always rejected — there is no way to opt out of the security check while keeping the middleware.
+
+<a name="the-first-page-load"></a>
+#### The First Page Load
+
+Telegram opens a Mini App with the init data in the URL **fragment** (`#tgWebAppData=...`), which browsers never send to the server. The very first document request therefore arrives without init data, even inside Telegram. Serve that request with `telegram:optional` and render a small boot page when there is no validated user; the boot page repeats the visit, and from then on every Luna visit carries the init data in its header:
+
+```php
+Route::middleware('telegram:optional')->get('/', function () {
+    if (! telegram()->has()) {
+        return Luna::render('Boot');
+    }
+
+    return Luna::render('Home', [/* ... */]);
+});
+```
+
+```jsx
+// resources/js/Pages/Boot.jsx
+import { router } from '@laraxgram/react'
+import { useEffect } from 'react'
+
+export default function Boot() {
+    useEffect(() => {
+        router.visit(window.location.pathname + window.location.search, { replace: true })
+    }, [])
+
+    return null
+}
+```
 
 <a name="reading-the-user"></a>
 ### Reading the Validated User
