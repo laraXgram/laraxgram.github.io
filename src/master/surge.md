@@ -3,7 +3,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-[LaraGram Surge](https://github.com/laragram/surge) supercharges your application's performance by serving your application using high-powered application servers, including [Open Swoole](https://openswoole.com/) and [Swoole](https://github.com/swoole/swoole-src). Surge boots your application once, keeps it in memory, and then feeds it requests at supersonic speeds.
+[LaraGram Surge](https://github.com/laraxgram/surge) supercharges your application's performance by serving your application using high-powered application servers, including [Open Swoole](https://openswoole.com/), [Swoole](https://github.com/swoole/swoole-src), and [RoadRunner](https://roadrunner.dev). Surge boots your application once, keeps it in memory, and then feeds it requests at supersonic speeds.
 
 <a name="installation"></a>
 ## Installation
@@ -14,11 +14,16 @@ Surge may be installed via the Composer package manager:
 composer require laraxgram/surge
 ```
 
-After installing Surge, you may execute the `surge:install` Commander command, which will install Surge's configuration file into your application:
+After installing Surge, you may execute the `surge:install` Commander command, which will install Surge's configuration file into your application. The command asks which application server you would like to use, or you may provide it using the `--server` option:
 
 ```shell
 php laragram surge:install
+
+php laragram surge:install --server=roadrunner
 ```
+
+> [!NOTE]
+> When you create your application using the [LaraGram installer](/v4/installation#creating-an-application), you may choose Surge and its server while creating the application, and the installer runs this command for you.
 
 <a name="server-prerequisites"></a>
 ## Server Prerequisites
@@ -42,6 +47,36 @@ pecl install openswoole
 ```
 
 Using LaraGram Surge with Open Swoole grants the same functionality provided by Swoole, such as concurrent tasks, ticks, and intervals.
+
+<a name="roadrunner"></a>
+### RoadRunner
+
+[RoadRunner](https://roadrunner.dev) is powered by the RoadRunner binary, which is built using Go. Surge talks to RoadRunner using its own built-in worker, so no additional Composer package is required. When you install Surge for RoadRunner, or start a RoadRunner based Surge server without a RoadRunner binary, Surge will offer to download the RoadRunner binary for your operating system and place it in your application's root directory, along with a `.rr.yaml` configuration file:
+
+```shell
+php laragram surge:install --server=roadrunner
+
+php laragram surge:start
+```
+
+Surge supports RoadRunner 2023.3 and newer, including the RoadRunner 3.x releases. If you already have a RoadRunner binary installed on your system, Surge will use it instead of downloading one. If GitHub is not reachable from your server, you may download the binary through a proxy by setting the `SURGE_GITHUB_PROXY_PREFIX` environment variable to the proxy's URL prefix.
+
+<a name="frankenphp"></a>
+### FrankenPHP
+
+[FrankenPHP](https://frankenphp.dev) is a PHP application server, written in Go, built on top of the [Caddy](https://caddyserver.com) web server. When you install Surge for FrankenPHP, or start a FrankenPHP based Surge server without a FrankenPHP binary, Surge will offer to download the FrankenPHP binary for your operating system and place it in your application's root directory, along with the `public/frankenphp-worker.php` worker script:
+
+```shell
+php laragram surge:install --server=frankenphp
+
+php laragram surge:start
+```
+
+Surge supports FrankenPHP 1.5 and newer. Because FrankenPHP is built on Caddy, it can serve your application over HTTPS, HTTP/2, and HTTP/3 and obtain and renew the certificates for you when you pass the `--https` option:
+
+```shell
+php laragram surge:start --server=frankenphp --https --port=443
+```
 
 <a name="swoole-configuration"></a>
 #### Swoole Configuration
@@ -480,3 +515,47 @@ return Surge::table('example')->get('uuid');
 
 > [!WARNING]
 > The column types supported by Swoole tables are: `string`, `int`, and `float`.
+
+<a name="background-processes"></a>
+## Background Processes
+
+Surge may supervise long-lived background processes next to your workers, which is ideal for persistent listeners such as the [MTProto](/v4/mtproto-configuration#surge-pump) update pump. Register a process from the `boot` method of one of your service providers by giving the `process` method an invokable class and, optionally, a name:
+
+```php
+use App\Processes\PriceFeed;
+use LaraGram\Surge\Facades\Surge;
+
+public function boot(): void
+{
+    Surge::process(PriceFeed::class, 'price-feed');
+}
+```
+
+Each process runs in its own process with its own freshly-booted application instance, which is passed to the `__invoke` method. The handler should be long-lived: when it returns or crashes, Surge starts it again, waiting until at least five seconds have passed since the previous start so that a failing handler does not restart in a tight loop:
+
+```php
+namespace App\Processes;
+
+use LaraGram\Contracts\Foundation\Application;
+
+class PriceFeed
+{
+    public function __invoke(Application $app): void
+    {
+        while (true) {
+            // ...
+        }
+    }
+}
+```
+
+Background processes run on every Surge server:
+
+- **Swoole** forks each process from the server itself, so the handler also receives the `Swoole\Process` and the `Swoole\Http\Server` instances as its second and third arguments.
+- **RoadRunner** and **FrankenPHP** start each process with the PHP CLI binary (through the hidden `surge:process` command) and stop them together with the server. The handler receives no process or server instance, and features that rely on the Swoole server, such as [tables](#tables), are not available inside it. Their output is written to the `surge:start` console.
+
+By default the handler runs inside a Swoole coroutine container when the Swoole extension is installed, so it may use coroutines on any server. Pass `false` as the third argument to run it as plain PHP:
+
+```php
+Surge::process(PriceFeed::class, 'price-feed', coroutine: false);
+```
