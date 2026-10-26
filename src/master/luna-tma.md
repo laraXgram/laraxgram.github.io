@@ -279,9 +279,16 @@ Bootstrap options:
 | `ready` | `true` | Call `WebApp.ready()`. |
 | `expand` | `true` | Call `WebApp.expand()` to fill the viewport. |
 | `cssVariables` | `true` | Mirror theme/viewport/safe-area onto `--tg-*` CSS vars, kept reactive. |
-| `backButton` | `true` | Sync the native BackButton with Luna history (`history.back()` on tap). |
+| `backButton` | `true` | Sync the native BackButton with Luna history (`history.back()` on tap). Pass `{ canGoBack, onBack }` to change when it shows or what a tap does. |
 | `closingConfirmation` | `false` | Enable the "are you sure?" close dialog globally. |
 | `disableVerticalSwipes` | `false` | Disable swipe-to-close. |
+| `fullscreen` | `false` | Request fullscreen on launch: `true` on every client, `'mobile'` on Android and iOS only. Needs Bot API 8.0. |
+
+In fullscreen, Telegram's close and menu buttons float over the top of your page. Keep your content clear of them with the safe-area variables described below (`--tg-content-safe-area-inset-top` plus `--tg-safe-area-inset-top`):
+
+```js
+bootstrapTelegram({ fullscreen: 'mobile' })
+```
 
 <a name="theme-and-viewport"></a>
 ## Reactive Theme & Viewport
@@ -343,6 +350,22 @@ useTelegramBackButton({
 ```
 
 Vue and Svelte export `useTelegramBackButton` with the same options, scoped to the component's lifetime.
+
+While the BackButton is hidden, Android's back gesture and back key close (or minimize) the Mini App instead of going back. To have them go back from every page but your home page — including a page opened directly from a bot button, with no history to go back to — give `bootstrapTelegram()` your own rule:
+
+```js
+import { bootstrapTelegram, getTelegramBackDepth } from '@laraxgram/luna'
+import { router } from '@laraxgram/react'
+
+bootstrapTelegram({
+    backButton: {
+        canGoBack: () => window.location.pathname !== '/app',
+        onBack: () => (getTelegramBackDepth() > 0 ? window.history.back() : router.visit('/app', { replace: true })),
+    },
+})
+```
+
+The button is synced after every finished visit, `replace` visits included, so a `canGoBack` that reads the current page is always asked again.
 
 <a name="main-button-and-forms"></a>
 ## The MainButton & Forms
