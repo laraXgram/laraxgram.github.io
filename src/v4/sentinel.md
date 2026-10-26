@@ -20,6 +20,14 @@
     - [Listeners and Conversations](#listeners-and-conversations)
     - [API Calls](#api-calls)
     - [Servers and Network](#servers-and-network)
+- [Queues](#queues)
+    - [Running the Queue Supervisor](#running-the-queue-supervisor)
+    - [Supervisors and Balancing](#supervisors-and-balancing)
+    - [Deploying](#deploying-queues)
+    - [The Queue Pages](#the-queue-pages)
+    - [Tags and Monitoring](#queue-tags)
+    - [Silenced Jobs](#silenced-jobs)
+    - [Long Wait Alerts](#long-wait-alerts)
 - [Watchers](#watchers)
 - [Filtering and Tagging](#filtering-and-tagging)
     - [Filtering](#filtering)
@@ -267,6 +275,164 @@ Volume, latency and errors grouped by method and error code, plus the **flood wa
 
 CPU, memory and disk of every server running `sentinel:check`, the latency of the Telegram API, and the health of the [proxy pool](/v4/requests#proxy-pool).
 
+<a name="queues"></a>
+## Queues
+
+Sentinel also runs your Redis queue. `sentinel:queue` starts a master supervisor that launches, watches and balances your queue workers, and records every job it handles: pending, completed and failed jobs, their payloads and exceptions, job batches, throughput and runtime per job and per queue, and how long each queue waits. All of it shows up in the **Queues** section of the dashboard.
+
+Use the `redis` queue connection:
+
+```ini
+QUEUE_CONNECTION=redis
+```
+
+The jobs, metrics and supervisors are kept on the Redis connection named by `sentinel.queue.use` (`default`), under the `sentinel.queue.prefix` key prefix (`SENTINEL_QUEUE_PREFIX`). Apps that do not use Redis are not affected; the Queues pages simply stay empty.
+
+<a name="running-the-queue-supervisor"></a>
+### Running the Queue Supervisor
+
+Start the supervisor instead of `queue:work`:
+
+```shell
+php laragram sentinel:queue
+```
+
+It runs in the foreground, so in production keep it alive with Supervisor (or any process manager), with a stop wait time longer than your longest job:
+
+```ini
+[program:sentinel-queue]
+process_name=%(program_name)s
+command=php /home/forge/app.com/laragram sentinel:queue
+autostart=true
+autorestart=true
+user=forge
+redirect_stderr=true
+stdout_logfile=/home/forge/app.com/storage/logs/sentinel-queue.log
+stopwaitsecs=3600
+```
+
+While developing, `php laragram sentinel:queue:listen` restarts the workers whenever a file listed in `sentinel.queue.watch` changes, and with a Redis queue `php laragram dev` runs the supervisor instead of `queue:listen`.
+
+Pause and resume processing with `sentinel:queue:pause` and `sentinel:queue:continue` (or a single supervisor with `sentinel:queue:pause-supervisor` and `sentinel:queue:continue-supervisor`), and check on it with `sentinel:queue:status`, `sentinel:queue:supervisors` and `sentinel:queue:list`.
+
+<a name="supervisors-and-balancing"></a>
+### Supervisors and Balancing
+
+The supervisors of each environment are defined in the `queue` section of `config/sentinel.php`. `defaults` holds the options shared by every environment, and `environments` overrides them per `APP_ENV`:
+
+```php
+'queue' => [
+    'defaults' => [
+        'supervisor-1' => [
+            'connection' => 'redis',
+            'queue' => ['default'],
+            'balance' => 'auto',
+            'autoScalingStrategy' => 'time',
+            'maxProcesses' => 1,
+            'tries' => 1,
+            'timeout' => 60,
+        ],
+    ],
+
+    'environments' => [
+        'production' => [
+            'supervisor-1' => [
+                'maxProcesses' => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+        ],
+    ],
+],
+```
+
+Each supervisor runs up to `maxProcesses` workers for its queues. `balance` decides how they are spread:
+
+<div class="content-list" markdown="1">
+
+- `auto` moves workers to the busiest queues, judged by the time it would take to clear them (`autoScalingStrategy: 'time'`) or by the number of jobs waiting (`'size'`), between `minProcesses` and `maxProcesses`, shifting `balanceMaxShift` workers every `balanceCooldown` seconds.
+- `simple` splits the workers evenly between the queues.
+- `false` works the queues in the order they are listed, like `queue:work`.
+
+</div>
+
+A broadcast to thousands of chats is a good reason for its own supervisor, so it never delays the jobs your users are waiting for:
+
+```php
+'broadcasts' => [
+    'connection' => 'redis',
+    'queue' => ['broadcasts'],
+    'balance' => 'auto',
+    'maxProcesses' => 5,
+    'timeout' => 300,
+],
+```
+
+<a name="deploying-queues"></a>
+### Deploying
+
+Workers keep the code they started with. After deploying, terminate the supervisor; your process manager starts it again with the new code, and the running jobs are allowed to finish first:
+
+```shell
+php laragram sentinel:queue:terminate
+```
+
+`php laragram reload` does this for you. `sentinel:queue:purge` stops worker processes that lost their supervisor.
+
+<a name="the-queue-pages"></a>
+### The Queue Pages
+
+<div class="content-list" markdown="1">
+
+- **Queues** — whether the supervisor is running, jobs per minute, recent and failed jobs, the current workload per queue with its wait time, and every master supervisor with its supervisors, queues and worker count.
+- **Queued Jobs** — pending, completed and silenced jobs with their tags, queue and runtime; open a job to see its payload.
+- **Failed Jobs** — the jobs that ran out of attempts, with their exception and context. Retry them one by one once the cause is fixed, filter them by tag, and follow each retry. `sentinel:queue:forget` deletes a failed job, and `sentinel:queue:clear` empties a queue.
+- **Batches** — `Bus::batch()` batches with their progress and failed jobs, which you may retry together. Batches need the `job_batches` table (`php laragram make:queue-batches-table`).
+- **Queue Metrics** — throughput and runtime per job class and per queue over time.
+- **Monitored Tags** — the tags you follow (see below).
+
+</div>
+
+The metrics come from snapshots Sentinel's scheduler takes every five minutes (`sentinel:queue:snapshot`), so make sure the scheduler runs. Turn it off with `SENTINEL_QUEUE_SNAPSHOTS=false` to schedule the command yourself. How long jobs are kept is set in minutes by `sentinel.queue.trim`.
+
+<a name="queue-tags"></a>
+### Tags and Monitoring
+
+Every job is tagged with the Eloquent models it carries, such as `App\Models\User:42`. Add your own tags with a `tags` method; for a Telegram bot, the chat a job works for is usually the most useful one:
+
+```php
+class SendDailyDigest implements ShouldQueue
+{
+    public function __construct(public int $chatId) {}
+
+    public function tags(): array
+    {
+        return ['chat:'.$this->chatId, 'digest'];
+    }
+}
+```
+
+Recent jobs are trimmed after an hour. To keep every job of a chat, a user or a model — completed or failed — monitor its tag from the **Monitored Tags** page. Monitored jobs are kept for `sentinel.queue.trim.monitored` minutes.
+
+<a name="silenced-jobs"></a>
+### Silenced Jobs
+
+Jobs that run constantly and are not worth looking at can be kept out of the completed list. List their classes or tags in `sentinel.queue.silenced` and `sentinel.queue.silenced_tags`, or implement the `LaraGram\Sentinel\Queue\Contracts\Silenced` interface on the job. Silenced jobs are still listed on the **Silenced** tab, and they still fail loudly.
+
+<a name="long-wait-alerts"></a>
+### Long Wait Alerts
+
+When a queue waits longer than its threshold in `sentinel.queue.waits` (seconds, keyed by `connection:queue`), Sentinel sends a [Telegram alert](#telegram-alerts):
+
+```php
+'waits' => [
+    'redis:default' => 60,
+    'redis:broadcasts' => 600,
+],
+```
+
+Set a queue to `0` to never alert on it. Turn these alerts off with `sentinel.alerts.on.long_waits`.
+
 <a name="watchers"></a>
 ## Watchers
 
@@ -347,7 +513,7 @@ Sentinel::metric('payment', $plan, $amount, ['count', 'sum']);
 <a name="telegram-alerts"></a>
 ## Telegram Alerts
 
-Sentinel can message you on Telegram when something needs attention: an exception was thrown, the webhook started failing, updates are piling up, a job failed, or Telegram flood-limited the bot.
+Sentinel can message you on Telegram when something needs attention: an exception was thrown, the webhook started failing, updates are piling up, a job failed, a queue is waiting too long, or Telegram flood-limited the bot.
 
 ```ini
 SENTINEL_ALERTS=true
