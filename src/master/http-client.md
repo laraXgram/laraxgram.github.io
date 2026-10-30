@@ -67,7 +67,7 @@ The HTTP client also allows you to construct request URLs using the [URI templat
 
 ```php
 Http::withUrlParameters([
-    'endpoint' => 'https://laravel.com',
+    'endpoint' => 'https://example.com',
     'page' => 'docs',
     'version' => '13.x',
     'topic' => 'validation',
@@ -207,10 +207,10 @@ You may specify basic and digest authentication credentials using the `withBasic
 
 ```php
 // Basic authentication...
-$response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(/* ... */);
+$response = Http::withBasicAuth('taylor@example.com', 'secret')->post(/* ... */);
 
 // Digest authentication...
-$response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(/* ... */);
+$response = Http::withDigestAuth('taylor@example.com', 'secret')->post(/* ... */);
 ```
 
 <a name="bearer-tokens"></a>
@@ -545,9 +545,9 @@ $headers = [
 ];
 
 $responses = Http::pool(fn (Pool $pool) => [
-    $pool->withHeaders($headers)->get('http://laravel.test/test'),
-    $pool->withHeaders($headers)->get('http://laravel.test/test'),
-    $pool->withHeaders($headers)->get('http://laravel.test/test'),
+    $pool->withHeaders($headers)->get('http://example.test/test'),
+    $pool->withHeaders($headers)->get('http://example.test/test'),
+    $pool->withHeaders($headers)->get('http://example.test/test'),
 ]);
 ```
 
@@ -862,12 +862,12 @@ You may use the `recorded` method to gather all requests and their corresponding
 
 ```php
 Http::fake([
-    'https://laravel.com' => Http::response(status: 500),
-    'https://nova.laravel.com/' => Http::response(),
+    'https://example.com' => Http::response(status: 500),
+    'https://api.example.com/' => Http::response(),
 ]);
 
-Http::get('https://laravel.com');
-Http::get('https://nova.laravel.com/');
+Http::get('https://example.com');
+Http::get('https://api.example.com/');
 
 $recorded = Http::recorded();
 
@@ -881,15 +881,15 @@ use LaraGram\Http\Client\Request;
 use LaraGram\Http\Client\Response;
 
 Http::fake([
-    'https://laravel.com' => Http::response(status: 500),
-    'https://nova.laravel.com/' => Http::response(),
+    'https://example.com' => Http::response(status: 500),
+    'https://api.example.com/' => Http::response(),
 ]);
 
-Http::get('https://laravel.com');
-Http::get('https://nova.laravel.com/');
+Http::get('https://example.com');
+Http::get('https://api.example.com/');
 
 $recorded = Http::recorded(function (Request $request, Response $response) {
-    return $request->url() !== 'https://laravel.com' &&
+    return $request->url() !== 'https://example.com' &&
            $response->successful();
 });
 ```
@@ -909,10 +909,10 @@ Http::fake([
 ]);
 
 // An "ok" response is returned...
-Http::get('https://github.com/laravel/framework');
+Http::get('https://github.com/laraxgram/core');
 
 // An exception is thrown...
-Http::get('https://laravel.com');
+Http::get('https://example.com');
 ```
 
 Sometimes, you may wish to prevent most stray requests while still allowing specific requests to execute. To accomplish this, you may pass an array of URL patterns to the `allowStrayRequests` method. Any request matching one of the given patterns will be allowed, while all other requests will continue to throw an exception:
@@ -930,7 +930,7 @@ Http::allowStrayRequests([
 Http::get('http://127.0.0.1:5000/generate');
 
 // An exception is thrown...
-Http::get('https://laravel.com');
+Http::get('https://example.com');
 ```
 
 <a name="events"></a>

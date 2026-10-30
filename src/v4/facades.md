@@ -199,44 +199,44 @@ Below you will find every facade and its underlying class. This is a useful tool
 
 | Facade                | Class                                                                                                                                 | Service Container Binding |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
-| App                   | [LaraGram\Foundation\Application](https://api.laragram.com/LaraGram/Foundation/Application.html)                     | `app`                     |
-| Commander             | [LaraGram\Contracts\Console\Kernel](https://api.laragram.com/LaraGram/Contracts/Console/Kernel.html)                 | `laragram`                |
-| Auth                  | [LaraGram\Auth\AuthManager](https://api.laragram.com/LaraGram/Auth/AuthManager.html)                                 | `auth`                    |
-| Bot                   | [LaraGram\Listening\Listener](https://api.laragram.com/LaraGram/Listening/Listener.html)                             | `listener`                |
-| Bus                   | [LaraGram\Contracts\Bus\Dispatcher](https://api.laragram.com/LaraGram/Contracts/Bus/Dispatcher.html)                 | &nbsp;                    |
-| Cache (Instance)      | [LaraGram\Cache\Repository](https://api.laragram.com/LaraGram/Cache/Repository.html)                                 | `cache.store`             |
-| Cache                 | [LaraGram\Cache\CacheManager](https://api.laragram.com/LaraGram/Cache/CacheManager.html)                             | `cache`                   |
-| Config                | [LaraGram\Config\Repository](https://api.laragram.com/LaraGram/Config/Repository.html)                               | `config`                  |
-| Context               | [LaraGram\Log\Context\Repository](https://api.laragram.com/LaraGram/Log/Context/Repository.html)                     | &nbsp;                    |
-| Crypt                 | [LaraGram\Encryption\Encrypter](https://api.laragram.com/LaraGram/Encryption/Encrypter.html)                         | `encrypter`               |
-| Date                  | [LaraGram\Support\DateFactory](https://api.laragram.com/LaraGram/Support/DateFactory.html)                           | `date`                    |
-| DB (Instance)         | [LaraGram\Database\Connection](https://api.laragram.com/LaraGram/Database/Connection.html)                           | `db.connection`           |
-| DB                    | [LaraGram\Database\DatabaseManager](https://api.laragram.com/LaraGram/Database/DatabaseManager.html)                 | `db`                      |
-| Event                 | [LaraGram\Events\Dispatcher](https://api.laragram.com/LaraGram/Events/Dispatcher.html)                               | `events`                  |
-| Exceptions (Instance) | [LaraGram\Contracts\Debug\ExceptionHandler](https://api.laragram.com/LaraGram/Contracts/Debug/ExceptionHandler.html) | &nbsp;                    |
-| Exceptions            | [LaraGram\Foundation\Exceptions\Handler](https://api.laragram.com/LaraGram/Foundation/Exceptions/Handler.html)       | &nbsp;                    |
-| File                  | [LaraGram\Filesystem\Filesystem](https://api.laragram.com/LaraGram/Filesystem/Filesystem.html)                       | `files`                   |
-| Gate                  | [LaraGram\Contracts\Auth\Access\Gate](https://api.laragram.com/LaraGram/Contracts/Auth/Access/Gate.html)             | &nbsp;                    |
-| Hash                  | [LaraGram\Contracts\Hashing\Hasher](https://api.laragram.com/LaraGram/Contracts/Hashing/Hasher.html)                 | `hash`                    |
-| Image                 | [LaraGram\Image\ImageManager](https://api.laragram.com/LaraGram/Image/ImageManager.html)                             | `image`                   |
-| Lang                  | [LaraGram\Translation\Translator](https://api.laragram.com/LaraGram/Translation/Translator.html)                     | `translator`              |
-| Log                   | [LaraGram\Log\LogManager](https://api.laragram.com/LaraGram/Log/LogManager.html)                                     | `log`                     |
-| Pipeline (Instance)   | [LaraGram\Pipeline\Pipeline](https://api.laragram.com/LaraGram/Pipeline/Pipeline.html)                               | &nbsp;                    |
-| Process               | [LaraGram\Process\Factory](https://api.laragram.com/LaraGram/Process/Factory.html)                                   | &nbsp;                    |
-| Queue (Base Class)    | [LaraGram\Queue\Queue](https://api.laragram.com/LaraGram/Queue/Queue.html)                                           | &nbsp;                    |
-| Queue (Instance)      | [LaraGram\Contracts\Queue\Queue](https://api.laragram.com/LaraGram/Contracts/Queue/Queue.html)                       | `queue.connection`        |
-| Queue                 | [LaraGram\Queue\QueueManager](https://api.laragram.com/LaraGram/Queue/QueueManager.html)                             | `queue`                   |
-| RateLimiter           | [LaraGram\Cache\RateLimiter](https://api.laragram.com/LaraGram/Cache/RateLimiter.html)                               | &nbsp;                    |
-| Redirect              | [LaraGram\Listening\Redirector](https://api.laragram.com/LaraGram/Listening/Redirector.html)                         | `redirect`                |
-| Redis (Instance)      | [LaraGram\Redis\Connections\Connection](https://api.laragram.com/LaraGram/Redis/Connections/Connection.html)         | `redis.connection`        |
-| Redis                 | [LaraGram\Redis\RedisManager](https://api.laragram.com/LaraGram/Redis/RedisManager.html)                             | `redis`                   |
-| Request               | [LaraGram\Request\Request](https://api.laragram.com/LaraGram/Http/Request.html)                                      | `request`                 |
-| Schedule              | [LaraGram\Console\Scheduling\Schedule](https://api.laragram.com/LaraGram/Console/Scheduling/Schedule.html)           | &nbsp;                    |
-| Schema                | [LaraGram\Database\Schema\Builder](https://api.laragram.com/LaraGram/Database/Schema/Builder.html)                   | &nbsp;                    |
-| Storage (Instance)    | [LaraGram\Contracts\Filesystem\Filesystem](https://api.laragram.com/LaraGram/Contracts/Filesystem/Filesystem.html)   | `filesystem.disk`         |
-| Storage               | [LaraGram\Filesystem\FilesystemManager](https://api.laragram.com/LaraGram/Filesystem/FilesystemManager.html)         | `filesystem`              |
-| Validator (Instance)  | [LaraGram\Validation\Validator](https://api.laragram.com/LaraGram/Validation/Validator.html)                         | &nbsp;                    |
-| Validator             | [LaraGram\Validation\Factory](https://api.laragram.com/LaraGram/Validation/Factory.html)                             | `validator`               |
-| Template              | [LaraGram\Template\Factory](https://api.laragram.com/LaraGram/View/Factory.html)                                     | `template`                |
+| App                   | [LaraGram\Foundation\Application](https://github.com/laraxgram/core/blob/4.x.x/src/Foundation/Application.php)                     | `app`                     |
+| Commander             | [LaraGram\Contracts\Console\Kernel](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Console/Kernel.php)                 | `laragram`                |
+| Auth                  | [LaraGram\Auth\AuthManager](https://github.com/laraxgram/core/blob/4.x.x/src/Auth/AuthManager.php)                                 | `auth`                    |
+| Bot                   | [LaraGram\Listening\Listener](https://github.com/laraxgram/core/blob/4.x.x/src/Listening/Listener.php)                             | `listener`                |
+| Bus                   | [LaraGram\Contracts\Bus\Dispatcher](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Bus/Dispatcher.php)                 | &nbsp;                    |
+| Cache (Instance)      | [LaraGram\Cache\Repository](https://github.com/laraxgram/core/blob/4.x.x/src/Cache/Repository.php)                                 | `cache.store`             |
+| Cache                 | [LaraGram\Cache\CacheManager](https://github.com/laraxgram/core/blob/4.x.x/src/Cache/CacheManager.php)                             | `cache`                   |
+| Config                | [LaraGram\Config\Repository](https://github.com/laraxgram/core/blob/4.x.x/src/Config/Repository.php)                               | `config`                  |
+| Context               | [LaraGram\Log\Context\Repository](https://github.com/laraxgram/core/blob/4.x.x/src/Log/Context/Repository.php)                     | &nbsp;                    |
+| Crypt                 | [LaraGram\Encryption\Encrypter](https://github.com/laraxgram/core/blob/4.x.x/src/Encryption/Encrypter.php)                         | `encrypter`               |
+| Date                  | [LaraGram\Support\DateFactory](https://github.com/laraxgram/core/blob/4.x.x/src/Support/DateFactory.php)                           | `date`                    |
+| DB (Instance)         | [LaraGram\Database\Connection](https://github.com/laraxgram/core/blob/4.x.x/src/Database/Connection.php)                           | `db.connection`           |
+| DB                    | [LaraGram\Database\DatabaseManager](https://github.com/laraxgram/core/blob/4.x.x/src/Database/DatabaseManager.php)                 | `db`                      |
+| Event                 | [LaraGram\Events\Dispatcher](https://github.com/laraxgram/core/blob/4.x.x/src/Events/Dispatcher.php)                               | `events`                  |
+| Exceptions (Instance) | [LaraGram\Contracts\Debug\ExceptionHandler](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Debug/ExceptionHandler.php) | &nbsp;                    |
+| Exceptions            | [LaraGram\Foundation\Exceptions\Handler](https://github.com/laraxgram/core/blob/4.x.x/src/Foundation/Exceptions/Handler.php)       | &nbsp;                    |
+| File                  | [LaraGram\Filesystem\Filesystem](https://github.com/laraxgram/core/blob/4.x.x/src/Filesystem/Filesystem.php)                       | `files`                   |
+| Gate                  | [LaraGram\Contracts\Auth\Access\Gate](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Auth/Access/Gate.php)             | &nbsp;                    |
+| Hash                  | [LaraGram\Contracts\Hashing\Hasher](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Hashing/Hasher.php)                 | `hash`                    |
+| Image                 | [LaraGram\Image\ImageManager](https://github.com/laraxgram/core/blob/4.x.x/src/Image/ImageManager.php)                             | `image`                   |
+| Lang                  | [LaraGram\Translation\Translator](https://github.com/laraxgram/core/blob/4.x.x/src/Translation/Translator.php)                     | `translator`              |
+| Log                   | [LaraGram\Log\LogManager](https://github.com/laraxgram/core/blob/4.x.x/src/Log/LogManager.php)                                     | `log`                     |
+| Pipeline (Instance)   | [LaraGram\Pipeline\Pipeline](https://github.com/laraxgram/core/blob/4.x.x/src/Pipeline/Pipeline.php)                               | &nbsp;                    |
+| Process               | [LaraGram\Process\Factory](https://github.com/laraxgram/core/blob/4.x.x/src/Process/Factory.php)                                   | &nbsp;                    |
+| Queue (Base Class)    | [LaraGram\Queue\Queue](https://github.com/laraxgram/core/blob/4.x.x/src/Queue/Queue.php)                                           | &nbsp;                    |
+| Queue (Instance)      | [LaraGram\Contracts\Queue\Queue](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Queue/Queue.php)                       | `queue.connection`        |
+| Queue                 | [LaraGram\Queue\QueueManager](https://github.com/laraxgram/core/blob/4.x.x/src/Queue/QueueManager.php)                             | `queue`                   |
+| RateLimiter           | [LaraGram\Cache\RateLimiter](https://github.com/laraxgram/core/blob/4.x.x/src/Cache/RateLimiter.php)                               | &nbsp;                    |
+| Redirect              | [LaraGram\Listening\Redirector](https://github.com/laraxgram/core/blob/4.x.x/src/Listening/Redirector.php)                         | `redirect`                |
+| Redis (Instance)      | [LaraGram\Redis\Connections\Connection](https://github.com/laraxgram/core/blob/4.x.x/src/Redis/Connections/Connection.php)         | `redis.connection`        |
+| Redis                 | [LaraGram\Redis\RedisManager](https://github.com/laraxgram/core/blob/4.x.x/src/Redis/RedisManager.php)                             | `redis`                   |
+| Request               | [LaraGram\Request\Request](https://github.com/laraxgram/core/blob/4.x.x/src/Request/Request.php)                                      | `request`                 |
+| Schedule              | [LaraGram\Console\Scheduling\Schedule](https://github.com/laraxgram/core/blob/4.x.x/src/Console/Scheduling/Schedule.php)           | &nbsp;                    |
+| Schema                | [LaraGram\Database\Schema\Builder](https://github.com/laraxgram/core/blob/4.x.x/src/Database/Schema/Builder.php)                   | &nbsp;                    |
+| Storage (Instance)    | [LaraGram\Contracts\Filesystem\Filesystem](https://github.com/laraxgram/core/blob/4.x.x/src/Contracts/Filesystem/Filesystem.php)   | `filesystem.disk`         |
+| Storage               | [LaraGram\Filesystem\FilesystemManager](https://github.com/laraxgram/core/blob/4.x.x/src/Filesystem/FilesystemManager.php)         | `filesystem`              |
+| Validator (Instance)  | [LaraGram\Validation\Validator](https://github.com/laraxgram/core/blob/4.x.x/src/Validation/Validator.php)                         | &nbsp;                    |
+| Validator             | [LaraGram\Validation\Factory](https://github.com/laraxgram/core/blob/4.x.x/src/Validation/Factory.php)                             | `validator`               |
+| Template              | [LaraGram\Template\Factory](https://github.com/laraxgram/core/blob/4.x.x/src/Template/Factory.php)                                     | `template`                |
 
 </div>

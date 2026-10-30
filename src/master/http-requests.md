@@ -816,7 +816,7 @@ To enable the `TrustHosts` middleware, you should invoke the `trustHosts` middle
 
 ```php
 ->withMiddleware(function (Middleware $middleware): void {
-    $middleware->trustHosts(at: ['^laravel\.test$']);
+    $middleware->trustHosts(at: ['^example\.test$']);
 })
 ```
 
@@ -824,7 +824,7 @@ By default, requests coming from subdomains of the application's URL are also au
 
 ```php
 ->withMiddleware(function (Middleware $middleware): void {
-    $middleware->trustHosts(at: ['^laravel\.test$'], subdomains: false);
+    $middleware->trustHosts(at: ['^example\.test$'], subdomains: false);
 })
 ```
 

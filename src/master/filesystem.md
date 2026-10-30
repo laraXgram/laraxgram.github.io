@@ -57,13 +57,9 @@ php laragram storage:unlink
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
 
-The `local`, `ftp` and `scoped` drivers work out of the box. Two drivers talk to an outside service through its own SDK, which must be installed before they may be used:
+The `local`, `ftp`, `s3` and `scoped` drivers work out of the box: LaraGram talks to Amazon S3 and S3 compatible services through its own native client. The SFTP driver requires the Flysystem SFTP package to be installed before it may be used:
 
 ```shell
-# Amazon S3 and S3 compatible services
-composer require aws/aws-sdk-php
-
-# SFTP
 composer require league/flysystem-sftp-v3
 ```
 

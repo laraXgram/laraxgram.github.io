@@ -316,12 +316,12 @@ It runs in the foreground, so in production keep it alive with Supervisor (or an
 ```ini
 [program:sentinel-queue]
 process_name=%(program_name)s
-command=php /home/forge/app.com/laragram sentinel:queue
+command=php /home/laragram/app.com/laragram sentinel:queue
 autostart=true
 autorestart=true
-user=forge
+user=laragram
 redirect_stderr=true
-stdout_logfile=/home/forge/app.com/storage/logs/sentinel-queue.log
+stdout_logfile=/home/laragram/app.com/storage/logs/sentinel-queue.log
 stopwaitsecs=3600
 ```
 

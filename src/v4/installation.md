@@ -6,9 +6,9 @@
 LaraGram is a professional framework for building advanced Telegram bots, inspired by the powerful Laravel framework.
 With its clean syntax and structured design, LaraGram helps you create smart and scalable bots — without getting lost in the technical clutter.
 
-If you're familiar with LaraGram, you'll feel right at home with Laravel — and vice versa. The two are so closely aligned that learning one makes working with the other a breeze. Now’s the time to focus on building something incredible. Let us handle the details.
+If you're familiar with Laravel, you'll feel right at home with LaraGram — and vice versa. The two are so closely aligned that learning one makes working with the other a breeze. Now’s the time to focus on building something incredible. Let us handle the details.
 
-LaraGram strives to provide an amazing developer experience while providing powerful features such as thorough dependency injection, an expressive database abstraction layer, queues and scheduled jobs, unit and integration testing, and more.
+LaraGram strives to provide an amazing developer experience while providing powerful features such as thorough dependency injection, an expressive database abstraction layer, queues and scheduled jobs, MTProto clients and Telegram Mini Apps, and more.
 
 Whether you are new to PHP bot frameworks or have years of experience, LaraGram is a framework that can grow with you. We'll help you take your first steps as a bot developer or give you a boost as you take your expertise to the next level. We can't wait to see what you build.
 
@@ -35,27 +35,9 @@ LaraGram is incredibly scalable. Thanks to the scaling-friendly nature of PHP an
 
 Before creating your first LaraGram application, make sure that your local machine has [PHP](https://php.net), [Composer](https://getcomposer.org), and [the LaraGram installer](https://github.com/laraxgram/installer) installed.
 
-If you don't have PHP and Composer installed on your local machine, the following commands will install PHP, Composer, and the LaraGram installer on macOS, Windows, or Linux:
+LaraGram 4 requires PHP 8.3 or later. If you don't have PHP and Composer installed on your local machine, install PHP from [php.net](https://www.php.net/downloads.php) or your operating system's package manager, then install Composer by following the [Composer installation guide](https://getcomposer.org/download/).
 
-::: code-group
-
-```shell [macOS]
-/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
-```
-
-```shell [Windows PowerShell]
-# Run as administrator...
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))
-```
-
-```shell [Linux]
-/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.4)"
-```
-:::
-
-After running one of the commands above, you should restart your terminal session. To update PHP, Composer, and the LaraGram installer after installing them via `php.new`, you can re-run the command in your terminal.
-
-If you already have PHP and Composer installed, you may install the LaraGram installer via Composer:
+Once PHP and Composer are installed, you may install the LaraGram installer via Composer:
 
 ```shell
 composer global require laraxgram/installer

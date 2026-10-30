@@ -92,11 +92,7 @@ This table should also have a string partition key with a name that corresponds 
 
 Typically, DynamoDB will not proactively remove expired items from a table. Therefore, you should [enable Time to Live (TTL)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html) on the table. When configuring the table's TTL settings, you should set the TTL attribute name to `expires_at`.
 
-Next, install the AWS SDK so that your LaraGram application can communicate with DynamoDB:
-
-```shell
-composer require aws/aws-sdk-php
-```
+LaraGram communicates with DynamoDB through its own native client, so no additional package is required.
 
 In addition, you should ensure that values are provided for the DynamoDB cache store configuration options. Typically these options, such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, should be defined in your application's `.env` configuration file:
 
@@ -114,7 +110,7 @@ In addition, you should ensure that values are provided for the DynamoDB cache s
 <a name="mongodb"></a>
 #### MongoDB
 
-If you are using MongoDB, a `mongodb` cache driver is provided by the official `laraxgram/mongodb` package and can be configured using a `mongodb` database connection. MongoDB supports TTL indexes, which can be used to automatically clear expired cache items.
+If you are using MongoDB, a `mongodb` cache driver is provided by LaraGram's [`laraxgram/mongodb`](/v4/mongodb) package and can be configured using a `mongodb` database connection. MongoDB supports TTL indexes, which can be used to automatically clear expired cache items.
 
 For more information on configuring MongoDB, please refer to the MongoDB [Cache and Locks documentation](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/cache/).
 

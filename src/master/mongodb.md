@@ -19,7 +19,7 @@ composer require laraxgram/mongodb
 <a name="mongodb-driver"></a>
 ### MongoDB Driver
 
-To connect to a MongoDB database, the `mongodb` PHP extension is required. If you are developing locally using [LaraGram Herd](https://herd.laragram.com) or installed PHP via `php.new`, you already have this extension installed on your system. However, if you need to install the extension manually, you may do so via PECL:
+To connect to a MongoDB database, the `mongodb` PHP extension is required. You may install the extension via PECL:
 
 ```shell
 pecl install mongodb
@@ -87,4 +87,4 @@ Once your configuration is complete, you can use the `mongodb` package and datab
 - [Dispatch and process queued jobs](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/queues/) with the `mongodb` queue driver.
 - Most third party packages using a database connection or Eloquent can be used with MongoDB.
 
-To continue learning how to use MongoDB and LaraGram, refer to MongoDB's [Quick Start guide](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/quick-start/).
+The `laraxgram/mongodb` package is a rewrite of MongoDB's official Laravel integration for LaraGram and keeps its API, so the linked MongoDB guides apply to it as well. To continue learning how to use MongoDB and LaraGram, refer to MongoDB's [Quick Start guide](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/quick-start/).

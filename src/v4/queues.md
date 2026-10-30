@@ -97,9 +97,9 @@ The following dependencies are needed for the listed queue drivers. These depend
 <div class="content-list" markdown="1">
 
 - Redis: `predis/predis ~2.0` or phpredis PHP extension
-- Amazon SQS: `aws/aws-sdk-php`
+- Amazon SQS: no additional package (LaraGram includes a native SQS client)
 - Beanstalkd: `pda/pheanstalk ~5.0`
-- [MongoDB](https://www.mongodb.com/docs/drivers/php/laragram-mongodb/current/queues/): `laraxgram/laragram-mongodb`
+- [MongoDB](/v4/mongodb): `laraxgram/mongodb`
 
 </div>
 
@@ -2236,15 +2236,15 @@ Supervisor configuration files are typically stored in the `/etc/supervisor/conf
 ```ini
 [program:laragram-worker]
 process_name=%(program_name)s_%(process_num)02d
-command=php /home/forge/app.com/laragram queue:work sqs --sleep=3 --tries=3 --max-time=3600
+command=php /home/laragram/app.com/laragram queue:work sqs --sleep=3 --tries=3 --max-time=3600
 autostart=true
 autorestart=true
 stopasgroup=true
 killasgroup=true
-user=forge
+user=laragram
 numprocs=8
 redirect_stderr=true
-stdout_logfile=/home/forge/app.com/worker.log
+stdout_logfile=/home/laragram/app.com/worker.log
 stopwaitsecs=3600
 ```
 
@@ -2486,13 +2486,7 @@ The `file` driver needs no database at all, which suits a small bot on a single 
 
 Failures may also be stored in [DynamoDB](https://aws.amazon.com/dynamodb). Create the table yourself — named after the `table` option — with a string partition key named `application` and a string sort key named `uuid`. The `application` part holds your application's `name`, so one table may serve several applications.
 
-Install the AWS SDK:
-
-```shell
-composer require aws/aws-sdk-php
-```
-
-Then configure the driver with the credentials to authenticate with. The `database` option is not used by this driver:
+LaraGram communicates with DynamoDB through its own native client, so no additional package is required. Configure the driver with the credentials to authenticate with. The `database` option is not used by this driver:
 
 ```php
 'failed' => [

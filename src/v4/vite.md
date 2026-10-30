@@ -129,7 +129,7 @@ export default defineConfig({
 
 If you are unable to generate a trusted certificate for your system, you may install and configure the [@vitejs/plugin-basic-ssl plugin](https://github.com/vitejs/vite-plugin-basic-ssl). When using untrusted certificates, you will need to accept the certificate warning for Vite's development server in your browser by following the "Local" link in your console when running the `npm run dev` command.
 
-<a name="configuring-hmr-in-sail-on-wsl2"></a>
+<a name="configuring-hmr-in-armada-on-wsl2"></a>
 #### Running the Development Server in Armada on WSL2
 
 When running the Vite development server within [LaraGram Armada](/armada) on Windows Subsystem for Linux 2 (WSL2), you should add the following configuration to your `vite.config.js` file to ensure the browser can communicate with the development server:
@@ -223,7 +223,7 @@ npm run dev
 npm run build
 ```
 
-If you are running the development server in [Armada](/armada) on WSL2, you may need some [additional configuration](#configuring-hmr-in-sail-on-wsl2) options.
+If you are running the development server in [Armada](/armada) on WSL2, you may need some [additional configuration](#configuring-hmr-in-armada-on-wsl2) options.
 
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
@@ -771,55 +771,6 @@ You may access injected environment variables via the `import.meta.env` object:
 import.meta.env.VITE_SENTRY_DSN_PUBLIC
 ```
 
-<a name="disabling-vite-in-tests"></a>
-## Disabling Vite in Tests
-
-LaraGram's Vite integration will attempt to resolve your assets while running your tests, which requires you to either run the Vite development server or build your assets.
-
-If you would prefer to mock Vite during testing, you may call the `withoutVite` method, which is available for any tests that extend LaraGram's `TestCase` class:
-
-```php tab=Pest
-test('without vite example', function () {
-    $this->withoutVite();
-
-    // ...
-});
-```
-
-```php tab=PHPUnit
-use Tests\TestCase;
-
-class ExampleTest extends TestCase
-{
-    public function test_without_vite_example(): void
-    {
-        $this->withoutVite();
-
-        // ...
-    }
-}
-```
-
-If you would like to disable Vite for all tests, you may call the `withoutVite` method from the `setUp` method on your base `TestCase` class:
-
-```php
-<?php
-
-namespace Tests;
-
-use LaraGram\Foundation\Testing\TestCase as BaseTestCase;
-
-abstract class TestCase extends BaseTestCase
-{
-    protected function setUp(): void// [tl! add:start]
-    {
-        parent::setUp();
-
-        $this->withoutVite();
-    }// [tl! add:end]
-}
-```
-
 <a name="ssr"></a>
 ## Server-Side Rendering (SSR)
 
@@ -856,7 +807,7 @@ npm run build
 node bootstrap/ssr/ssr.js
 ```
 
-If you are using SSR with Luna, you may instead use the `luna:start-ssr` Artisan command to start the SSR server:
+If you are using SSR with Luna, you may instead use the `luna:start-ssr` Commander command to start the SSR server:
 
 ```shell
 php laragram luna:start-ssr

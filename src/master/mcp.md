@@ -17,7 +17,7 @@ composer require laraxgram/mcp
 <a name="publishing-routes"></a>
 ### Publishing Routes
 
-After installing LaraGram MCP, execute the `vendor:publish` Artisan command to publish the `routes/ai.php` file where you will define your MCP servers:
+After installing LaraGram MCP, execute the `vendor:publish` Commander command to publish the `routes/ai.php` file where you will define your MCP servers:
 
 ```shell
 php laragram vendor:publish --tag=ai-routes
@@ -28,7 +28,7 @@ This command creates the `routes/ai.php` file in your application's `routes` dir
 <a name="creating-servers"></a>
 ## Creating Servers
 
-You can create an MCP server using the `make:mcp-server` Artisan command. Servers act as the central communication point that exposes MCP capabilities like tools, resources, and prompts to AI clients:
+You can create an MCP server using the `make:mcp-server` Commander command. Servers act as the central communication point that exposes MCP capabilities like tools, resources, and prompts to AI clients:
 
 ```shell
 php laragram make:mcp-server WeatherServer
@@ -107,7 +107,7 @@ Mcp::web('/mcp/weather', WeatherServer::class)
 <a name="local-servers"></a>
 ### Local Servers
 
-Local servers run as Artisan commands, perfect for building local AI assistant integrations like [LaraGram Boost](/docs/{{version}}/installation#installing-LaraGram-boost). Register a local server using the `local` method:
+Local servers run as Commander commands, perfect for building local AI assistant integrations like [LaraGram Brain](/v4/brain). Register a local server using the `local` method:
 
 ```php
 use App\Mcp\Servers\WeatherServer;
@@ -116,7 +116,7 @@ use LaraGram\Mcp\Facades\Mcp;
 Mcp::local('weather', WeatherServer::class);
 ```
 
-Once registered, you should not typically need to manually run the `mcp:start` Artisan command yourself. Instead, configure your MCP client (AI agent) to start the server or use the [MCP Inspector](#mcp-inspector).
+Once registered, you should not typically need to manually run the `mcp:start` Commander command yourself. Instead, configure your MCP client (AI agent) to start the server or use the [MCP Inspector](#mcp-inspector).
 
 <a name="cache-hints"></a>
 ### Cache Hints
@@ -170,7 +170,7 @@ Tools enable your server to expose functionality that AI clients can call. They 
 
 namespace App\Mcp\Tools;
 
-use Illuminate\Contracts\JsonSchema\JsonSchema;
+use LaraGram\Contracts\JsonSchema\JsonSchema;
 use LaraGram\Mcp\Request;
 use LaraGram\Mcp\Response;
 use LaraGram\Mcp\Server\Attributes\Description;
@@ -194,7 +194,7 @@ class CurrentWeatherTool extends Tool
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\Types\Type>
+     * @return array<string, \LaraGram\JsonSchema\Types\Type>
      */
     public function schema(JsonSchema $schema): array
     {
@@ -210,7 +210,7 @@ class CurrentWeatherTool extends Tool
 <a name="creating-tools"></a>
 ### Creating Tools
 
-To create a tool, run the `make:mcp-tool` Artisan command:
+To create a tool, run the `make:mcp-tool` Commander command:
 
 ```shell
 php laragram make:mcp-tool CurrentWeatherTool
@@ -314,14 +314,14 @@ class CurrentWeatherTool extends Tool
 <a name="tool-input-schemas"></a>
 ### Tool Input Schemas
 
-Tools can define input schemas to specify what arguments they accept from AI clients. Use LaraGram's `Illuminate\Contracts\JsonSchema\JsonSchema` builder to define your tool's input requirements:
+Tools can define input schemas to specify what arguments they accept from AI clients. Use LaraGram's `LaraGram\Contracts\JsonSchema\JsonSchema` builder to define your tool's input requirements:
 
 ```php
 <?php
 
 namespace App\Mcp\Tools;
 
-use Illuminate\Contracts\JsonSchema\JsonSchema;
+use LaraGram\Contracts\JsonSchema\JsonSchema;
 use LaraGram\Mcp\Server\Tool;
 
 class CurrentWeatherTool extends Tool
@@ -329,7 +329,7 @@ class CurrentWeatherTool extends Tool
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\Types\Type>
+     * @return array<string, \LaraGram\JsonSchema\Types\Type>
      */
     public function schema(JsonSchema $schema): array
     {
@@ -357,7 +357,7 @@ Tools can define [output schemas](https://modelcontextprotocol.io/specification/
 
 namespace App\Mcp\Tools;
 
-use Illuminate\Contracts\JsonSchema\JsonSchema;
+use LaraGram\Contracts\JsonSchema\JsonSchema;
 use LaraGram\Mcp\Server\Tool;
 
 class CurrentWeatherTool extends Tool
@@ -365,7 +365,7 @@ class CurrentWeatherTool extends Tool
     /**
      * Get the tool's output schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\Types\Type>
+     * @return array<string, \LaraGram\JsonSchema\Types\Type>
      */
     public function outputSchema(JsonSchema $schema): array
     {
@@ -391,7 +391,7 @@ class CurrentWeatherTool extends Tool
 
 JSON Schema definitions provide a basic structure for tool arguments, but you may also want to enforce more complex validation rules.
 
-LaraGram MCP integrates seamlessly with LaraGram's [validation features](/docs/{{version}}/validation). You may validate incoming tool arguments within your tool's `handle` method:
+LaraGram MCP integrates seamlessly with LaraGram's [validation features](/v4/validation). You may validate incoming tool arguments within your tool's `handle` method:
 
 ```php
 <?php
@@ -434,7 +434,7 @@ $validated = $request->validate([
 <a name="tool-dependency-injection"></a>
 #### Tool Dependency Injection
 
-The LaraGram [service container](/docs/{{version}}/container) is used to resolve all tools. As a result, you are able to type-hint any dependencies your tool may need in its constructor. The declared dependencies will automatically be resolved and injected into the tool instance:
+The LaraGram [service container](/v4/container) is used to resolve all tools. As a result, you are able to type-hint any dependencies your tool may need in its constructor. The declared dependencies will automatically be resolved and injected into the tool instance:
 
 ```php
 <?php
@@ -832,7 +832,7 @@ public function handle(Request $request): Response
 <a name="creating-prompts"></a>
 ### Creating Prompts
 
-To create a prompt, run the `make:mcp-prompt` Artisan command:
+To create a prompt, run the `make:mcp-prompt` Commander command:
 
 ```shell
 php laragram make:mcp-prompt DescribeWeatherPrompt
@@ -931,7 +931,7 @@ class DescribeWeatherPrompt extends Prompt
 
 Prompt arguments are automatically validated based on their definition, but you may also want to enforce more complex validation rules.
 
-LaraGram MCP integrates seamlessly with LaraGram's [validation features](/docs/{{version}}/validation). You may validate incoming prompt arguments within your prompt's `handle` method:
+LaraGram MCP integrates seamlessly with LaraGram's [validation features](/v4/validation). You may validate incoming prompt arguments within your prompt's `handle` method:
 
 ```php
 <?php
@@ -973,7 +973,7 @@ $validated = $request->validate([
 <a name="prompt-dependency-injection"></a>
 ### Prompt Dependency Injection
 
-The LaraGram [service container](/docs/{{version}}/container) is used to resolve all prompts. As a result, you are able to type-hint any dependencies your prompt may need in its constructor. The declared dependencies will automatically be resolved and injected into the prompt instance:
+The LaraGram [service container](/v4/container) is used to resolve all prompts. As a result, you are able to type-hint any dependencies your prompt may need in its constructor. The declared dependencies will automatically be resolved and injected into the prompt instance:
 
 ```php
 <?php
@@ -1096,7 +1096,7 @@ You can use the `asAssistant()` method to indicate that a response message shoul
 <a name="creating-resources"></a>
 ## Creating Resources
 
-To create a resource, run the `make:mcp-resource` Artisan command:
+To create a resource, run the `make:mcp-resource` Commander command:
 
 ```shell
 php laragram make:mcp-resource WeatherGuidelinesResource
@@ -1316,7 +1316,7 @@ class WeatherGuidelinesResource extends Resource
 <a name="resource-dependency-injection"></a>
 ### Resource Dependency Injection
 
-The LaraGram [service container](/docs/{{version}}/container) is used to resolve all resources. As a result, you are able to type-hint any dependencies your resource may need in its constructor. The declared dependencies will automatically be resolved and injected into the resource instance:
+The LaraGram [service container](/v4/container) is used to resolve all resources. As a result, you are able to type-hint any dependencies your resource may need in its constructor. The declared dependencies will automatically be resolved and injected into the resource instance:
 
 ```php
 <?php
@@ -1518,7 +1518,7 @@ An MCP app consists of two parts working together:
 <a name="creating-app-resources"></a>
 ### Creating App Resources
 
-You may create an app resource using the `make:mcp-app-resource` Artisan command:
+You may create an app resource using the `make:mcp-app-resource` Commander command:
 
 ```shell
 php laragram make:mcp-app-resource WeatherDashboardApp
@@ -1653,10 +1653,10 @@ The `Library` enum includes pre-configured CDN scripts for common front-end libr
 
 For computed or dynamic configuration, override the `appMeta` method on your resource using the fluent `AppMeta`, `Csp`, and `Permissions` builders from the `LaraGram\Mcp\Server\Ui` namespace.
 
-<a name="building-apps-with-boost"></a>
-### Building Apps With Boost
+<a name="building-apps-with-brain"></a>
+### Building Apps With Brain
 
-LaraGram MCP includes a dedicated [Boost](/docs/{{version}}/boost) skill reference for building MCP Apps. If you have [LaraGram Boost](/docs/{{version}}/boost) installed, your AI coding agent can invoke the `mcp-development` skill and ask it to scaffold an app resource, Blade view, and linked tool for you.
+LaraGram MCP includes a dedicated [Brain](/v4/brain) skill reference for building MCP Apps. If you have [LaraGram Brain](/v4/brain) installed, your AI coding agent can invoke the `mcp-development` skill and ask it to scaffold an app resource, Blade view, and linked tool for you.
 
 For the complete protocol reference, including the full client-side API and schema details, see the official [MCP Apps documentation](https://modelcontextprotocol.io/extensions/apps/overview).
 
@@ -1839,7 +1839,6 @@ OAuth 2.1 is the documented authentication mechanism in the Model Context Protoc
 
 If your users only connect a few MCP clients that accept a bearer token, personal access tokens are simpler: both work with the same `auth:citadel` middleware, so you can add OAuth later.
 
-<a name="sanctum"></a>
 <a name="tokens"></a>
 ### Personal Access Tokens
 
@@ -1864,7 +1863,7 @@ If your application issues its own custom API tokens, you may authenticate your 
 <a name="authorization"></a>
 ## Authorization
 
-You may access the currently authenticated user via the `$request->user()` method, allowing you to perform [authorization checks](/docs/{{version}}/authorization) within your MCP tools and resources:
+You may access the currently authenticated user via the `$request->user()` method, allowing you to perform [authorization checks](/v4/authorization) within your MCP tools and resources:
 
 ```php
 use LaraGram\Mcp\Request;
@@ -1886,7 +1885,7 @@ public function handle(Request $request): Response
 <a name="client"></a>
 ## MCP Client
 
-In addition to building servers, LaraGram MCP includes a client for connecting to other MCP servers, whether first-party or third-party. The client lets your application discover and call the tools exposed by an MCP server, which is especially useful for giving your [AI agents](/docs/{{version}}/ai-sdk#mcp-tools) access to capabilities provided by external MCP servers.
+In addition to building servers, LaraGram MCP includes a client for connecting to other MCP servers, whether first-party or third-party. The client lets your application discover and call the tools exposed by an MCP server, which is especially useful for giving your [AI agents](/v4/ai-sdk#mcp-tools) access to capabilities provided by external MCP servers.
 
 <a name="client-connecting"></a>
 ### Connecting to Servers
@@ -1954,7 +1953,7 @@ Named clients are resolved once per request and automatically disconnected at th
 To connect to a web MCP server that is protected by a bearer token, use the `withToken` method. You may pass a token string or a closure that lazily resolves the token:
 
 ```php
-use Illuminate\Support\Facades\Auth;
+use LaraGram\Support\Facades\Auth;
 use LaraGram\Mcp\Client;
 
 $client = Client::web('https://mcp.example.com')->withToken($token);
@@ -1984,7 +1983,7 @@ The authorization server must advertise support for the `S256` PKCE code challen
 Next, register the OAuth routes for the named client in your `routes/ai.php` file using the `oAuthRoutesFor` method. The closure you provide receives the client name and resulting `TokenSet` after the authorization code has been exchanged for an access token:
 
 ```php
-use Illuminate\Support\Facades\Auth;
+use LaraGram\Support\Facades\Auth;
 use LaraGram\Mcp\Client\OAuth\TokenSet;
 use LaraGram\Mcp\Facades\Mcp;
 
@@ -2075,7 +2074,7 @@ $result = $tools['current-weather']->call([
 ]);
 ```
 
-If you are building agents with the [LaraGram AI SDK](/docs/{{version}}/ai-sdk), you may also provide tools from an MCP client directly to an agent, allowing the model to call them while responding to a prompt. See the [MCP Tools](/docs/{{version}}/ai-sdk#mcp-tools) section of the AI SDK documentation for more information.
+If you are building agents with the [LaraGram AI SDK](/v4/ai-sdk), you may also provide tools from an MCP client directly to an agent, allowing the model to call them while responding to a prompt. See the [MCP Tools](/v4/ai-sdk#mcp-tools) section of the AI SDK documentation for more information.
 
 <a name="client-prompts"></a>
 ### Prompts
@@ -2158,7 +2157,7 @@ $result->contents; // The raw contents returned by the resource...
 <a name="testing-servers"></a>
 ## Testing Servers
 
-You may test your MCP servers using the built-in MCP Inspector or by writing unit tests.
+You may test your MCP servers using the built-in MCP Inspector or by calling their primitives directly.
 
 <a name="mcp-inspector"></a>
 ### MCP Inspector
@@ -2177,48 +2176,27 @@ php laragram mcp:inspector weather
 
 This command launches the MCP Inspector and provides the client settings that you may copy into your MCP client to ensure everything is configured correctly. If your web server is protected by an authentication middleware, make sure to include the required headers, such as an `Authorization` bearer token, when connecting.
 
-<a name="unit-tests"></a>
-### Unit Tests
+<a name="calling-primitives-directly"></a>
+### Calling Primitives Directly
 
-You may write unit tests for your MCP servers, tools, resources, and prompts.
+You may also invoke any tool, prompt, or resource of a server directly from PHP, without an MCP client, which is handy when checking a primitive from [Probe](/v4/commander#probe) or a command. Call the primitive statically on the server that registers it. For example, to call a tool on the `WeatherServer`:
 
-To get started, create a new test case and invoke the desired primitive on the server that registers it. For example, to test a tool on the `WeatherServer`:
-
-```php tab=Pest
-test('tool', function () {
-    $response = WeatherServer::tool(CurrentWeatherTool::class, [
-        'location' => 'New York City',
-        'units' => 'fahrenheit',
-    ]);
-
-    $response
-        ->assertOk()
-        ->assertSee('The current weather in New York City is 72°F and sunny.');
-});
+```php
+$response = WeatherServer::tool(CurrentWeatherTool::class, [
+    'location' => 'New York City',
+    'units' => 'fahrenheit',
+]);
 ```
 
-```php tab=PHPUnit
-/**
- * Test a tool.
- */
-public function test_tool(): void
-{
-    $response = WeatherServer::tool(CurrentWeatherTool::class, [
-        'location' => 'New York City',
-        'units' => 'fahrenheit',
-    ]);
-
-    $response
-        ->assertOk()
-        ->assertSee('The current weather in New York City is 72°F and sunny.');
-}
-```
-
-Similarly, you may test prompts and resources:
+Similarly, you may call prompts and resources, or list the primitives a server exposes:
 
 ```php
 $response = WeatherServer::prompt(...);
 $response = WeatherServer::resource(...);
+
+$tools = WeatherServer::tools();
+$resources = WeatherServer::resources();
+$prompts = WeatherServer::prompts();
 ```
 
 You may also act as an authenticated user by chaining the `actingAs` method before invoking the primitive:
@@ -2227,61 +2205,7 @@ You may also act as an authenticated user by chaining the `actingAs` method befo
 $response = WeatherServer::actingAs($user)->tool(...);
 ```
 
-Once you receive the response, you may use various assertion methods to verify the content and status of the response.
-
-You may assert that a response is successful using the `assertOk` method. This checks that the response does not have any errors:
-
-```php
-$response->assertOk();
-```
-
-You may assert that a response contains specific text using the `assertSee` method:
-
-```php
-$response->assertSee('The current weather in New York City is 72°F and sunny.');
-```
-
-You may assert that a response contains an error using the `assertHasErrors` method:
-
-```php
-$response->assertHasErrors();
-
-$response->assertHasErrors([
-    'Something went wrong.',
-]);
-```
-
-You may assert that a response does not contain an error using the `assertHasNoErrors` method:
-
-```php
-$response->assertHasNoErrors();
-```
-
-You may assert that a response contains specific metadata using the `assertName()`, `assertTitle()`, and `assertDescription()` methods:
-
-```php
-$response->assertName('current-weather');
-$response->assertTitle('Current Weather Tool');
-$response->assertDescription('Fetches the current weather forecast for a specified location.');
-```
-
-You may assert that notifications were sent using the `assertSentNotification` and `assertNotificationCount` methods:
-
-```php
-$response->assertSentNotification('processing/progress', [
-    'step' => 1,
-    'total' => 5,
-]);
-
-$response->assertSentNotification('processing/progress', [
-    'step' => 2,
-    'total' => 5,
-]);
-
-$response->assertNotificationCount(5);
-```
-
-Finally, if you wish to inspect the raw response content, you may use the `dd` or `dump` methods to output the response for debugging purposes:
+The primitive runs through the server exactly as it would for a real MCP request. To inspect the raw JSON-RPC response, use the `dd` or `dump` methods:
 
 ```php
 $response->dd();

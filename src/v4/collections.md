@@ -1180,13 +1180,13 @@ In this example, calling `flatten` without providing the depth would have also f
 The `flip` method swaps the collection's keys with their corresponding values:
 
 ```php
-$collection = collect(['name' => 'Taylor', 'framework' => 'Laravel']);
+$collection = collect(['name' => 'Taylor', 'framework' => 'LaraGram']);
 
 $flipped = $collection->flip();
 
 $flipped->all();
 
-// ['Taylor' => 'name', 'Laravel' => 'framework']
+// ['Taylor' => 'name', 'LaraGram' => 'framework']
 ```
 
 <a name="method-forget"></a>

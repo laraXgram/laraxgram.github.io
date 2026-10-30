@@ -553,7 +553,7 @@ return $this->throughCars()->hasOwner();
 <a name="has-many-through"></a>
 ### Has Many Through
 
-The "has-many-through" relationship provides a convenient way to access distant relations via an intermediate relation. For example, let's assume we are building a deployment platform like [LaraGram Cloud](https://cloud.laravel.com). An `Application` model might access many `Deployment` models through an intermediate `Environment` model. Using this example, you could easily gather all deployments for a given application. Let's look at the tables required to define this relationship:
+The "has-many-through" relationship provides a convenient way to access distant relations via an intermediate relation. For example, let's assume we are building a deployment platform. An `Application` model might access many `Deployment` models through an intermediate `Environment` model. Using this example, you could easily gather all deployments for a given application. Let's look at the tables required to define this relationship:
 
 ```text
 applications
@@ -1615,7 +1615,7 @@ $users = User::whereAttachedTo($role)->get();
 You may also provide a [collection](/v4/eloquent-collections) instance to the `whereAttachedTo` method. When doing so, LaraGram will retrieve models that are attached to any of the models within the collection:
 
 ```php
-$tags = Tag::whereLike('name', '%laravel%')->get();
+$tags = Tag::whereLike('name', '%laragram%')->get();
 
 $posts = Post::whereAttachedTo($tags)->get();
 ```

@@ -105,7 +105,7 @@ As you can see, Luna allows you to leverage the full power of React, Svelte, or 
 
 #### Server-Side Rendering
 
-If you're concerned about diving into Luna because your application requires server-side rendering, don't worry. Luna offers [server-side rendering support](/v4/luna#server-side-rendering). And, when deploying your application via [LaraGram Cloud](https://cloud.LaraGram.com) or [LaraGram Forge](https://forge.LaraGram.com), it's a breeze to ensure that Luna's server-side rendering process is always running.
+If you're concerned about diving into Luna because your application requires server-side rendering, don't worry. Luna offers [server-side rendering support](/v4/luna#server-side-rendering). In production, keep Luna's server-side rendering process running with a process monitor such as Supervisor, just like your queue workers.
 
 <a name="luna-starter-kits"></a>
 ### Starter Kits

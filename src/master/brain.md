@@ -3,9 +3,9 @@
 <a name="introduction"></a>
 ## Introduction
 
-LaraGram Brain accelerates AI-assisted development by providing the essential guidelines and agent skills that help AI agents write high-quality LaraGram applications that adhere to LaraGram best practices.
+LaraGram Brain accelerates AI-assisted development by providing the essential guidelines and agent skills that help AI agents write high-quality LaraGram applications that adhere to LaraGram best practices — Telegram bots, MTProto clients, Telegram Mini Apps built with Luna, and web applications alike.
 
-Brain also provides a powerful LaraGram ecosystem documentation API that combines a built-in MCP tool with an extensive knowledge base containing over 17,000 pieces of LaraGram-specific information, all enhanced by semantic search capabilities using embeddings for precise, context-aware results. Brain instructs AI agents like Claude Code and Cursor to use this API to learn about the latest LaraGram features and best practices.
+Brain also ships an MCP server that lets agents inspect your application, search the LaraGram documentation offline, and try your bot out locally: listing listens, running fake updates through them, rendering templates and reading conversation state, without a single call reaching Telegram.
 
 <a name="installation"></a>
 ## Installation
@@ -16,64 +16,88 @@ LaraGram Brain is a development tool for your LaraGram application and is instal
 composer require laraxgram/brain --dev
 ```
 
-Next, install the MCP server and coding guidelines:
+Next, install the MCP server, coding guidelines and agent skills:
 
 ```shell
 php laragram brain:install
 ```
 
-The `brain:install` command will generate the relevant agent guideline and skill files for the coding agents you selected during the installation process.
+The `brain:install` command detects the coding agents installed on your machine and used in your project, then asks which features (guidelines, skills, MCP server) and which agents to set up. It generates the relevant guideline and skill files for each agent you selected. You may install a single feature with the `--guidelines`, `--skills` or `--mcp` options.
 
-Once LaraGram Brain has been installed, you're ready to start coding with Cursor, Claude Code, or your AI agent of choice.
+Once LaraGram Brain has been installed, you're ready to start coding with Claude Code, Codex, Cursor, or your AI agent of choice.
 
 > [!NOTE]
-> Feel free to add the generated MCP configuration file (`.mcp.json`), guideline files (`CLAUDE.md`, `AGENTS.md`, `junie/`, etc.), and the `Brain.json` configuration file to your application's `.gitignore`, as these files are automatically regenerated when running `brain:install` and `brain:update`.
+> Brain only runs in the `local` environment, or when `APP_DEBUG` is `true`. In any other environment its MCP server, routes and browser logger are not registered.
+
+> [!NOTE]
+> Feel free to add the generated MCP configuration files (`.mcp.json`, `.cursor/mcp.json`, etc.), guideline files (`CLAUDE.md`, `AGENTS.md`), agent skill directories (`.claude/skills`, `.agents/skills`, etc.), and the `brain.json` configuration file to your application's `.gitignore`, as these files are automatically regenerated when running `brain:install` and `brain:update`.
+
+<a name="supported-agents"></a>
+### Supported Agents
+
+Brain supports the following agents out of the box:
+
+<div class="overflow-auto">
+
+| Agent          | Guidelines  | Skills             | MCP Configuration          |
+| -------------- | ----------- | ------------------ | -------------------------- |
+| Amp            | `AGENTS.md` | `.agents/skills`   | `.amp/settings.json`       |
+| Antigravity    | `AGENTS.md` | `.agents/skills`   | `.agents/mcp_config.json`  |
+| Claude Code    | `CLAUDE.md` | `.claude/skills`   | `.mcp.json`                |
+| Codex          | `AGENTS.md` | `.agents/skills`   | `.codex/config.toml`       |
+| Cursor         | `AGENTS.md` | `.cursor/skills`   | `.cursor/mcp.json`         |
+| Factory Droid  | `AGENTS.md` | `.factory/skills`  | `.factory/mcp.json`        |
+| GitHub Copilot | `AGENTS.md` | `.github/skills`   | `.vscode/mcp.json`         |
+| Grok Build     | `AGENTS.md` | `.grok/skills`     | `.grok/config.toml`        |
+| Junie          | `AGENTS.md` | `.junie/skills`    | `.junie/mcp/mcp.json`      |
+| Kiro           | `AGENTS.md` | `.kiro/skills`     | `.kiro/settings/mcp.json`  |
+| OpenCode       | `AGENTS.md` | `.agents/skills`   | `opencode.json`            |
+| Pi             | `AGENTS.md` | `.pi/skills`       | —                          |
+| Zed            | `AGENTS.md` | `.agents/skills`   | `.zed/settings.json`       |
+
+</div>
+
+Each path may be changed with the `brain.agents.{agent}.guidelines_path`, `brain.agents.{agent}.skills_path` and `brain.agents.{agent}.mcp_config_path` configuration options. If your agent is not listed, you may [add support for it](#extending-brain).
 
 <a name="set-up-your-agents"></a>
 ### Set Up Your Agents
 
-```text tab=Cursor
-1. Open the command palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
-2. Press `enter` on "/open MCP Settings"
-3. Turn the toggle on for `LaraGram-Brain`
-```
-
 ```text tab=Claude Code
 Claude Code support is typically enabled automatically. If you find it isn't, open a shell in the project's directory and run the following command:
 
-claude mcp add -s local -t stdio LaraGram-Brain php laragram brain:mcp
+claude mcp add -s local -t stdio laragram-brain php laragram brain:mcp
 ```
 
 ```text tab=Codex
 Codex support is typically enabled automatically. If you find it isn't, open a shell in the project's directory and run the following command:
 
-codex mcp add LaraGram-Brain -- php "laragram" "brain:mcp"
+codex mcp add laragram-brain -- php "laragram" "brain:mcp"
 ```
 
-```text tab=Gemini CLI
-Gemini CLI support is typically enabled automatically. If you find it isn't, open a shell in the project's directory and run the following command:
-
-gemini mcp add -s project -t stdio LaraGram-Brain php laragram brain:mcp
+```text tab=Cursor
+1. Open the command palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
+2. Press `enter` on "/open MCP Settings"
+3. Turn the toggle on for `laragram-brain`
 ```
 
 ```text tab=GitHub Copilot (VS Code)
 1. Open the command palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
 2. Press `enter` on "MCP: List Servers"
-3. Arrow to `LaraGram-Brain` and press `enter`
+3. Arrow to `laragram-brain` and press `enter`
 4. Choose "Start server"
 ```
 
 ```text tab=Junie
 1. Press `shift` twice to open the command palette
 2. Search "MCP Settings" and press `enter`
-3. Check the box next to `LaraGram-Brain`
+3. Check the box next to `laragram-brain`
 4. Click "Apply" at the bottom right
 ```
 
-<a name="keeping-Brain-resources-updated"></a>
+<a name="keeping-brain-resources-updated"></a>
 ### Keeping Brain Resources Updated
 
-You may want to periodically update your local Brain resources (AI guidelines and skills) to ensure they reflect the latest versions of the LaraGram ecosystem packages you have installed. To do so, you can use the `brain:update` Artisan command.
+You may want to periodically update your local Brain resources (AI guidelines and skills) to ensure they reflect the latest versions of the LaraGram ecosystem packages you have installed. To do so, you can use the `brain:update` Commander command.
 
 ```shell
 php laragram brain:update
@@ -91,35 +115,61 @@ You may also automate this process by adding it to your Composer "post-update-cm
 }
 ```
 
-By default, the `brain:update` command will only update the existing Brain resources already published within your application. If you would like Brain to scan your application for any newly installed packages and offer to publish their corresponding guidelines and skills, you may use the `--discover` option:
+The `brain:update` command also scans your application for newly installed packages that ship guidelines or skills and offers to add them. The prompt is skipped when the command runs without interaction or from a Composer script, so an unattended `composer update` is never blocked. To skip the scan entirely, use the `--no-discover` option; to leave your skills directory untouched, use `--ignore-skills`:
 
 ```shell
-php laragram brain:update --discover
+php laragram brain:update --no-discover
 ```
+
+<a name="configuration"></a>
+### Configuration
+
+Brain works without a configuration file. To change its defaults, publish the `config/brain.php` file:
+
+```shell
+php laragram vendor:publish --tag=brain-config
+```
+
+The most common options are also available as environment variables:
+
+<div class="overflow-auto">
+
+| Variable                     | Default                    | Description                                                         |
+| ---------------------------- | -------------------------- | ------------------------------------------------------------------- |
+| `BRAIN_ENABLED`              | `true`                     | Disable Brain entirely.                                             |
+| `BRAIN_RULES_ENABLED`        | `true`                     | Enable [project rules](#project-rules) and the `record-rule` tool.  |
+| `BRAIN_BOT_RUNTIME_TOOLS`    | `true`                     | Expose the [bot runtime tools](#bot-runtime-tools).                 |
+| `BRAIN_BROWSER_LOGS_WATCHER` | `true`                     | Capture browser console logs, including from Mini Apps.             |
+| `BRAIN_BROWSER_LOG_LEVELS`   | `error,warning,info,debug` | The browser console levels to capture.                              |
+| `BRAIN_PHP_EXECUTABLE_PATH`  | —                          | A custom PHP binary for the generated MCP configuration.            |
+
+</div>
+
+The configuration file also lets you exclude guidelines (`guidelines.exclude`) and skills (`skills.exclude`) by the names shown in the `brain:install` summary, and toggle the [Probe tool](#available-mcp-tools) with the `probe_tool_enabled` option.
 
 <a name="mcp-server"></a>
 ## MCP Server
 
-LaraGram Brain provides an MCP (Model Context Protocol) server that exposes tools for AI agents to interact with your LaraGram application. These tools give agents the ability to inspect your application's structure, query the database, execute code, and try your bot out — listing listens, running fake updates through them, rendering templates and reading conversation state — without a single call reaching Telegram.
+LaraGram Brain provides an MCP (Model Context Protocol) server, built with [LaraGram MCP](/v4/mcp), that exposes tools for AI agents to interact with your LaraGram application. These tools give agents the ability to inspect your application's structure, query the database, execute code, and try your bot out — listing listens, running fake updates through them, rendering templates and reading conversation state — without a single call reaching Telegram.
 
 <a name="available-mcp-tools"></a>
 ### Available MCP Tools
 
 <div class="overflow-auto">
 
-| Name                 | Notes                                                                                                       |
-| -------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Application Info     | Read PHP & LaraGram versions, database engine, list of ecosystem packages with versions, and Eloquent models |
-| Browser Logs         | Read logs and errors from the browser                                                                       |
-| Database Connections | Inspect available database connections, including the default connection                                    |
-| Database Query       | Execute a query against the database                                                                        |
-| Database Schema      | Read the database schema                                                                                    |
-| Get Absolute URL     | Convert relative path URIs to absolute so agents generate valid URLs                                        |
-| Last Error           | Read the last error from the application's log files                                                        |
-| Read Log Entries     | Read the last N log entries                                                                                 |
-| Record Rule          | Record a durable [project rule](#project-rules) into `.ai/rules` so future agents inherit it                |
-| Search Docs          | Query the LaraGram hosted documentation API service to retrieve documentation based on installed packages    |
-| Probe                | Evaluate PHP inside the booted application, the way [Probe](/v4/commander#probe) does                        |
+| Name                 | Notes                                                                                                                                                 |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Application Info     | Read PHP & LaraGram versions, database engine, installed packages with versions, bot connections, MTProto sessions, Surge, Luna and MCP details. Tokens and secrets are never included |
+| Browser Logs         | Read logs and errors from the browser, including Telegram Mini Apps served by [Luna](/v4/luna)                                                       |
+| Database Connections | Inspect available database connections, including the default connection                                                                            |
+| Database Query       | Execute a read-only query against the database                                                                                                       |
+| Database Schema      | Read the database schema: tables, columns, indexes and foreign keys                                                                                  |
+| Get Absolute URL     | Convert relative path URIs and named routes to absolute URLs so agents generate valid URLs                                                           |
+| Last Error           | Read the last error from the application's log files                                                                                                 |
+| Read Log Entries     | Read the last N log entries                                                                                                                          |
+| Record Rule          | Record a durable [project rule](#project-rules) into `.ai/rules` so future agents inherit it                                                         |
+| Search Docs          | Search the LaraGram documentation and the Telegram Bot API offline, limited to the packages you have installed. See [Documentation Search](#documentation-search) |
+| Probe                | Evaluate PHP inside the booted application, the way [Probe](/v4/commander#probe) does. Registered only when the `probe` command is available        |
 
 </div>
 
@@ -141,6 +191,41 @@ When [`laraxgram/mcp`](/v4/mcp) is installed, Brain also exposes its bot runtime
 
 They are enabled only in the `local` environment, and may be turned off with the `brain.bot_runtime_tools` configuration option.
 
+<a name="mcp-prompts-and-resources"></a>
+### Prompts and Resources
+
+Alongside its tools, the Brain MCP server offers the following prompts and resources:
+
+<div class="overflow-auto">
+
+| Name                       | Type     | Notes                                                                                   |
+| -------------------------- | -------- | --------------------------------------------------------------------------------------- |
+| `laragram-code-simplifier` | Prompt   | Simplify and refine recently modified PHP/LaraGram code while preserving its behavior   |
+| `upgrade-laragram-v4`      | Prompt   | Step-by-step guidance for upgrading an application from LaraGram 3.x to 4.0             |
+| Application Info           | Resource | PHP & LaraGram versions, database engine and installed packages with their versions     |
+
+</div>
+
+<a name="customizing-mcp-tools"></a>
+### Customizing MCP Tools
+
+You may remove a built-in tool, or add a tool of your own, from the `mcp` section of your `config/brain.php` file. Tools are referenced by class name:
+
+```php
+'mcp' => [
+    'tools' => [
+        'exclude' => [
+            LaraGram\Brain\Mcp\Tools\DatabaseQuery::class,
+        ],
+        'include' => [
+            App\Mcp\Tools\TicketStats::class,
+        ],
+    ],
+],
+```
+
+Prompts and resources may be excluded or included the same way, through the `mcp.prompts` and `mcp.resources` options.
+
 <a name="manually-registering-the-mcp-server"></a>
 ### Manually Registering the MCP Server
 
@@ -156,7 +241,7 @@ JSON example:
 ```json
 {
     "mcpServers": {
-        "LaraGram-Brain": {
+        "laragram-brain": {
             "command": "php",
             "args": ["laragram", "brain:mcp"]
         }
@@ -172,53 +257,49 @@ AI guidelines are composable instruction files that are loaded upfront to provid
 <a name="available-ai-guidelines"></a>
 ### Available AI Guidelines
 
-LaraGram Brain includes AI guidelines for the following packages and frameworks. The `core` guidelines provide generic, generalized advice to the AI for the given package that is applicable across all versions.
+LaraGram Brain includes AI guidelines for the following packages. The `core` guidelines provide advice for the given package that is applicable across all of its versions, while versioned guidelines are only added when that major version is installed. The Foundation, Brain, PHP and Deployment guidelines are always included; every other guideline is included when its package is installed.
 
 <div class="overflow-auto">
 
-| Package           | Versions Supported     |
-| ----------------- | ---------------------- |
-| Core & Brain      | core                   |
-| LaraGram Framework | core, 10.x, 11.x, 12.x, 13.x |
-| Livewire          | core, 2.x, 3.x, 4.x    |
-| Flux UI           | core, free, pro        |
-| Folio             | core                   |
-| Herd              | core                   |
-| Inertia LaraGram   | core, 1.x, 2.x, 3.x    |
-| Inertia React     | core, 1.x, 2.x, 3.x    |
-| Inertia Vue       | core, 1.x, 2.x, 3.x    |
-| Inertia Svelte    | core, 1.x, 2.x, 3.x    |
-| MCP               | core                   |
-| Pennant           | core                   |
-| Pest              | core, 3.x, 4.x         |
-| PHPUnit           | core                   |
-| Pint              | core                   |
-| Sail              | core                   |
-| Tailwind CSS      | core, 3.x, 4.x         |
-| Livewire Volt     | core                   |
-| Wayfinder         | core                   |
-| Enforce Tests     | conditional            |
+| Package                                      | Versions Supported |
+| -------------------------------------------- | ------------------ |
+| Foundation, Brain, PHP & Deployment          | core               |
+| LaraGram Framework (`laraxgram/core`)        | core, 4.x          |
+| Laraquest (`laraxgram/laraquest`)            | core               |
+| MTProto (`laraxgram/mtproto`)                | core               |
+| Luna (`laraxgram/luna`)                      | core               |
+| Luna React (`@laraxgram/react`)              | core               |
+| Luna Vue (`@laraxgram/vue3`)                 | core               |
+| Luna Svelte (`@laraxgram/svelte`)            | core               |
+| AI SDK (`laraxgram/ai`)                      | core               |
+| MCP (`laraxgram/mcp`)                        | core               |
+| Citadel (`laraxgram/citadel`)                | core               |
+| Sentinel (`laraxgram/sentinel`)              | core               |
+| Surge (`laraxgram/surge`)                    | core               |
+| Probe (`laraxgram/probe`)                    | core               |
+| Tempora (`laraxgram/tempora`)                | core               |
+| Watchdog (`laraxgram/watchdog`)              | core               |
 
 </div>
 
-> **Note:** To keep your AI guidelines up-to-date, see the [Keeping Brain Resources Updated](#keeping-Brain-resources-updated) section.
+> **Note:** To keep your AI guidelines up-to-date, see the [Keeping Brain Resources Updated](#keeping-brain-resources-updated) section.
 
 <a name="adding-custom-ai-guidelines"></a>
 ### Adding Custom AI Guidelines
 
 To augment LaraGram Brain with your own custom AI guidelines, add `.blade.php` or `.md` files to your application's `.ai/guidelines/*` directory. These files will automatically be included with LaraGram Brain's guidelines when you run `brain:install`.
 
-<a name="overriding-Brain-ai-guidelines"></a>
+<a name="overriding-brain-ai-guidelines"></a>
 ### Overriding Brain AI Guidelines
 
 You can override Brain's built-in AI guidelines by creating your own custom guidelines with matching file paths. When you create a custom guideline that matches an existing Brain guideline path, Brain will use your custom version instead of the built-in one.
 
-For example, to override Brain's "Inertia React v2 Form Guidance" guidelines, create a file at `.ai/guidelines/inertia-react/2/forms.blade.php`. When you run `brain:install`, Brain will include your custom guideline instead of the default one.
+For example, to override Brain's core MTProto guidelines, create a file at `.ai/guidelines/mtproto/core.blade.php`. When you run `brain:install`, Brain will include your custom guideline instead of the default one.
 
 <a name="third-party-package-ai-guidelines"></a>
 ### Third-Party Package AI Guidelines
 
-If you maintain a third-party package and would like Brain to include AI guidelines for it, you can do so by adding a `resources/brain/guidelines/core.blade.php` file to your package. When users of your package run `php laragram brain:install`, Brain will automatically load your guidelines.
+If you maintain a third-party package and would like Brain to include AI guidelines for it, you can do so by adding a `resources/brain/guidelines/core.blade.php` file to your package. When users of your package run `php laragram brain:install`, Brain will offer to load your guidelines.
 
 AI guidelines should provide a short overview of what your package does, outline any required file structure or conventions, and explain how to create or use its main features (with example commands or code snippets). Keep them concise, actionable, and focused on best practices so AI can generate correct code for your users. Here is an example:
 
@@ -244,32 +325,44 @@ $result = PackageName::featureTwo($param1, $param2);
 
 [Agent Skills](https://agentskills.io/home) are lightweight, targeted knowledge modules that agents can activate on-demand when working on specific domains. Unlike guidelines, which are loaded upfront, skills allow detailed patterns and best practices to be loaded only when relevant, reducing context bloat and improving the relevance of AI-generated code.
 
-When you run `brain:install` and select skills as a feature, skills are automatically installed based on the packages detected in your `composer.json`. For example, if your project includes `livewire/livewire`, the `livewire-development` skill will be installed automatically. Skills included with Brain, such as `infer-conventions`, are installed regardless of which packages you have.
+When you run `brain:install` and select skills as a feature, skills are automatically installed based on the packages detected in your `composer.json` and `package.json`. For example, if your project includes `laraxgram/mtproto`, the `mtproto-development` skill will be installed automatically. Skills included with Brain itself, such as `infer-conventions` and `deploying-laragram`, are installed regardless of which packages you have.
 
 <a name="available-skills"></a>
 ### Available Skills
 
 <div class="overflow-auto">
 
-| Skill                      | Package        |
-| -------------------------- | -------------- |
-| fluxui-development         | Flux UI        |
-| folio-routing              | Folio          |
-| infer-conventions          | Brain          |
-| inertia-react-development  | Inertia React  |
-| inertia-svelte-development | Inertia Svelte |
-| inertia-vue-development    | Inertia Vue    |
-| livewire-development       | Livewire       |
-| mcp-development            | MCP            |
-| pennant-development        | Pennant        |
-| pest-testing               | Pest           |
-| tailwindcss-development    | Tailwind CSS   |
-| volt-development           | Volt           |
-| wayfinder-development      | Wayfinder      |
+| Skill                       | Package                         |
+| --------------------------- | ------------------------------- |
+| bot-development             | LaraGram Framework              |
+| commander-development       | LaraGram Framework              |
+| image-manipulation          | LaraGram Framework              |
+| laragram-best-practices     | LaraGram Framework              |
+| infer-conventions           | Brain                           |
+| deploying-laragram          | Brain                           |
+| mtproto-development         | MTProto                         |
+| luna-development            | Luna                            |
+| luna-tma-development        | Luna                            |
+| luna-react-development      | Luna React                      |
+| luna-vue-development        | Luna Vue                        |
+| luna-svelte-development     | Luna Svelte                     |
+| ai-development              | AI SDK                          |
+| mcp-development             | MCP                             |
+| citadel-development         | Citadel                         |
+| sentinel-debugging          | Sentinel                        |
+| sentinel-queues             | Sentinel                        |
+| surge-development           | Surge                           |
+| tailwindcss-development     | Tailwind CSS (3.x, 4.x)         |
 
 </div>
 
-> **Note:** To keep your skills up-to-date, see the [Keeping Brain Resources Updated](#keeping-Brain-resources-updated) section.
+You may list the skills available to your project with the `brain:list-skills` command:
+
+```shell
+php laragram brain:list-skills
+```
+
+> **Note:** To keep your skills up-to-date, see the [Keeping Brain Resources Updated](#keeping-brain-resources-updated) section.
 
 <a name="custom-skills"></a>
 ### Custom Skills
@@ -287,7 +380,24 @@ For example, to create a custom skill for your application's domain logic:
 
 You can override Brain's built-in skills by creating your own custom skills with matching names. When you create a custom skill that matches an existing Brain skill name, Brain will use your custom version instead of the built-in one.
 
-For example, to override Brain's `livewire-development` skill, create a file at `.ai/skills/livewire-development/SKILL.md`. When you run `brain:update`, Brain will include your custom skill instead of the default one.
+For example, to override Brain's `bot-development` skill, create a file at `.ai/skills/bot-development/SKILL.md`. When you run `brain:update`, Brain will include your custom skill instead of the default one.
+
+<a name="adding-skills-from-github"></a>
+### Adding Skills From GitHub
+
+Skills published in a GitHub repository may be added to your application with the `brain:add-skill` command. The command lists the skills found in the repository and lets you choose which to install into `.ai/skills`:
+
+```shell
+php laragram brain:add-skill owner/repository
+
+php laragram brain:add-skill owner/repository --skill=creating-invoices
+
+php laragram brain:add-skill owner/repository --all
+```
+
+Before anything is installed, Brain audits the downloaded files locally for patterns that are dangerous for an agent to follow, such as piping downloads into a shell, reading secrets, or prompt injection, and asks for confirmation when it finds any. The audit cannot prove that a skill is safe, so you should still review what you install. Use `--list` to only list the skills, `--force` to overwrite skills you already have, and `--skip-audit` to skip the audit.
+
+GitHub limits unauthenticated API requests to 60 per hour. To raise the limit, set the `brain.github.token` (or `services.github.token`) configuration option to a GitHub token.
 
 <a name="third-party-package-skills"></a>
 ### Third-Party Package Skills
@@ -324,7 +434,7 @@ LaraGram Brain provides two distinct ways to give AI agents context about your a
 
 **Guidelines** are loaded upfront when the AI agent starts, providing essential context about LaraGram conventions and best practices that apply broadly across your codebase.
 
-**Skills** are activated on-demand when working on specific tasks, containing detailed patterns for particular domains (like Livewire components or Pest tests). Loading skills only when relevant reduces context bloat and improves code quality.
+**Skills** are activated on-demand when working on specific tasks, containing detailed patterns for particular domains (like MTProto clients or Luna Mini Apps). Loading skills only when relevant reduces context bloat and improves code quality.
 
 <div class="overflow-auto">
 
@@ -358,16 +468,15 @@ Each rule file declares the file globs it applies to within its frontmatter:
 ```markdown
 ---
 paths:
-  - app/Http/Controllers/**
+  - listens/**
 ---
 
-# Http Controllers
+# Listens
 
-## Extend BaseController for tenant scoping
+## Reply through templates
 
-All controllers must extend `App\Http\Controllers\BaseController`, which applies the
-current tenant's query scope. Extending LaraGram's base controller directly will leak
-data across tenants.
+Handlers never build message text inline with `sendMessage`. Every reply is a Temple8
+template under `resources/templates`, so translations and formatting stay in one place.
 ```
 
 In addition, Brain maintains an `.ai/rules/index.md` file which maps globs to their rule files. Agents are instructed to consult this index before planning or editing any file, so a rule is only loaded when it is relevant:
@@ -379,7 +488,7 @@ Before planning or editing, find the row whose globs match the file's path and r
 
 | Applies to | Rule file |
 | --- | --- |
-| app/Http/Controllers/** | .ai/rules/controllers.md |
+| listens/** | .ai/rules/listens.md |
 | app/Models/** | .ai/rules/models.md |
 ```
 
@@ -402,15 +511,15 @@ You should always record rules using the `record-rule` tool rather than creating
 <a name="inferring-your-applications-conventions"></a>
 ### Inferring Your Application's Conventions
 
-Recording rules one at a time works well going forward; however, an existing application already contains years of conventions. The `infer-conventions` skill will bootstrap your rules from the code you have already written. To get started, ask your agent to use the skill:
+Recording rules one at a time works well going forward; however, an existing application already contains plenty of conventions. The `infer-conventions` skill will bootstrap your rules from the code you have already written. To get started, ask your agent to use the skill:
 
 ```text
 Use the infer-conventions skill
 ```
 
-The skill will sweep your application across a checklist of LaraGram convention dimensions, including validation, controllers, authorization, models, architecture, testing, frontend, database, and console, followed by an open-ended pass for patterns such as base classes, shared traits, and module layouts.
+The skill will sweep your application across a checklist of LaraGram convention dimensions, including bot listens and replies, keyboards, templates, conversations, validation, web controllers, authorization, models, architecture, the web and Luna frontend, database, and console, followed by an open-ended pass for patterns such as base classes, shared traits, and module layouts.
 
-The skill documents what your code actually does rather than what it should do. It records only well-supported, non-default conventions, skips framework defaults and anything Pint or Rector already enforces, and reports genuinely mixed patterns instead of recording them. Before writing any rules, the skill will present each convention it discovered, along with its supporting evidence, for your approval. If you would like the skill to record all discovered conventions without confirmation, you may tell it to "yolo".
+The skill documents what your code actually does rather than what it should do. It records only well-supported, non-default conventions, skips framework defaults and anything your formatter or static-analysis tools (such as PHP-CS-Fixer, PHPStan or Rector) already enforce, and reports genuinely mixed patterns instead of recording them. Before writing any rules, the skill will present each convention it discovered, along with its supporting evidence, for your approval. If you would like the skill to record all discovered conventions without confirmation, you may tell it to "yolo".
 
 <a name="disabling-project-rules"></a>
 ### Disabling Project Rules
@@ -418,32 +527,42 @@ The skill documents what your code actually does rather than what it should do. 
 Project rules are enabled by default. To disable them entirely, define the following environment variable. This removes the `record-rule` MCP tool and stops Brain from managing the `.ai/rules` directory:
 
 ```ini
-Brain_RULES_ENABLED=false
+BRAIN_RULES_ENABLED=false
 ```
 
+<a name="documentation-search"></a>
 <a name="documentation-api"></a>
-## Documentation API
+## Documentation Search
 
-LaraGram Brain includes a Documentation API that provides AI agents with access to an extensive knowledge base containing over 17,000 pieces of LaraGram-specific information. The API uses semantic search with embeddings to deliver precise, context-aware results.
+The `Search Docs` MCP tool searches the LaraGram documentation without calling any external service. Brain ships the documentation of your installed LaraGram major version and indexes it locally, together with every method and type of the Telegram Bot API. Brain's AI guidelines and skills instruct your coding agent to search it before relying on what it remembers.
 
-The `Search Docs` MCP tool allows agents to query the LaraGram hosted documentation API service to retrieve documentation based on your installed packages. Brain's AI guidelines and skills will automatically instruct your coding agent to use this API.
+Results are limited to the packages installed in your application, and the agent may narrow a search to specific packages:
 
 <div class="overflow-auto">
 
-| Package           | Versions Supported |
-| ----------------- | ------------------ |
-| LaraGram Framework | 10.x, 11.x, 12.x, 13.x |
-| Filament          | 2.x, 3.x, 4.x, 5.x |
-| Flux UI           | 2.x Free, 2.x Pro  |
-| Inertia           | 1.x, 2.x           |
-| Livewire          | 1.x, 2.x, 3.x, 4.x |
-| Nova              | 4.x, 5.x           |
-| Pest              | 3.x, 4.x           |
-| Tailwind CSS      | 3.x, 4.x           |
+| Package                                   | Documentation                                   |
+| ----------------------------------------- | ----------------------------------------------- |
+| LaraGram Framework (`laraxgram/core`)     | Every page that does not belong to a package below |
+| Laraquest (`laraxgram/laraquest`)         | Telegram Bot API methods and types              |
+| MTProto (`laraxgram/mtproto`)             | The MTProto pages                               |
+| Luna (`laraxgram/luna`, `@laraxgram/*`)   | Luna, Mini Apps, Vite, Frontend, Starter Kits and Precognition |
+| Surge (`laraxgram/surge`)                 | Surge                                           |
+| Watchdog (`laraxgram/watchdog`)           | Watchdog                                        |
+| Tempora (`laraxgram/tempora`)             | Tempora                                         |
 
 </div>
 
-<a name="extending-Brain"></a>
+The framework documentation and the Bot API reference are always searched. To refresh the bundled documentation with the latest version of this site, or to see which copy is in use, run the `brain:docs` command:
+
+```shell
+php laragram brain:docs
+
+php laragram brain:docs --update
+```
+
+The `--update` option downloads the documentation from the [LaraGram documentation repository](https://github.com/laraxgram/laraxgram.github.io) and stores it in `storage/framework/brain/docs`, where it takes precedence over the copy bundled with Brain.
+
+<a name="extending-brain"></a>
 ## Extending Brain
 
 Brain works with many popular IDEs and AI agents out of the box. If your coding tool isn't supported yet, you can create your own agent and integrate it with Brain.
@@ -478,7 +597,7 @@ class CustomAgent extends Agent implements SupportsGuidelines, SupportsMcp, Supp
 }
 ```
 
-For an example implementation, see [ClaudeCode.php](https://github.com/LaraGram/Brain/blob/main/src/Install/Agents/ClaudeCode.php).
+For an example implementation, see [ClaudeCode.php](https://github.com/laraxgram/brain/blob/master/src/Install/Agents/ClaudeCode.php).
 
 <a name="registering-the-agent"></a>
 #### Registering the Agent

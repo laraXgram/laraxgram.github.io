@@ -1,6 +1,33 @@
 # Upgrade Guide
 
+- [Upgrading To 4.7 From 4.6](#upgrade-4.7)
 - [Upgrading To 4.0 From 3.x](#upgrade-4.0)
+
+<a name="upgrade-4.7"></a>
+## Upgrading To 4.7 From 4.6
+
+<a name="missing-update-fields"></a>
+### Missing Update Fields Are Empty Objects
+
+**Likelihood Of Impact: High**
+
+With LaraGram 4.7 (Laraquest 2.1), a field that is an object but is missing from the update no longer reads as `null`: it is an empty object of its type. This applies to the update helpers too, so on a text message `callback_query()` returns an empty `CallbackQuery`, and in a scheduled job `chat()` returns an empty `Chat`. Its fields read as `null`, so chains such as `callback_query()->message->message_id ?? null` keep working, but an empty object is not `null` and is truthy, so these checks now take the wrong branch:
+
+```php
+if (callback_query() !== null) { /* ... */ }      // Always true.
+if ($callback = callback_query()) { /* ... */ }   // Always true.
+if (chat() === null) { /* ... */ }                // Never true.
+```
+
+Test for a value with `filled`, `blank`, `isset`, `empty` or `??` instead. These work on both 4.6 and 4.7:
+
+```php
+if (filled(callback_query())) { /* ... */ }
+if (filled($callback = callback_query())) { /* ... */ }
+if (blank(chat())) { /* ... */ }
+```
+
+Search your application for `=== null`, `!== null`, `is_null()` and assignments in `if` conditions on `chat()`, `user()`, `sender()`, `message()`, `callback_query()` and the other update helpers, and on object fields such as `$message->reply_to_message`. Lists and plain values that are missing (`$message->photo`, `$message->text`) are still `null`.
 
 <a name="upgrade-4.0"></a>
 ## Upgrading To 4.0 From 3.x

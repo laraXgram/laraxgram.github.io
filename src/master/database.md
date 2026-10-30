@@ -15,7 +15,7 @@ Almost every modern web application interacts with a database. LaraGram makes in
 
 </div>
 
-Additionally, MongoDB is supported via the `laraxgram/mongodb` package, which is officially maintained by MongoDB. Check out the [Laravel MongoDB](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/) documentation for more information.
+Additionally, MongoDB is supported via LaraGram's `laraxgram/mongodb` package. Check out the [MongoDB](/v4/mongodb) documentation for more information.
 
 <a name="configuration"></a>
 ### Configuration
@@ -56,7 +56,7 @@ Typically, database connections are configured using multiple configuration valu
 Some managed database providers such as AWS and Heroku provide a single database "URL" that contains all of the connection information for the database in a single string. An example database URL may look something like the following:
 
 ```html
-mysql://root:password@127.0.0.1/forge?charset=UTF-8
+mysql://root:password@127.0.0.1/laragram?charset=UTF-8
 ```
 
 These URLs typically follow a standard schema convention:

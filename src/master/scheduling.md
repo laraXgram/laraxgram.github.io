@@ -45,7 +45,7 @@ If you would like to view an overview of your scheduled tasks and the next time 
 php laragram schedule:list
 ```
 
-<a name="scheduling-artisan-commands"></a>
+<a name="scheduling-commander-commands"></a>
 ### Scheduling Commander Commands
 
 In addition to scheduling closures, you may also schedule [Commander commands](/v4/commander) and system commands. For example, you may use the `command` method to schedule an Commander command using either the command's name or class.
@@ -61,7 +61,7 @@ Schedule::command('emails:send Taylor --force')->daily();
 Schedule::command(SendEmailsCommand::class, ['Taylor', '--force'])->daily();
 ```
 
-<a name="scheduling-artisan-closure-commands"></a>
+<a name="scheduling-commander-closure-commands"></a>
 #### Scheduling Commander Closure Commands
 
 If you want to schedule an Commander command defined by a closure, you may chain the scheduling related methods after the command's definition:
@@ -110,7 +110,7 @@ The `exec` method may be used to issue a command to the operating system:
 ```php
 use LaraGram\Support\Facades\Schedule;
 
-Schedule::exec('node /home/forge/script.js')->daily();
+Schedule::exec('node /home/laragram/script.js')->daily();
 ```
 
 <a name="schedule-frequency-options"></a>
@@ -360,7 +360,7 @@ Schedule::job(new CheckUptime('https://example.com'))
     ->everyFiveMinutes()
     ->onOneServer();
 
-Schedule::job(new CheckUptime('https://vapor.example2.com'))
+Schedule::job(new CheckUptime('https://status.example2.com'))
     ->name('check_uptime:example2.com')
     ->everyFiveMinutes()
     ->onOneServer();
@@ -415,7 +415,7 @@ Schedule::daily()
 
 Now that we have learned how to define scheduled tasks, let's discuss how to actually run them on our server. The `schedule:run` Commander command will evaluate all of your scheduled tasks and determine if they need to run based on the server's current time.
 
-So, when using LaraGram's scheduler, we only need to add a single cron configuration entry to our server that runs the `schedule:run` command every minute. If you do not know how to add cron entries to your server, consider using a managed platform such as [LaraGram Cloud](https://cloud.laragram.com) which can manage the scheduled task execution for you:
+So, when using LaraGram's scheduler, we only need to add a single cron configuration entry to our server that runs the `schedule:run` command every minute:
 
 ```shell
 * * * * * cd /path-to-your-project && php laragram schedule:run >> /dev/null 2>&1
@@ -538,7 +538,7 @@ Schedule::command('emails:send')
 <a name="pinging-urls"></a>
 #### Pinging URLs
 
-Using the `pingBefore` and `thenPing` methods, the scheduler can automatically ping a given URL before or after a task is executed. This method is useful for notifying an external service, such as [Envoyer](https://envoyer.io), that your scheduled task is beginning or has finished execution:
+Using the `pingBefore` and `thenPing` methods, the scheduler can automatically ping a given URL before or after a task is executed. This method is useful for notifying an external service, such as an uptime or cron monitor, that your scheduled task is beginning or has finished execution:
 
 ```php
 Schedule::command('emails:send')

@@ -472,7 +472,7 @@ LaraGram makes it easy to display custom error pages for various HTTP status cod
 You may publish LaraGram's default error page templates using the `vendor:publish` Commander command. Once the templates have been published, you may customize them to your liking:
 
 ```shell
-php laragram vendor:publish --tag=laravel-errors
+php laragram vendor:publish --tag=laragram-errors
 ```
 
 <a name="fallback-http-error-pages"></a>

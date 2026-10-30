@@ -130,7 +130,7 @@ server {
     listen [::]:80;
     server_name domain.com;
     server_tokens off;
-    root /home/forge/domain.com/public;
+    root /home/laragram/domain.com/public;
 
     index index.php;
 

@@ -48,7 +48,7 @@ composer require laraxgram/brain --dev
 php laragram brain:install
 ```
 
-The installer detects the editors and agents on your machine — Claude Code, Codex, Cursor, Gemini CLI and the others — and asks which of them should receive the MCP server, the guidelines and the skills. Everything it writes is a file in your project, so it is reviewed and committed like the rest of your code.
+The installer detects the editors and agents on your machine — Claude Code, Codex, Cursor, GitHub Copilot, Junie and the [others](/v4/brain#supported-agents) — and asks which of them should receive the MCP server, the guidelines and the skills. Everything it writes is a file in your project, so it is reviewed and committed like the rest of your code.
 
 <a name="available-tools"></a>
 ### Available Tools
