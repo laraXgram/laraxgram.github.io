@@ -939,3 +939,181 @@ The published stubs will be located within a `stubs` directory in the root of yo
 ## Events
 
 Commander dispatches three events when running commands: `LaraGram\Console\Events\CommanderStarting`, `LaraGram\Console\Events\CommandStarting`, and `LaraGram\Console\Events\CommandFinished`. The `CommanderStarting` event is dispatched immediately when Commander starts running. Next, the `CommandStarting` event is dispatched immediately before a command runs. Finally, the `CommandFinished` event is dispatched once a command finishes executing.
+
+<a name="the-dev-command"></a>
+## The Dev Command
+
+The `dev` Commander command starts all of the processes needed for local development in a single terminal window. By default, it concurrently runs the development server, a queue worker, log tailing via [Watchdog](/master/watchdog), and Vite asset compilation:
+
+```shell
+php laragram dev
+```
+
+Each process gets its own tab with searchable, scrollable output, and a process that crashes is started again. The `dev` command is part of LaraGram itself, so it needs neither Node nor npm; a bot without a frontend can run it as it is.
+
+| Key | Action |
+| --- | --- |
+| `←` `→` `Tab` `1`-`9` | Switch tabs |
+| `↑` `↓` `j` `k` `PgUp` `PgDn` `g` `G` | Scroll |
+| `/` `n` `N` `Esc` | Search |
+| `r` | Restart the process |
+| `c` | Clear the output |
+| `s` / `t` | Switch to the stream of every process, and back to the tabs |
+| `f` | In the stream, choose the processes to show |
+| `q` | Stop everything and quit; the output stays in your scrollback |
+
+| Option | Description |
+| --- | --- |
+| `--stream` | Start in the stream of every process |
+| `--inline` | Print the output as it arrives, without the interface |
+| `--json` | Print newline-delimited JSON events; implies `--inline` |
+| `--timestamps` | Show the time on each line |
+| `--no-restart` | Do not start crashed processes again |
+| `--buffer-size` / `--stream-buffer-size` | The lines kept per process (`2000`) and in the stream (`10000`) |
+
+> [!NOTE]
+> The output is printed inline when the input or output is not a terminal, and always on Windows. A process that crashes within a second of starting is not started again, because trying again would only scroll the real error away. Watchdog needs the `pcntl` extension, so the `logs` process is left out without it.
+
+The default processes are:
+
+| Name | Command | When |
+| --- | --- | --- |
+| `server` | `php laragram serve --host=localhost` | Always. [Surge](/master/surge) replaces it with `php laragram surge:start --watch` when it is installed. |
+| `apiserver` | `php laragram start:apiserver` | When your bot uses a [local Bot API server](/master/apiserver) (`API_ENDPOINT` points to `localhost` and `API_ID` / `API_HASH` are set). |
+| `client` | `php laragram client:start` | When [MTProto](/master/mtproto) is installed and its pump is disabled. Otherwise, the client runs as a Surge process. |
+| `queue` | `php laragram queue:listen --tries=1 --timeout=0` | Always. |
+| `logs` | `php laragram watchdog --timeout=0` | When [Watchdog](/master/watchdog) is installed and the `pcntl` extension is loaded. |
+| `vite` | `npm run dev` | When your application has a `package.json` file. |
+
+> [!NOTE]
+> The `vite` process automatically detects your Node package manager (npm, pnpm, Yarn, or Bun) and uses the appropriate run command.
+
+The `composer run dev` script of new LaraGram applications simply runs the `dev` command.
+
+<a name="customizing-dev-processes"></a>
+### Customizing Dev Processes
+
+You may customize the processes that the `dev` command runs by using the `DevCommands` class, typically within the `boot` method of your application's `AppServiceProvider`. The `register` method accepts a command string and an optional name:
+
+```php
+use LaraGram\Foundation\DevCommands;
+
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    DevCommands::register('some-command --flag', 'my-process');
+}
+```
+
+When registering a Commander command, you may use the `commander` method which automatically prefixes the command with `php laragram`:
+
+```php
+DevCommands::commander('schedule:work', 'scheduler');
+```
+
+Likewise, the `node` method prefixes the command with your detected package manager's run command (e.g. `npm run`), and the `nodeExec` method prefixes the command with the package manager's exec command (e.g. `npx`):
+
+```php
+DevCommands::node('storybook', 'storybook');
+
+DevCommands::nodeExec('tailwindcss -i resources/css/app.css -o public/css/app.css --watch', 'tailwind');
+```
+
+If you register a process with the same name as a default process, your process will replace the default. For example, you may customize the server process to use a different port:
+
+```php
+DevCommands::commander('serve --host=localhost --port=9001', 'server');
+```
+
+You may also customize the color of a process label in your terminal. The available color methods are `blue`, `purple`, `pink`, `orange`, `green`, and `yellow`. You may also pass a custom hex color to the `color` method:
+
+```php
+DevCommands::register('my-command', 'my-process')->green();
+
+DevCommands::register('my-command', 'my-process')->color('#ff6347');
+```
+
+To see all registered dev processes without starting them, use the `dev:list` command:
+
+```shell
+php laragram dev:list
+```
+
+<a name="dev-command-display-modes"></a>
+#### Display Modes
+
+By default, each process is displayed in its own tab. You may instead display the output of every process in a single stream, or print it inline without the interactive interface, using the `--stream` and `--inline` options. The output is printed inline automatically when the terminal is not interactive:
+
+```shell
+php laragram dev --stream
+
+php laragram dev --inline
+```
+
+You may also change the default mode of your application using the `tabs`, `stream`, and `inline` methods. The `withTimestamps` method prefixes every line of output with the time it was written, and the `order` method determines the order of the processes:
+
+```php
+DevCommands::stream();
+
+DevCommands::withTimestamps();
+
+DevCommands::order(['server', 'vite', 'queue', 'logs']);
+```
+
+When the `dev` command is executed by a script or an AI agent, you may use the `--json` option to receive newline-delimited JSON events instead of formatted output.
+
+<a name="restarting-failed-processes"></a>
+#### Restarting Failed Processes
+
+If a process crashes, LaraGram will restart it after a short delay, up to five times, before marking it as failed. A process that dies within a second of starting is not restarted, since it likely never started successfully in the first place. Restarting a process manually with `r` resets the counter.
+
+You may disable this behavior for a single run using the `--no-restart` option:
+
+```shell
+php laragram dev --no-restart
+```
+
+Or, you may disable it for your entire application using the `disableAutoRestart` method:
+
+```php
+DevCommands::disableAutoRestart();
+```
+
+<a name="filtering-dev-processes"></a>
+### Filtering Dev Processes
+
+You may instruct the `dev` command to only run specific processes when it is invoked using the `only` method. Similarly, you may exclude specific processes using the `except` method:
+
+```php
+// Only run the server and vite processes...
+DevCommands::only('server', 'vite');
+
+// Run all processes except the queue worker...
+DevCommands::except('queue');
+```
+
+You may exclude commands registered by packages or LaraGram's default commands using the `withoutVendorCommands` and `withoutDefaultCommands` methods:
+
+```php
+DevCommands::withoutVendorCommands();
+
+DevCommands::withoutDefaultCommands();
+```
+
+<a name="stub-customization"></a>
+## Stub Customization
+
+The Commander console's `make` commands are used to create a variety of classes, such as controllers, jobs, migrations, and tests. These classes are generated using "stub" files that are populated with values based on your input. However, you may want to make small changes to files generated by Commander. To accomplish this, you may use the `stub:publish` command to publish the most common stubs to your application so that you can customize them:
+
+```shell
+php laragram stub:publish
+```
+
+The published stubs will be located within a `stubs` directory in the root of your application. Any changes you make to these stubs will be reflected when you generate their corresponding classes using Commander's `make` commands.
+
+<a name="events"></a>
+## Events
+
+Commander dispatches three events when running commands: `LaraGram\Console\Events\CommanderStarting`, `LaraGram\Console\Events\CommandStarting`, and `LaraGram\Console\Events\CommandFinished`. The `CommanderStarting` event is dispatched immediately when Commander starts running. Next, the `CommandStarting` event is dispatched immediately before a command runs. Finally, the `CommandFinished` event is dispatched once a command finishes executing.
