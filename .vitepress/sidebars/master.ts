@@ -42,6 +42,7 @@ export default [
             { text: 'Validation', link: '/master/validation' },
             { text: 'Step Manager', link: '/master/step' },
             { text: 'Conversation', link: '/master/conversations' },
+            { text: 'Navigation', link: '/master/navigation' },
             { text: 'Error Handling', link: '/master/errors' },
             { text: 'Logging', link: '/master/logging' },
         ]

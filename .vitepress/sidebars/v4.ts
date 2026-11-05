@@ -42,6 +42,7 @@ export default [
             { text: 'Validation', link: '/v4/validation' },
             { text: 'Step Manager', link: '/v4/step' },
             { text: 'Conversation', link: '/v4/conversations' },
+            { text: 'Navigation', link: '/v4/navigation' },
             { text: 'Error Handling', link: '/v4/errors' },
             { text: 'Logging', link: '/v4/logging' },
         ]
