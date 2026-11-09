@@ -156,6 +156,7 @@ export default [
         text: 'Packages', collapsed: true,
         items: [
             { text: 'API Server', link: '/v4/apiserver' },
+            { text: 'Armada', link: '/v4/armada' },
             { text: 'Citadel', link: '/v4/citadel' },
             { text: 'Precognition', link: '/v4/precognition' },
             { text: 'Prompts', link: '/v4/prompts' },
