@@ -314,6 +314,33 @@ $request->deleteMessage();
 
 Every method takes the parameters the Bot API documents, in the order that reads best, and carries its own documentation — the description of each parameter and the shape of the response — so your editor can complete the call and what comes back.
 
+Methods that send something to a chat take `chat_id` first, followed by the content (`text`, `photo`, ...) and then the optional parameters, so the common call stays short:
+
+```php
+$request->sendMessage($chatId, 'Hello!', parse_mode: 'html');
+$request->sendPhoto($chatId, $fileId, 'Caption');
+```
+
+<a name="ephemeral-replies"></a>
+### Ephemeral Replies
+
+A message can answer a button press as an ephemeral reply: only the user who pressed the button sees it. Leave out `chat_id` and pass the callback query in `ephemeral_message_parameters`:
+
+```php
+use LaraGram\Laraquest\Updates\EphemeralMessageParameters;
+
+$request->sendMessage(
+    text: 'Only you can see this.',
+    ephemeral_message_parameters: EphemeralMessageParameters::init(
+        callback_query_id: callback_query()->id,
+    ),
+);
+
+$request->answerCallbackQuery(callback_query()->id);
+```
+
+This is why `chat_id` and the content parameters of the send methods (`sendMessage`, `sendPhoto`, `sendDocument`, `sendLocation`, ...) are optional in their signatures. Telegram still requires them for an ordinary message, so pass both. Pass `replace_callback_query_message: true` to show the reply in place of the message that carried the button, and edit or delete an ephemeral message with `editEphemeralMessageText`, `editEphemeralMessageMedia`, `editEphemeralMessageCaption`, `editEphemeralMessageReplyMarkup` and `deleteEphemeralMessage`. The bot must still answer the callback query.
+
 <a name="responses"></a>
 ### Responses
 
